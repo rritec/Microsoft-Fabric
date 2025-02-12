@@ -23,6 +23,24 @@
 - Seamlessly integrate both real-time and time-based data into a unified system. Ingest data from diverse sources to extract valuable insights and promptly respond to changing conditions. This empowers data-driven decisions based on the most up-to-date information available.
 - ![image](https://github.com/user-attachments/assets/8a7762eb-8568-4ed2-83f7-465d777f85bd)
 
+# 06. Lambda Template
+- 11 Tasks
+- Analyze your batch and real-time data in a single system efficiently and effectively, while still maintaining a clear separation between the two processing modes.
+![image](https://github.com/user-attachments/assets/4abcc8fe-e6ce-47bb-ac24-ea901a7029bb)
+
+# 07. Sensitive data insights Template
+- 9 Tasks
+- Keep your data more secure by applying security features and access controls to your sensitive data while processing and performing analysis tasks. Apply strict access permissions while performing analytics.
+![image](https://github.com/user-attachments/assets/140ee226-362c-4fc6-8296-a2a4f69810f2)
+
+# 08. Basic machine learning models Template
+- 6 Tasks
+- Develop and train models based on prepared data and test model accuracy to make decisions with confidence, and gain business insights from predictions.
+![image](https://github.com/user-attachments/assets/75f8b7da-9652-4466-91c4-8b75033464e5)
+
+
+
+
 
 
 
