@@ -14,7 +14,8 @@
 - Unification with SaaS foundation
 - Microsoft Fabric is built on a Software as a Service (SaaS) platform.
 - It unifies new and existing components from Power BI, Azure Synapse Analytics, Azure Data Factory, and more into a single environment.
-- ![Microsoft Fabric Architecture](https://github.com/user-attachments/assets/ddeb2da9-54aa-471d-8925-a51a2e37219d)
+
+  ![Microsoft Fabric Architecture](https://github.com/user-attachments/assets/ddeb2da9-54aa-471d-8925-a51a2e37219d)
 
 ### **Key Features and Capabilities**
 - **OneLake**: A single storage layer for all data within Microsoft Fabric, eliminating data silos.
@@ -57,9 +58,11 @@
 3. Inside the selected Workspace, click ![image](https://github.com/user-attachments/assets/17d0c5e3-1bea-4d74-9df2-01760eee25ed)
 
 4. Search for Lakehouse >  Click on Lakehouse
+
 ![image](https://github.com/user-attachments/assets/f7f31b24-ef1b-4aa6-a795-276558968547)
 
 5. Enter a **Lakehouse name** (e.g., rritec_Lakehouse).
+
 ![image](https://github.com/user-attachments/assets/bc9016f6-4302-434e-b0b1-5ca443645dd8)
 
 6. Click **Create**.
