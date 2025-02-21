@@ -45,6 +45,7 @@
 4. Click on ![image](https://github.com/user-attachments/assets/df3cf33e-c41d-431e-b253-9a130b2219ad)
 5. Enter a Workspace name (e.g., **rritec_fabric_demo_Workspace**)
 6. Click **Apply**
+
 ![image](https://github.com/user-attachments/assets/b7f4fb07-dcc7-4205-8198-fe219f285ecc)
 
 7. Your new workspace is now available under the Workspaces section
