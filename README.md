@@ -18,22 +18,22 @@ This course provides an in-depth understanding of Microsoft Fabric, a unified pl
 - Dataflows and Pipelines in Fabric
 - Hands-on: Creating and Managing a Lakehouse
 
-### **Module 3: Data Science and Machine Learning in Fabric**
+### **Module 3: Data Warehousing with Fabric**
+- Introduction to Fabric Data Warehousing
+- Understanding Semantic Models
+- Querying Data with SQL Endpoints
+- Hands-on: Building a Fabric Data Warehouse
+
+### **Module 4: Data Science and Machine Learning in Fabric**
 - Introduction to Data Science in Fabric
 - Using Notebooks in Fabric
 - Machine Learning Models with Fabric
 - Hands-on: Building a Simple ML Model
 
-### **Module 4: Real-time Analytics in Fabric**
+### **Module 5: Real-time Analytics in Fabric**
 - Understanding Real-time Data Processing
 - Eventstream and KQL Databases in Fabric
 - Hands-on: Creating a Real-time Dashboard
-
-### **Module 5: Data Warehousing with Fabric**
-- Introduction to Fabric Data Warehousing
-- Understanding Semantic Models
-- Querying Data with SQL Endpoints
-- Hands-on: Building a Fabric Data Warehouse
 
 ### **Module 6: Business Intelligence with Fabric**
 - Fabric and Power BI Integration
@@ -61,6 +61,7 @@ This course provides an in-depth understanding of Microsoft Fabric, a unified pl
 ## Target Audience
 - Data Engineers
 - Data Scientists
+- Data Analysts
 - Business Analysts
 - Cloud Architects
 
