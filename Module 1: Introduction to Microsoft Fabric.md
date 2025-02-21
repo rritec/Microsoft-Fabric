@@ -42,9 +42,11 @@
 1. Open your browser and navigate to https://app.fabric.microsoft.com.
 2. Sign in with your Microsoft account that has Fabric access.
 3. On the left navigation pane, click on **Workspaces**.
-4. Click on **Create a workspace**
-5. Enter a Workspace name (e.g., rritec_Workspace)
-6. Click Save or Create.
+4. Click on ![image](https://github.com/user-attachments/assets/df3cf33e-c41d-431e-b253-9a130b2219ad)
+5. Enter a Workspace name (e.g., **rritec_fabric_demo_Workspace**)
+6. Click **Apply**
+![image](https://github.com/user-attachments/assets/b7f4fb07-dcc7-4205-8198-fe219f285ecc)
+
 7. Your new workspace is now available under the Workspaces section
    
 #### Exercise 3: Create Lake House
