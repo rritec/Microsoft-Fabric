@@ -54,10 +54,15 @@
 
 1. On the left navigation pane, click on Workspaces.
 2. Select the Workspace where you want to create the Lakehouse.
-3. Inside the selected Workspace, click **+ New**.
-4. From the list, choose Lakehouse
+3. Inside the selected Workspace, click ![image](https://github.com/user-attachments/assets/17d0c5e3-1bea-4d74-9df2-01760eee25ed)
+
+4. Search for Lakehouse >  Click on Lakehouse
+![image](https://github.com/user-attachments/assets/f7f31b24-ef1b-4aa6-a795-276558968547)
+
 5. Enter a **Lakehouse name** (e.g., rritec_Lakehouse).
-6. Click Create.
+![image](https://github.com/user-attachments/assets/bc9016f6-4302-434e-b0b1-5ca443645dd8)
+
+6. Click **Create**.
 
 ---
 
