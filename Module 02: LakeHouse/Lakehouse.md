@@ -1,5 +1,7 @@
 # Lakehouse
 
+## Introduction
+
 - Traditionally, organizations have been building modern data warehouses for their transactional and structured data analytics needs. And data lakehouses for big data (semi/unstructured) data analytics needs. These two systems ran in parallel, creating silos, data duplication, and increased total cost of ownership.
 - Fabric with its unification of data store and standardization on Delta Lake format allows you to eliminate silos, remove data duplication, and drastically reduce total cost of ownership.
 - With the flexibility offered by Fabric, you can implement either lakehouse or data warehouse architectures or combine them together to get the best of both with simple implementation.
@@ -31,6 +33,7 @@
 - 
 
 ## Exercise 2: Upload file from local Machine
+
 1. Open Lakehouse by clciking on it.
 2. Create a subfolder with the name of **data**
 
@@ -43,3 +46,12 @@
 4. Right click on data folder and upload the emp.csv file
 ![alt text](image.png)
 4. 
+
+## Exercise 3: Create table using csv file
+
+1. Right click on emp.csv file > Load to Tables > New Table
+![image](https://github.com/user-attachments/assets/7e907de9-2f9c-47eb-ac47-fcd3cbea2604)
+
+2. Provide schema as **dbo** and table name as **emp** click on **Load**
+![image](https://github.com/user-attachments/assets/8985ca3f-57f7-4b90-8e33-204f2ff9662b)
+
