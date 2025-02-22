@@ -31,3 +31,13 @@
 - 
 
 ## Exercise 2: Upload file from local Machine
+1. Open Lakehouse by clciking on it.
+2. Create a subfolder with the name of **data**
+
+![image](https://github.com/user-attachments/assets/ebe76025-9538-4127-8f88-0e451f0125d0)
+
+![image](https://github.com/user-attachments/assets/b72e2206-cfa5-476b-a318-c1a724caf4ed)
+
+
+3. Download the file emp.csv from labdata folder and upload it.
+4. 
