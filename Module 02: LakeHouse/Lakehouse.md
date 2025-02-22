@@ -60,7 +60,7 @@
 4. Do research on what is **Delta** table .
 5. Right click on emp table observe view files and research on **parquet** file format.
 
-## Exercise 3: Ingest data using New Dataflow Gen2
+## Exercise 4: Ingest data using New Dataflow Gen2
 
 1. Open Lakehouse by clciking on it.
 2. Click on **Get data** > Click on **New Dataflow Gen2**
@@ -87,7 +87,8 @@
 
 11. Once the dataflow is refreshed, select your lakehouse in the navigation bar to view the **dim_customer** Delta table
 
-![image](https://github.com/user-attachments/assets/b793d8b2-dd5d-40c1-99bb-0070d255d891)
+![image](https://github.com/user-attachments/assets/dfd356ba-ad46-4aab-b255-6b3c94349028)
+
 
 12. 
 
