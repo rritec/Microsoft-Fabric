@@ -53,5 +53,53 @@
 ![image](https://github.com/user-attachments/assets/7e907de9-2f9c-47eb-ac47-fcd3cbea2604)
 
 2. Provide schema as **dbo** and table name as **emp** click on **Load**
-![image](https://github.com/user-attachments/assets/8985ca3f-57f7-4b90-8e33-204f2ff9662b)
+3. Right click on emp table observe properties
+
+![image](https://github.com/user-attachments/assets/3d5a7b31-5964-4a07-af10-703c10b2fad8)
+
+4. Do research on what is **Delta** table .
+5. Right click on emp table observe view files and research on **parquet** file format.
+
+## Exercise 3: Ingest data using New Dataflow Gen2
+
+1. Open Lakehouse by clciking on it.
+2. Click on **Get data** > Click on **New Dataflow Gen2**
+4. On the new dataflow screen, select **Import from a Text/CSV file**
+5. Provide the URL https://raw.githubusercontent.com/microsoft/fabric-samples/689e78676174d4627fc3855165bde9100cb4d19e/docs-samples/data-engineering/dimension_customer.csv
+6. Click on next
+
+![image](https://github.com/user-attachments/assets/92f5a0b7-944b-4160-b813-b69de0ae526a)
+
+7. Click on Create
+
+![image](https://github.com/user-attachments/assets/c30cd005-4fec-4a3c-ac9a-56138752b5fb)
+
+8. Click on Publish
+
+![image](https://github.com/user-attachments/assets/65a99f74-022d-4895-abbf-683da972eb64)
+
+9. A spinning circle next to the dataflow's name indicates publishing is in progress in the item view. When publishing is complete, select the **...** and select **Properties**. **Rename** the dataflow to **Load Lakehouse Table** and select **Save**.
+10. Select the **Refresh now** option next to the data flow name to refresh the dataflow. This option runs the data flow and moves data from the source file to lakehouse table. While it's in progress, you see a spinning circle under Refreshed column in the item view
+
+![image](https://github.com/user-attachments/assets/2d8553e0-78a3-4ea4-81b8-a172fad307c9)
+
+11. Once the dataflow is refreshed, select your lakehouse in the navigation bar to view the **dim_customer** Delta table
+
+![image](https://github.com/user-attachments/assets/b793d8b2-dd5d-40c1-99bb-0070d255d891)
+
+12. 
+
+
+## Questions
+1. you know navigation to get **SQL connection string** ???
+2. Session job connection string vs Batch job connection string
+3. 
+
+## Answers
+1. Click on **Settings** > SQL Analytics Endpoint
+2. Click on **Settings** > Livy Endpoint 
+    - Use Session Jobs if you need real-time interaction (e.g., testing, debugging, and exploratory analysis).
+    - Use Batch Jobs for scheduled workloads like ETL pipelines, data transformations, or running full scripts.)
+3. 
+
 
