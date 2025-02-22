@@ -74,9 +74,11 @@
 
 ![image](https://github.com/user-attachments/assets/c30cd005-4fec-4a3c-ac9a-56138752b5fb)
 
-8. Click on Publish
+8. Change Query Name as dim_customer
+9. Click on Publish
 
-![image](https://github.com/user-attachments/assets/65a99f74-022d-4895-abbf-683da972eb64)
+![image](https://github.com/user-attachments/assets/e189e271-aacf-4d1b-b0fc-d756451f79c7)
+
 
 9. A spinning circle next to the dataflow's name indicates publishing is in progress in the item view. When publishing is complete, select the **...** and select **Properties**. **Rename** the dataflow to **Load Lakehouse Table** and select **Save**.
 10. Select the **Refresh now** option next to the data flow name to refresh the dataflow. This option runs the data flow and moves data from the source file to lakehouse table. While it's in progress, you see a spinning circle under Refreshed column in the item view
