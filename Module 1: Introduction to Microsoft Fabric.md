@@ -33,8 +33,6 @@
 ## **Refer**
 - [Refer microsoft-fabric-overview](https://learn.microsoft.com/en-us/fabric/fundamentals/microsoft-fabric-overview)
 
-## Labs
-
 ## Exercise 1: Get MSFT Login from Instructor   
 ## Exercise 2: Create Workspace
 
