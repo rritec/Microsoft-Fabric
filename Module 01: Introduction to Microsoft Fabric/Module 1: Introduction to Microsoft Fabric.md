@@ -15,6 +15,12 @@
 
   ![Microsoft Fabric Architecture](https://github.com/user-attachments/assets/ddeb2da9-54aa-471d-8925-a51a2e37219d)
 
+## OneLake
+- OneLake, the OneDrive for data
+- OneLake is a single, unified, logical data lake for your whole organization. Like OneDrive, OneLake comes automatically with every **Microsoft Fabric tenant** and is designed to be the **single place** for all your analytics data
+- OneLake is built on top of Azure Data Lake Storage (ADLS) Gen2 and can support any type of file, structured or unstructured
+- Refer [msft help](https://learn.microsoft.com/en-us/fabric/onelake/onelake-overview)
+- [Download and Install OneLake Client](https://www.microsoft.com/en-us/download/details.aspx?id=105222)
 ## **Key Features and Capabilities**
 - **OneLake**: A single storage layer for all data within Microsoft Fabric, eliminating data silos.
 - **Lakehouse Architecture**: Combines the benefits of data lakes and data warehouses, allowing structured and unstructured data management.
