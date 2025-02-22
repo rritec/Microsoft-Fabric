@@ -39,5 +39,7 @@
 ![image](https://github.com/user-attachments/assets/b72e2206-cfa5-476b-a318-c1a724caf4ed)
 
 
-3. Download the file emp.csv from labdata folder and upload it.
+3. Download the file emp.csv from labdata folder
+4. Right click on data folder and upload the emp.csv file
+![alt text](image.png)
 4. 
