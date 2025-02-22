@@ -65,7 +65,8 @@
 
 5. Enter a **Lakehouse name** (e.g., rritec_Lakehouse).
 
-![image](https://github.com/user-attachments/assets/bc9016f6-4302-434e-b0b1-5ca443645dd8)
+![image](https://github.com/user-attachments/assets/050037c3-267c-48ae-8445-0193f075642c)
+
 
 6. Click **Create**.
 
