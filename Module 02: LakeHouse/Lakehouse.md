@@ -92,6 +92,48 @@
 
 12. 
 
+## Exercise 5: Ingest data using New Pipeline
+
+1. Open Lakehouse by clciking on it.
+2. Click on **Get data** > Click on **New Data Pipeline**
+3. Name it as **PipelineToIngestDataFromSourceToLakehouse** > Click on **Create**
+
+![image](https://github.com/user-attachments/assets/3289ebc2-941e-4cfe-b804-7d8c08fa35d9)
+
+4. Search for **Http** and select it.
+
+![image](https://github.com/user-attachments/assets/88af9a6c-acbe-456b-942b-015830bbebb8)
+
+5. In the Connect to data source window, enter the details from the table below and select **Next**
+
+| Property	| Value |
+| ---- | ---- |
+| URL	| https://assetsprod.microsoft.com/en-us/wwi-sample-dataset.zip |
+| Connection	| Create a new connection |
+| Connection name	| wwisampledata |
+| Data gateway	| None |
+| Authentication kind	| Anonymous |
+
+![image](https://github.com/user-attachments/assets/eb256e2d-d503-494e-bc76-103f03c6286d)
+
+7. Enable the **Binary copy** and choose **ZipDeflate (.zip)** as the Compression type since the source is a .zip file. Keep the other fields at their default values and click **Next**.
+
+![image](https://github.com/user-attachments/assets/27c4ed58-751c-4aba-a99f-5c26e10f2a95)
+
+8. In the Connect to data destination window, specify the Root folder as **Files** > folder path as **data** >> Click on **Next**
+
+
+9. In connect to data distance window if binary available select else we will select take care after few mins
+
+![image](https://github.com/user-attachments/assets/5e81be66-ecf1-4d81-8003-6724823f774b)
+
+10. In **Review + Save** Window disable the start **data transfer Immediately** > Click on **OK**
+11. Select **copy Data** activity > Click on **Distination** tab and make sure File Format as **Binary**
+12. Click on **Run** > Click on **Save and Run** > It may take 15 mins or more
+13. 
+
+
+
 
 ## Questions
 1. you know navigation to get **SQL connection string** ???
