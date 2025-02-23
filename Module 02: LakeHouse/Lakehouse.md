@@ -130,8 +130,25 @@
 10. In **Review + Save** Window disable the start **data transfer Immediately** > Click on **OK**
 11. Select **copy Data** activity > Click on **Distination** tab and make sure File Format as **Binary**
 12. Click on **Run** > Click on **Save and Run** > It may take 15 mins or more
-13. 
+13. Once pipeline completed you will see below all folders and Files
 
+![image](https://github.com/user-attachments/assets/104dd29f-a5f3-45b7-8f09-ca479e1e0cce)
+
+## Exercise 6: Prepare and transform data in the lakehouse
+
+1. Open Lakehouse by clciking on it.
+2. Download the notebooks from our github module 2
+3. From the workspace, select Import > Notebook > From this computer.
+4. Select all the notebooks that you downloaded in first step of this section.
+5. From the list of existing notebooks, select the 01 - Create Delta Tables notebook and select Open.
+6. In the open notebook in the lakehouse Explorer, you see the notebook is already linked to your opened lakehouse if not add your lakehouse.
+7. run one by one script and observe new tables are created
+8. open second notebook 02 - Data Transformation - Business Aggregates run all scripts to load the data
+9. Verify one by one table and note down count od records in each table.
+
+![image](https://github.com/user-attachments/assets/cbdbf6a0-544a-42f2-be08-374108488128)
+
+    
 
 
 
