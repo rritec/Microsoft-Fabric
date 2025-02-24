@@ -127,12 +127,9 @@ SELECT * FROM vw_emp_details;
 ---
 
 ## 7. **Performance Optimization**
-### **7.1 Creating an Index on Salary for Faster Queries**
-```sql
-CREATE INDEX idx_sal ON emp (sal);
-```
 
-### **7.2 Using Materialized Views for Aggregated Data**
+
+### **7.1 Using Materialized Views for Aggregated Data**
 ```sql
 CREATE MATERIALIZED VIEW mv_avg_salary AS
 SELECT deptno, AVG(sal) AS avg_salary
