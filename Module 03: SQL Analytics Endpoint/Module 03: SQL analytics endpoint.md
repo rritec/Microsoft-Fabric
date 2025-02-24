@@ -34,7 +34,14 @@ FROM emp e
 LEFT JOIN dept d ON e.deptno = d.deptno;
 ```
 
-### **2.3 FULL OUTER JOIN - Show All Employees and Departments**
+### **2.3 Right JOIN - All Departments, Even Without Employees**
+```sql
+SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
+FROM emp e
+RIGHT JOIN dept d ON e.deptno = d.deptno;
+```
+
+### **2.4 FULL OUTER JOIN - Show All Employees and Departments**
 ```sql
 SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
 FROM emp e
