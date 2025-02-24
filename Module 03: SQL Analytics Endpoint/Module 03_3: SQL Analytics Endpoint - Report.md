@@ -17,9 +17,9 @@
 ## Step 2: Create Semantic Model
 
 1. Click on **File** Menu > Click on **Create New Report**
-9. select dname and sal columns > clik on pie chart similarly develop new reports (POWERBI Resource can work better in this area)
+2. select dname and sal columns > clik on pie chart similarly develop new reports (POWERBI Resource can work better in this area)
 
 ![image](https://github.com/user-attachments/assets/71d068a5-d114-416b-b90e-e900961535c5)
 
-10. Click on **File** Menu > Click on **Save** > Name it as **dname wise sal** > click on **save**
-11. 
+3. Click on **File** Menu > Click on **Save** > Name it as **dname wise sal** > click on **save**
+4. 
