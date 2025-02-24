@@ -13,8 +13,8 @@ SELECT * FROM dept;
 
 ### **1.2 Selecting Specific Columns**
 ```sql
-SELECT emp_id, emp_name, salary FROM emp;
-SELECT dept_id, dept_name FROM dept;
+SELECT empno, ename, job, sal FROM emp;
+SELECT deptno, dname, loc FROM dept;
 ```
 
 ---
@@ -22,23 +22,23 @@ SELECT dept_id, dept_name FROM dept;
 ## 2. **Joins - Combining `emp` and `dept` Tables**
 ### **2.1 INNER JOIN - Employees with Departments**
 ```sql
-SELECT e.emp_id, e.emp_name, e.salary, d.dept_name
+SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
 FROM emp e
-INNER JOIN dept d ON e.dept_id = d.dept_id;
+INNER JOIN dept d ON e.deptno = d.deptno;
 ```
 
 ### **2.2 LEFT JOIN - All Employees, Even Without Departments**
 ```sql
-SELECT e.emp_id, e.emp_name, e.salary, d.dept_name
+SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
 FROM emp e
-LEFT JOIN dept d ON e.dept_id = d.dept_id;
+LEFT JOIN dept d ON e.deptno = d.deptno;
 ```
 
 ### **2.3 FULL OUTER JOIN - Show All Employees and Departments**
 ```sql
-SELECT e.emp_id, e.emp_name, e.salary, d.dept_name
+SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
 FROM emp e
-FULL OUTER JOIN dept d ON e.dept_id = d.dept_id;
+FULL OUTER JOIN dept d ON e.deptno = d.deptno;
 ```
 
 ---
@@ -46,27 +46,27 @@ FULL OUTER JOIN dept d ON e.dept_id = d.dept_id;
 ## 3. **Aggregations & Grouping**
 ### **3.1 Count Employees per Department**
 ```sql
-SELECT d.dept_name, COUNT(e.emp_id) AS employee_count
+SELECT d.dname, COUNT(e.empno) AS employee_count
 FROM dept d
-LEFT JOIN emp e ON d.dept_id = e.dept_id
-GROUP BY d.dept_name;
+LEFT JOIN emp e ON d.deptno = e.deptno
+GROUP BY d.dname;
 ```
 
 ### **3.2 Average Salary per Department**
 ```sql
-SELECT d.dept_name, AVG(e.salary) AS avg_salary
+SELECT d.dname, AVG(e.sal) AS avg_salary
 FROM dept d
-LEFT JOIN emp e ON d.dept_id = e.dept_id
-GROUP BY d.dept_name;
+LEFT JOIN emp e ON d.deptno = e.deptno
+GROUP BY d.dname;
 ```
 
 ### **3.3 Employees with Salary Above Department Average**
 ```sql
-SELECT e.emp_name, e.salary, d.dept_name
+SELECT e.ename, e.sal, d.dname
 FROM emp e
-JOIN dept d ON e.dept_id = d.dept_id
-WHERE e.salary > (
-    SELECT AVG(salary) FROM emp WHERE dept_id = e.dept_id
+JOIN dept d ON e.deptno = d.deptno
+WHERE e.sal > (
+    SELECT AVG(sal) FROM emp WHERE deptno = e.deptno
 );
 ```
 
@@ -75,16 +75,16 @@ WHERE e.salary > (
 ## 4. **Window Functions**
 ### **4.1 Rank Employees by Salary per Department**
 ```sql
-SELECT e.emp_name, e.salary, d.dept_name,
-       RANK() OVER (PARTITION BY e.dept_id ORDER BY e.salary DESC) AS salary_rank
+SELECT e.ename, e.sal, d.dname,
+       RANK() OVER (PARTITION BY e.deptno ORDER BY e.sal DESC) AS salary_rank
 FROM emp e
-JOIN dept d ON e.dept_id = d.dept_id;
+JOIN dept d ON e.deptno = d.deptno;
 ```
 
 ### **4.2 Running Total of Salaries**
 ```sql
-SELECT e.emp_name, e.salary,
-       SUM(e.salary) OVER (ORDER BY e.salary) AS running_total
+SELECT e.ename, e.sal,
+       SUM(e.sal) OVER (ORDER BY e.sal) AS running_total
 FROM emp e;
 ```
 
@@ -94,11 +94,11 @@ FROM emp e;
 ### **5.1 Finding Highest Paid Employee per Department**
 ```sql
 WITH RankedSalaries AS (
-    SELECT e.emp_name, e.salary, e.dept_id,
-           RANK() OVER (PARTITION BY e.dept_id ORDER BY e.salary DESC) AS rnk
+    SELECT e.ename, e.sal, e.deptno,
+           RANK() OVER (PARTITION BY e.deptno ORDER BY e.sal DESC) AS rnk
     FROM emp e
 )
-SELECT emp_name, salary, dept_id FROM RankedSalaries WHERE rnk = 1;
+SELECT ename, sal, deptno FROM RankedSalaries WHERE rnk = 1;
 ```
 
 ---
@@ -107,9 +107,9 @@ SELECT emp_name, salary, dept_id FROM RankedSalaries WHERE rnk = 1;
 ### **6.1 Creating a View for Employees with Department Names**
 ```sql
 CREATE VIEW vw_emp_details AS
-SELECT e.emp_id, e.emp_name, e.salary, d.dept_name
+SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
 FROM emp e
-JOIN dept d ON e.dept_id = d.dept_id;
+JOIN dept d ON e.deptno = d.deptno;
 ```
 
 ### **6.2 Querying the View**
@@ -122,15 +122,15 @@ SELECT * FROM vw_emp_details;
 ## 7. **Performance Optimization**
 ### **7.1 Creating an Index on Salary for Faster Queries**
 ```sql
-CREATE INDEX idx_salary ON emp (salary);
+CREATE INDEX idx_sal ON emp (sal);
 ```
 
 ### **7.2 Using Materialized Views for Aggregated Data**
 ```sql
 CREATE MATERIALIZED VIEW mv_avg_salary AS
-SELECT dept_id, AVG(salary) AS avg_salary
+SELECT deptno, AVG(sal) AS avg_salary
 FROM emp
-GROUP BY dept_id;
+GROUP BY deptno;
 ```
 ```sql
 SELECT * FROM mv_avg_salary;
