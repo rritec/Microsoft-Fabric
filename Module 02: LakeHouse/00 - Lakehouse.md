@@ -137,14 +137,15 @@
 ## Exercise 6: Prepare and transform data in the lakehouse
 
 1. Open Lakehouse by clciking on it.
-2. Download the notebooks from our github module 2
-3. From the workspace, select Import > Notebook > From this computer.
-4. Select all the notebooks that you downloaded in first step of this section.
-5. From the list of existing notebooks, select the 01 - Create Delta Tables notebook and select Open.
-6. In the open notebook in the lakehouse Explorer, you see the notebook is already linked to your opened lakehouse if not add your lakehouse.
-7. run one by one script and observe new tables are created
-8. open second notebook 02 - Data Transformation - Business Aggregates run all scripts to load the data
-9. Verify one by one table and note down count od records in each table.
+2. Read about [V-Order nad Optimization](https://learn.microsoft.com/en-us/fabric/data-engineering/delta-optimization-and-v-order?tabs=sparksql)
+3. Download the notebooks from our github module 2
+4. From the workspace, select Import > Notebook > From this computer.
+5. Select all the notebooks that you downloaded in first step of this section.
+6. From the list of existing notebooks, select the 01 - Create Delta Tables notebook and select Open.
+7. In the open notebook in the lakehouse Explorer, you see the notebook is already linked to your opened lakehouse if not add your lakehouse.
+8. run one by one script and observe new tables are created
+9. open second notebook 02 - Data Transformation - Business Aggregates run all scripts to load the data
+10. Verify one by one table and note down count od records in each table.
 
 ![image](https://github.com/user-attachments/assets/cbdbf6a0-544a-42f2-be08-374108488128)
 
