@@ -137,7 +137,7 @@
 ## Exercise 6: Prepare and transform data in the lakehouse
 
 1. Open Lakehouse by clciking on it.
-2. Read about [V-Order nad Optimization](https://learn.microsoft.com/en-us/fabric/data-engineering/delta-optimization-and-v-order?tabs=sparksql)
+2. Read about [V-Order and Optimization](https://learn.microsoft.com/en-us/fabric/data-engineering/delta-optimization-and-v-order?tabs=sparksql)
 3. Download the notebooks from our github module 2
 4. From the workspace, select Import > Notebook > From this computer.
 5. Select all the notebooks that you downloaded in first step of this section.
