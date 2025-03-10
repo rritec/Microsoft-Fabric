@@ -10,5 +10,7 @@
     - Choose a **data warehouse** when you need an enterprise-scale solution with open standard format, no knobs performance, and minimal setup.  Best suited for semi-structured and structured data formats, the data warehouse is suitable for both beginner and experienced data professionals, offering simple and intuitive experiences.
     - Choose a **lakehouse** when you need a large repository of highly unstructured data from heterogeneous sources, leveraging low-cost object storage and want to use SPARK as your primary development tool. Acting as a 'lightweight' data warehouse, you always have the option to use the SQL endpoint and T-SQL tools to deliver reporting and data intelligence scenarios in your lakehouse.
 
+## Lab
+1. Complete all activites from [MSFT document](https://learn.microsoft.com/en-us/fabric/data-warehouse/tutorial-introduction)
 ## Reference 
 1. [Warehouse Overview](https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing)
