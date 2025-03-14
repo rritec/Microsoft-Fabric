@@ -39,7 +39,13 @@
 ## **Refer**
 - [Refer microsoft-fabric-overview](https://learn.microsoft.com/en-us/fabric/fundamentals/microsoft-fabric-overview)
 
-## Exercise 1: Get MSFT Login from Instructor   
+## Exercise 1: Get MSFT Login
+1. Get any one personal mail id (Recommended Outlook mailid) https://signup.live.com/?lic=1
+
+![image](https://github.com/user-attachments/assets/d0af6992-8e1e-4a8b-ab2c-2ebbc72f02e6)
+
+
+2. Follow this link https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-signing-up-for-power-bi-with-a-new-office-365-trial
 ## Exercise 2: Create Workspace
 
 1. Open your browser and navigate to https://app.fabric.microsoft.com.
