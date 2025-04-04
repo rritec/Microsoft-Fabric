@@ -1,15 +1,15 @@
 # Microsoft Fabric - Module 1: Introduction to Microsoft Fabric
 
 ## **Overview of Microsoft Fabric**
-- Microsoft Fabric is an enterprise-ready, end-to-end analytics platform.
-- It unifies data movement, data processing, ingestion, transformation, real-time event routing, and report building.
+- Microsoft **Fabric** is an enterprise-ready, **end-to-end analytics platform**.
+- It unifies data movement, data processing, ingestion, transformation, real-time event routing, and report building.**(ADF + Synase + Data Science + PowerBI + OneLake)**
 - It supports these capabilities with integrated services like Data Engineering, Data Factory, Data Science, Real-Time Intelligence, Data Warehouse, Lake House, and Databases.
 - It integrates separate components into a cohesive stack.
-- It centralizes data storage with OneLake and embeds AI capabilities, eliminating the need for manual integration.
+- It centralizes data storage with **OneLake** and embeds **AI** capabilities, eliminating the need for manual integration.
 - With Fabric, you can efficiently transform **raw data** into **actionable insights**
 
 ## **Microsoft Fabric Architecture**
-- Unification with SaaS foundation
+- Unification with **SaaS** foundation
 - Microsoft Fabric is built on a Software as a Service (SaaS) platform.
 - It unifies new and existing components from Power BI, Azure Synapse Analytics, Azure Data Factory, and more into a single environment.
 
