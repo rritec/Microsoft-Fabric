@@ -7,6 +7,7 @@
 - It integrates separate components into a cohesive stack.
 - It centralizes data storage with **OneLake** and embeds **AI** capabilities, eliminating the need for manual integration.
 - With Fabric, you can efficiently transform **raw data** into **actionable insights**
+- Go through website https://www.microsoft.com/en-us/microsoft-fabric
 
 ## **Microsoft Fabric Architecture**
 - Unification with **SaaS** foundation
