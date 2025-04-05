@@ -52,12 +52,6 @@ df = spark.createDataFrame(data, columns)
 df.write.format("delta").save("/mnt/delta/people")
 ```
 
-### **Example: Converting an Existing Parquet Table to Delta**
-
-```python
-# Convert existing Parquet table to Delta
-spark.read.parquet("/mnt/parquet/people").write.format("delta").save("/mnt/delta/people")
-```
 
 ---
 
