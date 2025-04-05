@@ -27,7 +27,7 @@
 
 ### 5. Which language or interface is commonly used for querying data in Microsoft Fabric?
 - A. Python only  
-- B. SQL and Spark  
+- B. SQL and PySpark  
 - C. JavaScript  
 - D. Bash  
 
@@ -69,7 +69,7 @@
 2. **C** – Azure Kubernetes Service  
 3. **B** – Data Engineering, Data Science, and Business Intelligence  
 4. **C** – To provide a unified data lake storage for all workloads  
-5. **B** – SQL and Spark  
+5. **B** – SQL and PySpark  
 6. **B** – It acts as the underlying storage layer for OneLake  
 7. **B** – Hierarchical namespace and fine-grained access control  
 8. **B** – Through a unified platform and centralized data access controls  
