@@ -53,7 +53,12 @@ delta_table_path="Tables/dbo/people"
 
 # Write the DataFrame to a Delta table
 df.write.format("delta").save(delta_table_path)
+
+# Read table
+df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.people LIMIT 1000")
+display(df)
 ```
+![image](https://github.com/user-attachments/assets/e66310b5-a312-41c3-be43-e0c5283dadd5)
 
 
 ---
@@ -72,10 +77,17 @@ delta_table = DeltaTable.forPath(spark, delta_table_path)
 
 # Perform an UPDATE operation
 delta_table.update(
-    condition = "name = 'John'",  # Condition to identify the row
+    condition = "ename = 'John'",  # Condition to identify the row
     set = {"age": "29"}           # Set new value for the column
 )
+
+# Read table
+df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.people LIMIT 1000")
+display(df)
 ```
+
+![image](https://github.com/user-attachments/assets/9cb8b583-b7b7-4406-9cc0-ec0cbd81feda)
+
 
 This will update **John's** age to **29**.
 
