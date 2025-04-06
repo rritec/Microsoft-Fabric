@@ -154,7 +154,13 @@ You can use time travel to retrieve the state of a Delta table as it was at any 
 
 ---
 
-## **8. Conclusion**
+## **8. Drop Table**
+
+```sql
+%%sql
+DROP TABLE IF EXISTS rr_master_lakehouse.dbo.people;
+```
+## **9. Conclusion**
 
 In this guide, we’ve covered the basic operations that you can perform on Delta tables in **Microsoft Fabric** or **Azure Synapse Analytics**:
 
