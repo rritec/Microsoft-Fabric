@@ -106,8 +106,15 @@ Let's delete the record where **name = 'Jane'**:
 delta_table = DeltaTable.forPath(spark, delta_table_path)
 
 # Perform DELETE operation
-delta_table.delete(condition = "name = 'Jane'")
+delta_table.delete(condition = "ename = 'Jane'")
+
+# Read table
+df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.people LIMIT 1000")
+display(df)
 ```
+
+![image](https://github.com/user-attachments/assets/be8d44f4-c1c3-46c3-9104-b492e2c7d699)
+
 
 This will delete **Jane's** record from the Delta table.
 
@@ -134,9 +141,14 @@ delta_table = DeltaTable.forPath(spark, delta_table_path)
 # Perform MERGE (Upsert)
 delta_table.alias("target").merge(
     new_df.alias("source"),
-    "target.name = source.name"
-).whenMatchedUpdate(set = {"age": "source.age"})  .whenNotMatchedInsert(values = {"name": "source.name", "age": "source.age"})  .execute()
+    "target.ename = source.ename"
+).whenMatchedUpdate(set = {"age": "source.age"})  .whenNotMatchedInsert(values = {"ename": "source.ename", "age": "source.age"})  .execute()
+
+# Read table
+df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.people LIMIT 1000")
+display(df)
 ```
+![image](https://github.com/user-attachments/assets/623a19cd-5669-4bca-894c-9420157e45ab)
 
 In this case, if **John** already exists in the Delta table, his record will be **updated** to age **32**. If there were any new records (like **Sam**), they would be **inserted**.
 
