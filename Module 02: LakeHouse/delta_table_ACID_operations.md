@@ -20,14 +20,14 @@ Before starting, ensure you have **Microsoft Fabric** or **Azure Synapse Analyti
 ### **Step 1: Import Required Libraries**
 
 ```python
-from pyspark.sql import SparkSession
+# from pyspark.sql import SparkSession # not required in fabric
 from delta.tables import *
 ```
 
 ### **Step 2: Initialize Spark Session with Delta Support**
 
 ```python
-spark = SparkSession.builder     .appName("DeltaTableOperations")     .getOrCreate()
+# spark = SparkSession.builder     .appName("DeltaTableOperations")     .getOrCreate() # not required in fabric
 ```
 
 ---
@@ -40,16 +40,19 @@ Creating a Delta table is simple. You can either create it from an existing **Da
 
 ```python
 # Sample data
-data = [("John", 25), ("Jane", 30), ("Sam", 28), ("Anna", 35)]
+data = [("John", 25), ("Jane", 30), ("Myla RamReddy", 35)]
 
 # Define schema
-columns = ["name", "age"]
+columns = ["ename", "age"]
 
 # Create DataFrame
 df = spark.createDataFrame(data, columns)
 
+# Table path
+delta_table_path="Tables/dbo/people"
+
 # Write the DataFrame to a Delta table
-df.write.format("delta").save("/mnt/delta/people")
+df.write.format("delta").save(delta_table_path)
 ```
 
 
@@ -65,7 +68,7 @@ Let’s say you want to update the **age** of a person named **"John"**.
 
 ```python
 # Create Delta table reference
-delta_table = DeltaTable.forPath(spark, "/mnt/delta/people")
+delta_table = DeltaTable.forPath(spark, delta_table_path)
 
 # Perform an UPDATE operation
 delta_table.update(
@@ -88,7 +91,7 @@ Let's delete the record where **name = 'Jane'**:
 
 ```python
 # Create Delta table reference
-delta_table = DeltaTable.forPath(spark, "/mnt/delta/people")
+delta_table = DeltaTable.forPath(spark, delta_table_path)
 
 # Perform DELETE operation
 delta_table.delete(condition = "name = 'Jane'")
@@ -113,11 +116,8 @@ new_data = [("John", 32), ("Sam", 28)]  # John's age is now 32
 # Create DataFrame
 new_df = spark.createDataFrame(new_data, columns)
 
-# Write the new data to a Delta table
-new_df.write.format("delta").mode("append").save("/mnt/delta/people")
-
 # Create Delta table reference
-delta_table = DeltaTable.forPath(spark, "/mnt/delta/people")
+delta_table = DeltaTable.forPath(spark, delta_table_path)
 
 # Perform MERGE (Upsert)
 delta_table.alias("target").merge(
