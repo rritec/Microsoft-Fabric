@@ -34,7 +34,7 @@ from delta.tables import *
 
 ## **3. Create a Delta Table**
 
-Creating a Delta table is simple. You can either create it from an existing **DataFrame** or convert a **Parquet** table to a Delta table.
+Creating a Delta table is simple. You can create it from **DataFrame**.
 
 ### **Example: Creating a Delta Table from DataFrame**
 
