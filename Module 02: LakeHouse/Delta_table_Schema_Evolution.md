@@ -76,7 +76,8 @@ df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.employees LIMIT 1000")
 display(df)
 
 ```
-![image](https://github.com/user-attachments/assets/84fa6c93-a378-4443-91dc-816d8c8c6d01)
+![image](https://github.com/user-attachments/assets/5ffda3fc-7456-4f5a-ab85-a7efa9653735)
+
 
 ## Step 4: Check Updated Schema
 ``` sql
