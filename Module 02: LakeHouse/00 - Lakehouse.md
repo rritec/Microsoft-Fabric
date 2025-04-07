@@ -94,7 +94,7 @@
 
 12. 
 
-## Exercise 5: Ingest data using New Pipeline
+## Exercise 5: Ingest data using New Pipeline(Not Required)(due to more volume(100gb) of data)
 
 1. Open Lakehouse by clciking on it.
 2. Click on **Get data** > Click on **New Data Pipeline**
@@ -136,7 +136,7 @@
 
 ![image](https://github.com/user-attachments/assets/104dd29f-a5f3-45b7-8f09-ca479e1e0cce)
 
-## Exercise 6: Prepare and transform data in the lakehouse
+## Exercise 6: Prepare and transform data in the lakehouse(Not Required)(due to more volume(100gb) of data)
 
 1. Open Lakehouse by clciking on it.
 2. Read about [V-Order and Optimization](https://learn.microsoft.com/en-us/fabric/data-engineering/delta-optimization-and-v-order?tabs=sparksql)
