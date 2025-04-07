@@ -68,7 +68,7 @@
 2. Click on **Get data** > Click on **New Dataflow Gen2**
 4. On the new dataflow screen, select **Import from a Text/CSV file**
 5. Provide the URL https://raw.githubusercontent.com/microsoft/fabric-samples/689e78676174d4627fc3855165bde9100cb4d19e/docs-samples/data-engineering/dimension_customer.csv
-6. Click on next https://github.com/rritec/Microsoft-Fabric/blob/main/Module%2002%3A%20LakeHouse/delta_table_ACID_operations.md
+6. Click on next 
 
 ![image](https://github.com/user-attachments/assets/92f5a0b7-944b-4160-b813-b69de0ae526a)
 
