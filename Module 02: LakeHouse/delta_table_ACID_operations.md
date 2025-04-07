@@ -213,7 +213,7 @@ Delta Lake provides powerful features for managing large-scale data pipelines an
 
 ## **Next Steps**
 
-1. **Explore Schema Evolution**: Delta supports automatic schema evolution when new columns are added to the data.
+1. **Explore Schema Evolution**: Delta supports automatic schema evolution when new columns are added to the data.Here is [handson](https://github.com/rritec/Microsoft-Fabric/blob/main/Module%2002:%20LakeHouse/Delta_table_Schema_Evolution.md)
 2. **Performance Optimization**: Learn about **Z-Ordering** and **Partitioning** to optimize Delta table performance.
 
 Happy learning and experimenting with Delta Lake in Microsoft Fabric!
