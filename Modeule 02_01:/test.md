@@ -1,0 +1,68 @@
+# Step-by-Step Guide: Creating a Data Pipeline in Microsoft Fabric
+
+This guide explains how to create a data pipeline in Microsoft Fabric using the provided JSON configuration. Follow these steps to configure and execute your pipeline.
+
+---
+
+## Step 1: Access Microsoft Fabric
+1. Log in to your Microsoft Fabric workspace.
+2. Navigate to the **Data Pipelines** section.
+
+---
+
+## Step 2: Create a New Pipeline
+1. Click on **New Pipeline**.
+2. Name the pipeline as `Lakhose_file_to_Lakhouse_Delta_Table_pipe`.
+
+---
+
+## Step 3: Add Activities to the Pipeline
+
+### 3.1 Copy Data Activity
+1. Add a **Copy Data** activity to the pipeline.
+2. Configure the activity as follows:
+   - **Source**:
+     - Type: `DelimitedTextSource`
+     - Additional Columns:
+       - `FileName`: `$$FILENAME`
+       - `FilePath`: `$$FILEPATH`
+       - `LoadDate`: `@pipeline().TriggerTime`
+       - `InstanceName`: `@pipeline().DataFactory`
+     - Store Settings:
+       - Type: `LakehouseReadSettings`
+       - Recursive: `false`
+       - Enable Partition Discovery: `false`
+     - Format Settings:
+       - Type: `DelimitedTextReadSettings`
+     - Dataset Settings:
+       - Type: `DelimitedText`
+       - Location:
+         - File Name: `emp.csv`
+         - Folder Path: `rawdata`
+       - Column Delimiter: `,`
+       - Escape Character: `\`
+       - First Row as Header: `true`
+       - Quote Character: `"`
+   - **Sink**:
+     - Type: `LakehouseTableSink`
+     - Table Action Option: `Append`
+     - Partition Option: `None`
+     - Dataset Settings:
+       - Type: `LakehouseTable`
+       - Table Name: `emp20250409v1`
+
+---
+
+## Step 4: Review and Publish
+1. Verify the pipeline configuration for accuracy.
+2. Click **Publish** to deploy the pipeline.
+
+---
+
+## Additional Notes
+- Ensure the workspace and artifact IDs in the linked service match your environment.
+- Review logs and monitor the pipeline execution for debugging purposes.
+
+---
+
+You're ready to help your students learn about pipelines in Microsoft Fabric! 🚀
