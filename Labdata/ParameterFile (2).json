@@ -1,0 +1,16 @@
+{
+  "srcs_tgts": [
+    {
+      "FolderName": "ap",
+      "FileName": "emp.csv",
+      "SchemaName": "ap",
+      "TableName": "tgt_emp"
+    },
+    {
+      "FolderName": "ar",
+      "FileName": "dept.csv",
+      "SchemaName": "ar",
+      "TableName": "tgt_dept"
+    }
+  ]
+}
