@@ -1,429 +1,126 @@
-markdown
-Copy
 # Microsoft Fabric Data Pipeline: Employee Data Ingestion
-**File Name**: `EmployeeData_Ingestion_Pipeline_Guide.md`  
-**Pipeline Name**: `EmployeeData_Ingestion_Pipeline`  
-**Last Updated**: April 2024  
 
----
+This document outlines the `EmployeeData_Ingestion_Pipeline`, a Microsoft Fabric pipeline designed to ingest employee data from different file formats (currently CSV and JSON) located in a Lakehouse and load it into a Fabric SQL Database.
 
-## Table of Contents
-1. [Pipeline Overview](#1-pipeline-overview)
-2. [Step-by-Step Execution Flow](#2-step-by-step-execution-flow)
-3. [Detailed Activity Breakdown](#3-detailed-activity-breakdown)
-4. [Configuration Reference](#4-configuration-reference)
-5. [Troubleshooting Guide](#5-troubleshooting-guide)
-6. [Full Pipeline JSON](#6-full-pipeline-json)
+## Overview
 
----
+The pipeline iterates through a list of input files specified by the `pInputFiles` parameter. For each file, it determines the file extension and routes the file to the appropriate copy activity to load the data into a specific table in the Fabric SQL Database.
 
-## 1. Pipeline Overview
-### Business Logic
-- Processes employee data files from Lakehouse
-- Handles both CSV and JSON formats
-- Routes data to appropriate SQL tables
-- Auto-creates destination tables if missing
+## Pipeline Details
 
-# Microsoft Fabric Data Pipeline: Employee Data Ingestion
-**File Name**: `EmployeeData_Ingestion_Pipeline_Guide.md`  
-**Pipeline Name**: `EmployeeData_Ingestion_Pipeline`  
-**Last Updated**: April 2024  
+**Name:** `EmployeeData_Ingestion_Pipeline`
+**Object ID:** `13992b28-105b-4374-86d0-c5aeb91a33e0`
 
----
+### Parameters
 
-## Table of Contents
-1. [Pipeline Overview](#1-pipeline-overview)
-2. [Step-by-Step Execution Flow](#2-step-by-step-execution-flow)
-3. [Detailed Activity Breakdown](#3-detailed-activity-breakdown)
-4. [Configuration Reference](#4-configuration-reference)
-5. [Troubleshooting Guide](#5-troubleshooting-guide)
-6. [Full Pipeline JSON](#6-full-pipeline-json)
+| Parameter Name | Type  | Default Value        | Description                                  |
+|----------------|-------|----------------------|----------------------------------------------|
+| `pInputFiles`  | Array | `["emp.csv", "emp.json"]` | An array of file names to be processed.     |
 
----
+### Activities
 
-## 1. Pipeline Overview
+The pipeline consists of the following activities:
 
-### Business Logic
-- Processes employee data files from Lakehouse
-- Handles both CSV and JSON formats
-- Routes data to appropriate SQL tables
-- Auto-creates destination tables if missing
+1.  **IterateOverFiles (ForEach)**
+    * **Type:** `ForEach`
+    * **Dependencies:** None
+    * **Description:** This activity iterates over each file name provided in the `pInputFiles` parameter.
+    * **Items:** `@pipeline().parameters.pInputFiles` (Evaluates to the array of input file names)
+    * **Is Sequential:** `true` (Processes files one after the other)
+    * **Inner Activities:**
+        * `RouteFileByExtension` (Switch)
 
-### Technical Architecture
-```mermaid
-graph TD
-    A[Start Pipeline] --> B{ForEach File}
-    B -->|emp.csv| C[Transform CSV]
-    B -->|emp.json| D[Transform JSON]
-    C --> E[Load to dbo.switchempcsv]
-    D --> F[Load to switchempjson]
+2.  **RouteFileByExtension (Switch)**
+    * **Type:** `Switch`
+    * **Dependencies:** None (within the ForEach loop, depends on the previous iteration completing)
+    * **Description:** This activity routes the processing of each file based on its name (extension).
+    * **On:** `@item()` (Evaluates to the current file name being processed in the ForEach loop)
+    * **Cases:**
+        * **Case: `emp.csv`**
+            * **Activities:**
+                * `Copy_CSV_To_SQL` (Copy)
+        * **Case: `emp.json`**
+            * **Activities:**
+                * `Copy_JSON_To_SQL` (Copy)
+        * **Default:** No activities defined.
 
+### Copy Activities
 
-### Technical Architecture
-```mermaid
-graph TD
-  A[Start Pipeline] --> B{ForEach File}
-  B -->|emp.csv| C[Transform CSV]
-  B -->|emp.json| D[Transform JSON]
-  C --> E[Load to dbo.switchempcsv]
-  D --> F[Load to switchempjson]
-2. Step-by-Step Execution Flow
-Phase 1: Initialization
-Parameter Validation
+#### 1. `Copy_CSV_To_SQL`
 
-Checks pInputFiles array (default: ["emp.csv","emp.json"])
+* **Type:** `Copy`
+* **Source:**
+    * **Type:** `DelimitedTextSource`
+    * **Linked Service:** `rr_batch100` (Lakehouse)
+        * **Workspace ID:** `55732739-60eb-445b-94c4-65725b7190fa`
+        * **Artifact ID:** `dd9dd813-0f22-446d-9621-dfd670945ea5`
+        * **Root Folder:** `Files`
+    * **Dataset:** `DelimitedText`
+        * **Location:**
+            * **File Name:** `emp.csv`
+            * **Folder Path:** `rawdata`
+        * **Column Delimiter:** `,`
+        * **Escape Character:** `\`
+        * **First Row as Header:** `true`
+        * **Quote Character:** `"`
+* **Sink:**
+    * **Type:** `FabricSqlDatabaseSink`
+    * **Linked Service:** `rritec` (FabricSqlDatabase)
+        * **Workspace ID:** `55732739-60eb-445b-94c4-65725b7190fa`
+        * **Artifact ID:** `31237005-4d13-4afe-8ff3-42834149ecd7`
+        * **Connection Reference:** `cb146f64-f5ee-47c5-9a70-8bada1b07ac1`
+    * **Dataset:** `FabricSqlDatabaseTable`
+        * **Schema:** `dbo`
+        * **Table:** `switchempcsv`
+    * **Write Behavior:** `insert`
+    * **Table Option:** `autoCreate`
+* **Translator:** `TabularTranslator` with type conversion enabled (`allowDataTruncation`: `true`, `treatBooleanAsNumber`: `false`).
 
-Validates Lakehouse and SQL DB connections
+#### 2. `Copy_JSON_To_SQL`
 
-Phase 2: File Processing Loop
-mermaid
-Copy
-sequenceDiagram
-  loop ForEach File
-    Pipeline->>ForEach: Get next file
-    ForEach->>Switch: Route by extension
-    alt CSV File
-      Switch->>Copy: CSV Transformation
-    else JSON File
-      Switch->>Copy: JSON Transformation
-    end
-  end
-3. Detailed Activity Breakdown
-3.1 IterateOverFiles (ForEach)
-Property	Value	Description
-Items	@pipeline().parameters.pInputFiles	Dynamic file list
-Sequential	true	Ordered processing
-Batch Size	1	Processes files individually
-Child Activities:
+* **Type:** `Copy`
+* **Source:**
+    * **Type:** `JsonSource`
+    * **Linked Service:** `rr_batch100` (Lakehouse)
+        * **Workspace ID:** `55732739-60eb-445b-94c4-65725b7190fa`
+        * **Artifact ID:** `dd9dd813-0f22-446d-9621-dfd670945ea5`
+        * **Root Folder:** `Files`
+    * **Dataset:** `Json`
+        * **Location:**
+            * **File Name:** `emp.json`
+            * **Folder Path:** `rawdata`
+* **Sink:**
+    * **Type:** `FabricSqlDatabaseSink`
+    * **Linked Service:** `rritec` (FabricSqlDatabase)
+        * **Workspace ID:** `55732739-60eb-445b-94c4-65725b7190fa`
+        * **Artifact ID:** `31237005-4d13-4afe-8ff3-42834149ecd7`
+        * **Connection Reference:** `cb146f64-f5ee-47c5-9a70-8bada1b07ac1`
+    * **Dataset:** `FabricSqlDatabaseTable`
+        * **Table:** `switchempjson`
+    * **Write Behavior:** `insert`
+    * **Table Option:** `autoCreate`
+* **Translator:** `TabularTranslator` with type conversion enabled (`allowDataTruncation`: `true`, `treatBooleanAsNumber`: `false`) and column flattening settings (`treatArrayAsString`: `false`, `treatStructAsString`: `false`, `flattenColumnDelimiter`: `.`).
 
-RouteFileByExtension (Switch)
+## Linked Services
 
-Copy_CSV_To_SQL (Copy)
+The pipeline utilizes the following linked services:
 
-Copy_JSON_To_SQL (Copy)
+* **`rr_batch100` (Lakehouse):** Connects to the Microsoft Fabric Lakehouse containing the source data files in the `Files/rawdata` folder.
+* **`rritec` (FabricSqlDatabase):** Connects to the Microsoft Fabric SQL Database where the employee data will be loaded into the `dbo.switchempcsv` and `dbo.switchempjson` tables.
 
-3.2 CSV Processing Path
-Source Configuration
-json
-Copy
-"location": {
-  "type": "LakehouseLocation",
-  "fileName": "emp.csv",
-  "folderPath": "rawdata"
-}
-Format: Delimited text (CSV)
+## Datasets
 
-Settings:
+The pipeline utilizes the following datasets:
 
-Column delimiter: ,
+* **`DelimitedText`:** Defines the schema and location of the CSV files in the Lakehouse.
+* **`Json`:** Defines the schema and location of the JSON files in the Lakehouse.
+* **`FabricSqlDatabaseTable` (for `switchempcsv`):** Defines the target table schema in the Fabric SQL Database for CSV data.
+* **`FabricSqlDatabaseTable` (for `switchempjson`):** Defines the target table schema in the Fabric SQL Database for JSON data.
 
-First row as header: true
+## Notes
 
-Escape character: \
-
-Sink Configuration
-json
-Copy
-"table": "dbo.switchempcsv",
-"autoCreate": true,
-"writeBehavior": "insert"
-3.3 JSON Processing Path
-Special Handling
-json
-Copy
-"columnFlattenSettings": {
-  "flattenColumnDelimiter": "."
-}
-Nested JSON fields flattened using dot notation
-
-Example: {"user":{"name":"John"}} → user.name
-
-4. Configuration Reference
-Linked Services
-Name	Type	Key Identifiers
-rr_batch100	Lakehouse	WorkspaceID: 55732739-...
-ArtifactID: dd9dd813-...
-rritec	FabricSQL	ConnectionID: cb146f64-...
-Performance Settings
-Activity	Timeout	Retry Policy
-Copy_CSV_To_SQL	12 hours	0 retries
-Copy_JSON_To_SQL	12 hours	0 retries
-5. Troubleshooting Guide
-Common Errors
-Error	Solution
-FileNotFound	Verify rawdata folder exists in Lakehouse
-SchemaMismatch	Check column mappings in TabularTranslator
-PermissionDenied	Validate Linked Service credentials
-Debugging Tips
-Test Connections First
-
-Validate Lakehouse and SQL DB connections
-
-Isolate Activities
-
-Run Switch cases independently
-
-Monitor Runs
-
-Check execution details in Monitoring Hub
-
-6. Full Pipeline JSON
-json
-Copy
-{
-    "name": "EmployeeData_Ingestion_Pipeline\t",
-    "objectId": "13992b28-105b-4374-86d0-c5aeb91a33e0",
-    "properties": {
-        "activities": [
-            {
-                "name": "IterateOverFiles",
-                "type": "ForEach",
-                "dependsOn": [],
-                "typeProperties": {
-                    "items": {
-                        "value": "@pipeline().parameters.pInputFiles",
-                        "type": "Expression"
-                    },
-                    "isSequential": true,
-                    "activities": [
-                        {
-                            "name": "RouteFileByExtension",
-                            "type": "Switch",
-                            "dependsOn": [],
-                            "typeProperties": {
-                                "on": {
-                                    "value": "@item()",
-                                    "type": "Expression"
-                                },
-                                "cases": [
-                                    {
-                                        "value": "emp.csv",
-                                        "activities": [
-                                            {
-                                                "name": "Copy_CSV_To_SQL",
-                                                "type": "Copy",
-                                                "dependsOn": [],
-                                                "policy": {
-                                                    "timeout": "0.12:00:00",
-                                                    "retry": 0,
-                                                    "retryIntervalInSeconds": 30,
-                                                    "secureOutput": false,
-                                                    "secureInput": false
-                                                },
-                                                "typeProperties": {
-                                                    "source": {
-                                                        "type": "DelimitedTextSource",
-                                                        "storeSettings": {
-                                                            "type": "LakehouseReadSettings",
-                                                            "recursive": true,
-                                                            "enablePartitionDiscovery": false
-                                                        },
-                                                        "formatSettings": {
-                                                            "type": "DelimitedTextReadSettings"
-                                                        },
-                                                        "datasetSettings": {
-                                                            "annotations": [],
-                                                            "linkedService": {
-                                                                "name": "rr_batch100",
-                                                                "properties": {
-                                                                    "annotations": [],
-                                                                    "type": "Lakehouse",
-                                                                    "typeProperties": {
-                                                                        "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
-                                                                        "artifactId": "dd9dd813-0f22-446d-9621-dfd670945ea5",
-                                                                        "rootFolder": "Files"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "type": "DelimitedText",
-                                                            "typeProperties": {
-                                                                "location": {
-                                                                    "type": "LakehouseLocation",
-                                                                    "fileName": "emp.csv",
-                                                                    "folderPath": "rawdata"
-                                                                },
-                                                                "columnDelimiter": ",",
-                                                                "escapeChar": "\\",
-                                                                "firstRowAsHeader": true,
-                                                                "quoteChar": "\""
-                                                            },
-                                                            "schema": []
-                                                        }
-                                                    },
-                                                    "sink": {
-                                                        "type": "FabricSqlDatabaseSink",
-                                                        "writeBehavior": "insert",
-                                                        "sqlWriterUseTableLock": false,
-                                                        "tableOption": "autoCreate",
-                                                        "datasetSettings": {
-                                                            "annotations": [],
-                                                            "connectionSettings": {
-                                                                "name": "rritec",
-                                                                "properties": {
-                                                                    "annotations": [],
-                                                                    "type": "FabricSqlDatabase",
-                                                                    "typeProperties": {
-                                                                        "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
-                                                                        "artifactId": "31237005-4d13-4afe-8ff3-42834149ecd7"
-                                                                    },
-                                                                    "externalReferences": {
-                                                                        "connection": "cb146f64-f5ee-47c5-9a70-8bada1b07ac1"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "type": "FabricSqlDatabaseTable",
-                                                            "schema": [],
-                                                            "typeProperties": {
-                                                                "schema": "dbo",
-                                                                "table": "switchempcsv"
-                                                            }
-                                                        }
-                                                    },
-                                                    "enableStaging": false,
-                                                    "translator": {
-                                                        "type": "TabularTranslator",
-                                                        "typeConversion": true,
-                                                        "typeConversionSettings": {
-                                                            "allowDataTruncation": true,
-                                                            "treatBooleanAsNumber": false
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "value": "emp.json",
-                                        "activities": [
-                                            {
-                                                "name": "Copy_JSON_To_SQL",
-                                                "type": "Copy",
-                                                "dependsOn": [],
-                                                "policy": {
-                                                    "timeout": "0.12:00:00",
-                                                    "retry": 0,
-                                                    "retryIntervalInSeconds": 30,
-                                                    "secureOutput": false,
-                                                    "secureInput": false
-                                                },
-                                                "typeProperties": {
-                                                    "source": {
-                                                        "type": "JsonSource",
-                                                        "storeSettings": {
-                                                            "type": "LakehouseReadSettings",
-                                                            "recursive": true,
-                                                            "enablePartitionDiscovery": false
-                                                        },
-                                                        "formatSettings": {
-                                                            "type": "JsonReadSettings"
-                                                        },
-                                                        "datasetSettings": {
-                                                            "annotations": [],
-                                                            "linkedService": {
-                                                                "name": "rr_batch100",
-                                                                "properties": {
-                                                                    "annotations": [],
-                                                                    "type": "Lakehouse",
-                                                                    "typeProperties": {
-                                                                        "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
-                                                                        "artifactId": "dd9dd813-0f22-446d-9621-dfd670945ea5",
-                                                                        "rootFolder": "Files"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "type": "Json",
-                                                            "typeProperties": {
-                                                                "location": {
-                                                                    "type": "LakehouseLocation",
-                                                                    "fileName": "emp.json",
-                                                                    "folderPath": "rawdata"
-                                                                }
-                                                            },
-                                                            "schema": {}
-                                                        }
-                                                    },
-                                                    "sink": {
-                                                        "type": "FabricSqlDatabaseSink",
-                                                        "writeBehavior": "insert",
-                                                        "sqlWriterUseTableLock": false,
-                                                        "tableOption": "autoCreate",
-                                                        "datasetSettings": {
-                                                            "annotations": [],
-                                                            "connectionSettings": {
-                                                                "name": "rritec",
-                                                                "properties": {
-                                                                    "annotations": [],
-                                                                    "type": "FabricSqlDatabase",
-                                                                    "typeProperties": {
-                                                                        "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
-                                                                        "artifactId": "31237005-4d13-4afe-8ff3-42834149ecd7"
-                                                                    },
-                                                                    "externalReferences": {
-                                                                        "connection": "cb146f64-f5ee-47c5-9a70-8bada1b07ac1"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "type": "FabricSqlDatabaseTable",
-                                                            "schema": [],
-                                                            "typeProperties": {
-                                                                "table": "switchempjson"
-                                                            }
-                                                        }
-                                                    },
-                                                    "enableStaging": false,
-                                                    "translator": {
-                                                        "type": "TabularTranslator",
-                                                        "typeConversion": true,
-                                                        "typeConversionSettings": {
-                                                            "allowDataTruncation": true,
-                                                            "treatBooleanAsNumber": false
-                                                        },
-                                                        "columnFlattenSettings": {
-                                                            "treatArrayAsString": false,
-                                                            "treatStructAsString": false,
-                                                            "flattenColumnDelimiter": "."
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        ]
-                                    }
-                                ],
-                                "defaultActivities": []
-                            }
-                        }
-                    ]
-                }
-            }
-        ],
-        "parameters": {
-            "pInputFiles": {
-                "type": "array",
-                "defaultValue": [
-                    "emp.csv",
-                    "emp.json"
-                ]
-            }
-        },
-        "lastModifiedByObjectId": "07dffa9c-d10a-43aa-a4dc-89568542f3c3",
-        "lastPublishTime": "2025-04-13T16:52:43Z"
-    }
-}
-Download this guide as markdown file (Right-click → Save link as)
-
-Key Features:
-Visual Workflows: Mermaid diagrams for architecture and sequence flows
-
-Configuration Tables: Quick-reference for key settings
-
-Troubleshooting Matrix: Common errors with solutions
-
-Complete JSON: Full pipeline definition for reference
-
-To use:
-
-Copy this entire document
-
-Save as .md file
-
-Add real screenshots by replacing diagram placeholders
+* The pipeline assumes that the CSV files have a header row.
+* The JSON data might contain nested structures, as indicated by the `columnFlattenSettings` in the `Copy_JSON_To_SQL` activity.
+* The target SQL tables (`dbo.switchempcsv` and `dbo.switchempjson`) will be auto-created if they do not exist.
+* Error handling and logging are not explicitly defined in this pipeline configuration and might need to be implemented for production scenarios.
+* The pipeline processes files sequentially. For a large number of files, consider exploring parallel processing within the ForEach loop if order is not critical.
