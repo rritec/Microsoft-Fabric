@@ -24,6 +24,41 @@ Copy
 - Routes data to appropriate SQL tables
 - Auto-creates destination tables if missing
 
+# Microsoft Fabric Data Pipeline: Employee Data Ingestion
+**File Name**: `EmployeeData_Ingestion_Pipeline_Guide.md`  
+**Pipeline Name**: `EmployeeData_Ingestion_Pipeline`  
+**Last Updated**: April 2024  
+
+---
+
+## Table of Contents
+1. [Pipeline Overview](#1-pipeline-overview)
+2. [Step-by-Step Execution Flow](#2-step-by-step-execution-flow)
+3. [Detailed Activity Breakdown](#3-detailed-activity-breakdown)
+4. [Configuration Reference](#4-configuration-reference)
+5. [Troubleshooting Guide](#5-troubleshooting-guide)
+6. [Full Pipeline JSON](#6-full-pipeline-json)
+
+---
+
+## 1. Pipeline Overview
+
+### Business Logic
+- Processes employee data files from Lakehouse
+- Handles both CSV and JSON formats
+- Routes data to appropriate SQL tables
+- Auto-creates destination tables if missing
+
+### Technical Architecture
+```mermaid
+graph TD
+    A[Start Pipeline] --> B{ForEach File}
+    B -->|emp.csv| C[Transform CSV]
+    B -->|emp.json| D[Transform JSON]
+    C --> E[Load to dbo.switchempcsv]
+    D --> F[Load to switchempjson]
+
+
 ### Technical Architecture
 ```mermaid
 graph TD
