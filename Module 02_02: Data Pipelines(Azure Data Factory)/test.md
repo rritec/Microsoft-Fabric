@@ -89,3 +89,221 @@ When you **don't know the sheet names/count** in advance, this pipeline dynamica
   - **Action**: `Append`
 
 ---
+# Json
+``` json
+{
+    "name": "Get Excel Number of Sheets Dynamically and load it",
+    "objectId": "7adb903d-4abe-44b7-a232-6721bc6ab657",
+    "properties": {
+        "activities": [
+            {
+                "name": "ForEach1",
+                "type": "ForEach",
+                "dependsOn": [
+                    {
+                        "activity": "setVariableRangeOfIndexes",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "typeProperties": {
+                    "items": {
+                        "value": "@variables('range_of_page_numbers')",
+                        "type": "Expression"
+                    },
+                    "isSequential": true,
+                    "activities": [
+                        {
+                            "name": "Copy data1",
+                            "type": "Copy",
+                            "dependsOn": [],
+                            "policy": {
+                                "timeout": "0.12:00:00",
+                                "retry": 0,
+                                "retryIntervalInSeconds": 30,
+                                "secureOutput": false,
+                                "secureInput": false
+                            },
+                            "typeProperties": {
+                                "source": {
+                                    "type": "ExcelSource",
+                                    "storeSettings": {
+                                        "type": "LakehouseReadSettings",
+                                        "recursive": true,
+                                        "enablePartitionDiscovery": false
+                                    },
+                                    "datasetSettings": {
+                                        "annotations": [],
+                                        "linkedService": {
+                                            "name": "rr_batch100",
+                                            "properties": {
+                                                "annotations": [],
+                                                "type": "Lakehouse",
+                                                "typeProperties": {
+                                                    "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                                                    "artifactId": "dd9dd813-0f22-446d-9621-dfd670945ea5",
+                                                    "rootFolder": "Files"
+                                                }
+                                            }
+                                        },
+                                        "type": "Excel",
+                                        "typeProperties": {
+                                            "location": {
+                                                "type": "LakehouseLocation",
+                                                "fileName": "Load_multiple_sheets_of_excel.xlsx",
+                                                "folderPath": "rawdata"
+                                            },
+                                            "sheetIndex": {
+                                                "value": "@item()",
+                                                "type": "Expression"
+                                            },
+                                            "firstRowAsHeader": true
+                                        },
+                                        "schema": []
+                                    }
+                                },
+                                "sink": {
+                                    "type": "LakehouseTableSink",
+                                    "tableActionOption": "Append",
+                                    "datasetSettings": {
+                                        "annotations": [],
+                                        "linkedService": {
+                                            "name": "rr_batch100",
+                                            "properties": {
+                                                "annotations": [],
+                                                "type": "Lakehouse",
+                                                "typeProperties": {
+                                                    "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                                                    "artifactId": "dd9dd813-0f22-446d-9621-dfd670945ea5",
+                                                    "rootFolder": "Tables"
+                                                }
+                                            }
+                                        },
+                                        "type": "LakehouseTable",
+                                        "schema": [],
+                                        "typeProperties": {
+                                            "table": "emp202504111"
+                                        }
+                                    }
+                                },
+                                "enableStaging": false,
+                                "translator": {
+                                    "type": "TabularTranslator",
+                                    "typeConversion": true,
+                                    "typeConversionSettings": {
+                                        "allowDataTruncation": true,
+                                        "treatBooleanAsNumber": false
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "getMetadataOfWrongIndexNumber",
+                "type": "GetMetadata",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "fieldList": [
+                        "structure"
+                    ],
+                    "datasetSettings": {
+                        "annotations": [],
+                        "linkedService": {
+                            "name": "rr_batch100",
+                            "properties": {
+                                "annotations": [],
+                                "type": "Lakehouse",
+                                "typeProperties": {
+                                    "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                                    "artifactId": "dd9dd813-0f22-446d-9621-dfd670945ea5",
+                                    "rootFolder": "Files"
+                                }
+                            }
+                        },
+                        "type": "Excel",
+                        "typeProperties": {
+                            "location": {
+                                "type": "LakehouseLocation",
+                                "fileName": "Load_multiple_sheets_of_excel.xlsx",
+                                "folderPath": "rawdata"
+                            },
+                            "sheetIndex": 999,
+                            "firstRowAsHeader": true
+                        },
+                        "schema": []
+                    },
+                    "storeSettings": {
+                        "type": "LakehouseReadSettings",
+                        "enablePartitionDiscovery": false
+                    }
+                }
+            },
+            {
+                "name": "setVariableGetError",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "getMetadataOfWrongIndexNumber",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "variableName": "GetError",
+                    "value": {
+                        "value": "@split(activity('getMetadataOfWrongIndexNumber').error.message,'(')[2]",
+                        "type": "Expression"
+                    }
+                }
+            },
+            {
+                "name": "setVariableRangeOfIndexes",
+                "type": "SetVariable",
+                "dependsOn": [
+                    {
+                        "activity": "setVariableGetError",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "variableName": "range_of_page_numbers",
+                    "value": {
+                        "value": "@range(\n        0,\n        add(\n            int(\n                substring(\n                    variables('GetError'),\n                    3,\n                    sub(\n                        length(\n                            variables('GetError')\n                        ),\n                        4\n                    )\n                )\n            )\n            ,1\n        )\n    \n    )",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "variables": {
+            "GetError": {
+                "type": "String"
+            },
+            "range_of_page_numbers": {
+                "type": "Array"
+            }
+        },
+        "lastModifiedByObjectId": "07dffa9c-d10a-43aa-a4dc-89568542f3c3",
+        "lastPublishTime": "2025-04-13T00:27:01Z"
+    }
+}
