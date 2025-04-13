@@ -1,30 +1,67 @@
-# Microsoft Fabric Data Pipeline: Load Multiple Excel Sheets
+# 🚀 Microsoft Fabric Data Pipeline: Load Multiple Excel Sheets to Lakehouse
 
-This pipeline demonstrates how to load data from **multiple Excel sheets** stored in a Lakehouse and append the content into a single destination **Lakehouse table**.
-
-## 📌 Pipeline Overview
-
-- **Pipeline Name:** `pipeline5`
-- **Purpose:** Iterates over a list of Excel sheet names and loads each into a target Lakehouse table using a `ForEach` activity and a `Copy` activity.
-- **Parameter:** `pSheets` – list of Excel sheet names to be processed.
+This document explains how to create a Data Pipeline in **Microsoft Fabric** that loads data from **multiple Excel sheets** into a Lakehouse table using a `ForEach` activity and a `Copy` activity.
 
 ---
 
-## 🧩 Parameters
+## 🧭 Navigation Steps in Microsoft Fabric
 
-| Name     | Type  | Default Values             |
-|----------|-------|----------------------------|
-| pSheets  | Array | `["CA", "Texas", "Seattle"]` |
+Follow these steps to implement this pipeline in Microsoft Fabric:
+
+1. **Go to the Microsoft Fabric workspace** where your Lakehouse is located.
+2. In the left navigation pane, select **Data Factory**.
+3. Click **+ New pipeline** to create a new pipeline.
+4. **Rename the pipeline** to `Load_Multiple_Excel_Sheets_To_Lakehouse`.
+5. From the **Activities** pane, drag the `ForEach` activity onto the canvas.
+6. Click on the `ForEach` activity and configure it:
+   - Set **Items** to `@pipeline().parameters.pSheets`
+   - Enable **IsSequential**
+7. Inside the `ForEach`, add a `Copy data` activity.
+8. Configure the **Source**:
+   - **Source Type:** Excel
+   - **Linked Service:** Your Lakehouse (e.g., `rr_batch100`)
+   - **File Name:** `Load_multiple_sheets_of_excel.xlsx`
+   - **Folder Path:** `rawdata`
+   - **Sheet Name:** `@item()` (from the loop)
+   - **First Row as Header:** True
+9. Configure the **Sink**:
+   - **Sink Type:** Lakehouse Table
+   - **Table Name:** `test202504111`
+   - **Write Behavior:** Append
+   - **Lakehouse Path:** `Tables`
+   - **Linked Service:** `rr_batch100`
+10. Set the **Translator** to `TabularTranslator` and enable:
+    - Type conversion
+    - Allow data truncation
+11. Define a pipeline **parameter** named `pSheets`:
+    ```json
+    ["CA", "Texas", "Seattle"]
+    ```
+12. Click **Publish** to save the pipeline.
+
+---
+
+## 📌 Pipeline Overview
+
+- **Pipeline Name:** `Load_Multiple_Excel_Sheets_To_Lakehouse`
+- **Purpose:** Load data from each Excel sheet in a list and append into one Lakehouse table.
+- **Parameter Used:** `pSheets` (array of sheet names)
+
+---
+
+## 🧩 Parameter Details
+
+| Parameter | Type  | Default Value                 |
+|-----------|-------|-------------------------------|
+| pSheets   | Array | `["CA", "Texas", "Seattle"]`  |
 
 ---
 
 ## 🔁 ForEach Activity
 
 ### Name: `ForEach1`
-- **Execution:** Sequential (`isSequential: true`)
-- **Items Source:** `@pipeline().parameters.pSheets`
-
-Each item represents an Excel sheet name that will be passed into the `Copy data1` activity.
+- **Execution Mode:** Sequential
+- **Iterates Over:** `@pipeline().parameters.pSheets`
 
 ---
 
@@ -32,46 +69,43 @@ Each item represents an Excel sheet name that will be passed into the `Copy data
 
 ### Name: `Copy data1`
 
-#### 🔹 Source Configuration
+#### 🔹 Source Settings
+- **Source Type:** Excel
+- **Lakehouse Path:** `rawdata/Load_multiple_sheets_of_excel.xlsx`
+- **Lakehouse Linked Service:** `rr_batch100`
+- **Sheet Name:** `@item()` (from ForEach loop)
+- **Read Options:**
+  - Recursive: True
+  - First Row as Header: True
 
-- **Type:** `ExcelSource`
-- **File Location:**
-  - **Lakehouse Path:** `rawdata/Load_multiple_sheets_of_excel.xlsx`
-  - **Lakehouse:** `rr_batch100`
-- **Sheet Name:** `@item()` (driven by the `ForEach` loop)
-- **Read Settings:**
-  - `recursive: true`
-  - `firstRowAsHeader: true`
-
-#### 🔸 Sink Configuration
-
-- **Type:** `LakehouseTableSink`
+#### 🔸 Sink Settings
+- **Sink Type:** Lakehouse Table
 - **Target Table:** `test202504111`
-- **Write Mode:** `Append`
-- **Partition Option:** `None`
+- **Mode:** Append
 - **Lakehouse Path:** `Tables`
-- **Lakehouse:** `rr_batch100`
+- **Linked Service:** `rr_batch100`
 
-#### 🔄 Translator Configuration
-
-- **Type:** `TabularTranslator`
-- **Settings:**
-  - `typeConversion: true`
-  - `allowDataTruncation: true`
-  - `treatBooleanAsNumber: false`
+#### 🔄 Translator
+- **Type:** TabularTranslator
+- **Type Conversion:** Enabled
+- **Allow Data Truncation:** True
+- **Treat Boolean as Number:** False
 
 ---
 
-## 🧠 Summary
+## ✅ Summary
 
-This pipeline enables efficient loading of multiple sheets from a single Excel file located in a Lakehouse and appends the data into a unified Lakehouse table. It uses a parameterized and modular approach for extensibility and reusability.
+This pipeline automates reading from multiple sheets within a single Excel file and appends them into one unified Lakehouse table using Microsoft Fabric's Data Factory.
 
 ---
 
-## 🏗️ JSON Reference
+## 🗂️ Full JSON Code (Optional)
 
 <details>
-<summary>Click to expand the original JSON</summary>
+<summary>Click to expand the JSON</summary>
 
 ```json
-<Insert your JSON here if needed for reference>
+{
+  "name": "Load_Multiple_Excel_Sheets_To_Lakehouse",
+  ...
+}
