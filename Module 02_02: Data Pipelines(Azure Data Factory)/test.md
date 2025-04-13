@@ -9,9 +9,13 @@ This document explains how to create a Data Pipeline in **Microsoft Fabric** tha
 Follow these steps to implement this pipeline in Microsoft Fabric:
 
 1. **Go to the Microsoft Fabric workspace** where your Lakehouse is located.
-2. In the left navigation pane, select **Data Factory**.
-3. Click **+ New pipeline** to create a new pipeline.
+2. 3. Click **+ New pipeline** to create a new pipeline.
 4. **Rename the pipeline** to `Load_Multiple_Excel_Sheets_To_Lakehouse`.
+3. Define a pipeline **parameter** named `pSheets`:
+    ```json
+    ["CA", "Texas", "Seattle"]
+    ```
+
 5. From the **Activities** pane, drag the `ForEach` activity onto the canvas.
 6. Click on the `ForEach` activity and configure it:
    - Set **Items** to `@pipeline().parameters.pSheets`
@@ -33,10 +37,7 @@ Follow these steps to implement this pipeline in Microsoft Fabric:
 10. Set the **Translator** to `TabularTranslator` and enable:
     - Type conversion
     - Allow data truncation
-11. Define a pipeline **parameter** named `pSheets`:
-    ```json
-    ["CA", "Texas", "Seattle"]
-    ```
+
 12. Click **Publish** to save the pipeline.
 
 ---
