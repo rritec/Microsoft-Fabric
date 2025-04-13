@@ -1,107 +1,91 @@
-# 📊 Microsoft Fabric Data Pipeline: Dynamic Excel Sheet Load to Lakehouse
+## 📁 Pipeline 2: Load Excel Sheets Dynamically to Lakehouse
 
-This pipeline dynamically determines the **number of sheets** in an Excel file and loads each sheet's data into a **Lakehouse table**. It uses metadata retrieval and a smart use of variables to build the loop range at runtime.
+### ✅ Use Case
 
----
-
-## 🧭 Navigation Steps in Microsoft Fabric
-
-1. **Open Microsoft Fabric Workspace** where your Lakehouse resides.
-2. In the left pane, go to **Data Factory**.
-3. Click **+ New pipeline** to create a new pipeline.
-4. Rename the pipeline to `Dynamic_Excel_Sheet_Load_To_Lakehouse`.
-5. Add two **pipeline variables**:
-   - `GetError` (String)
-   - `range_of_page_numbers` (Array)
+When you **don't know the sheet names/count** in advance, this pipeline dynamically detects the number of sheets and loads all of them.
 
 ---
 
-## 🔁 Step-by-Step Activity Configuration
+### 🧭 Navigation Steps
 
-### 1. 🧾 `GetMetadata` – `getMetadataOfWrongIndexNumber`
-- **Purpose:** Trigger an error by accessing a non-existent Excel sheet index (e.g., 999) to extract the number of actual sheets from the error message.
-- **Field List:** `structure`
-- **Excel File Path:** `rawdata/Load_multiple_sheets_of_excel.xlsx`
-- **Linked Service:** `rr_batch100`
-- **Sheet Index:** `999`
-- **First Row as Header:** True
-
----
-
-### 2. 🪪 `SetVariable` – `setVariableGetError`
-- **Triggered When:** `getMetadataOfWrongIndexNumber` **Fails**
-- **Variable Name:** `GetError`
-- **Value:**
-    ```json
-    @split(activity('getMetadataOfWrongIndexNumber').error.message,'(')[2]
-    ```
+1. Go to **Microsoft Fabric > Data Engineering**
+2. Create a new **Data Pipeline**
+3. Rename it: `Dynamic_Excel_Sheet_Load_To_Lakehouse`
+4. Add the following activities:
+   - `GetMetadata` (for invalid sheet index)
+   - `SetVariable` (capture error)
+   - `SetVariable` (generate index array)
+   - `ForEach` (loop through indexes and copy)
 
 ---
 
-### 3. 🧮 `SetVariable` – `setVariableRangeOfIndexes`
-- **Triggered When:** `setVariableGetError` **Succeeds**
-- **Variable Name:** `range_of_page_numbers`
-- **Value (Expression to calculate sheet indexes):**
-    ```json
-    @range(
-        0,
-        add(
-            int(
-                substring(
-                    variables('GetError'),
-                    3,
-                    sub(
-                        length(variables('GetError')),
-                        4
-                    )
-                )
-            ),
-            1
+### 🧮 Variables
+
+| Name                  | Type   | Description                             |
+|-----------------------|--------|-----------------------------------------|
+| `excelSheetErrorMessage` | String | Stores error from invalid sheet access  |
+| `sheetIndexArray`        | Array  | Holds indexes like `[0, 1, 2, ..., n]`  |
+
+---
+
+### 🔹 Activity: `getMetadata_InvalidSheet`
+
+- **Type**: `GetMetadata`
+- **Purpose**: Access sheet index `999` to trigger an error.
+- **Extracts**: Total number of sheets from error message.
+
+---
+
+### 🔹 Activity: `setExcelErrorMessage`
+
+- **Type**: `SetVariable`
+- **Expression**:
+  ```expression
+  @split(activity('getMetadata_InvalidSheet').error.message,'(')[2]
+  ```
+
+---
+
+### 🔹 Activity: `generateSheetIndexArray`
+
+- **Type**: `SetVariable`
+- **Expression**:
+  ```expression
+  @range(
+    0,
+    add(
+      int(
+        substring(
+          variables('excelSheetErrorMessage'),
+          3,
+          sub(
+            length(variables('excelSheetErrorMessage')),
+            4
+          )
         )
+      ),
+      1
     )
-    ```
+  )
+  ```
 
 ---
 
-### 4. 🔄 `ForEach` – `ForEach1`
-- **Triggered When:** `setVariableRangeOfIndexes` **Succeeds**
-- **Items:** `@variables('range_of_page_numbers')`
-- **Execution Mode:** Sequential
+### 🔁 Activity: `loopThroughSheets`
 
-#### ⬇️ Inside `ForEach`: `Copy data1`
-
-- **Source:**
-  - Type: Excel
-  - Sheet Index: `@item()`
-  - File: `rawdata/Load_multiple_sheets_of_excel.xlsx`
-  - Linked Service: `rr_batch100`
-  - First Row as Header: True
-
-- **Sink:**
-  - Type: Lakehouse Table
-  - Table: `emp202504111`
-  - Mode: Append
-  - Linked Service: `rr_batch100`
-
-- **Translator:**
-  - Type: TabularTranslator
-  - Type Conversion: Enabled
-  - Allow Data Truncation: True
-  - Treat Boolean as Number: False
+- **Type**: `ForEach`
+- **Items**: `@variables('sheetIndexArray')`
+- **Inside Loop**: `copySheetDataToLakehouse`
 
 ---
 
-## 📂 Variable Configuration
+### 🔹 Activity: `copySheetDataToLakehouse`
 
-| Variable Name         | Type   | Purpose                                    |
-|-----------------------|--------|--------------------------------------------|
-| `GetError`            | String | Holds error message containing sheet count |
-| `range_of_page_numbers` | Array | Holds dynamically generated sheet indexes  |
+- **Type**: `Copy`
+- **Source**:
+  - **Sheet Index**: `@item()` (0-based)
+- **Sink**:
+  - **Table**: `emp202504111`
+  - **Action**: `Append`
 
 ---
-
-## ✅ Summary
-
-This pipeline provides a **dynamic and automated** approach to:
-- Detect number of sheets in an Excel file.
-- Loop through each sheet **by index**.
