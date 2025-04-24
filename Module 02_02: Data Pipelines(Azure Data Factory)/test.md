@@ -1,38 +1,75 @@
-Error Handling Pipeline with Teams Notification
-📘 Objective:
-This pipeline demonstrates:
+Notify on Variable Set Failure in Microsoft Fabric
 
-Setting a variable.
+## 🎯 Objective
+This pipeline demonstrates error handling in Microsoft Fabric using:
+- A **Set Variable** activity.
+- A **Teams** activity to send a message upon failure.
+- A **Fail** activity to stop the pipeline with a custom error message.
 
-Sending a message to Microsoft Teams if the variable set fails.
+---
 
-Explicitly failing the pipeline with a custom error message if Teams message is sent.
+## 🧱 Pipeline Name: `NotifyOnVariableSetFailure`
 
-🧱 Pipeline Name: NotifyOnVariableSetFailure
-📌 Steps to Navigate and Create This Pipeline in Microsoft Fabric Data Pipelines:
-Step 1: Create a new pipeline
-Go to Microsoft Fabric > Data Engineering workspace.
+---
 
-Navigate to Data Pipelines.
+## 📝 Step-by-Step Navigation
 
-Click New Pipeline and name it: NotifyOnVariableSetFailure.
+### 🥇 Step 1: Create a New Pipeline
+1. Go to **Microsoft Fabric** → **Data Engineering** workspace.
+2. Navigate to **Data Pipelines**.
+3. Click **New Pipeline**.
+4. Rename the pipeline to: `NotifyOnVariableSetFailure`.
 
-Step 2: Create a pipeline variable
-On the canvas, click Variables (right-side panel).
+---
 
-Add a variable:
+### 🧮 Step 2: Create a Pipeline Variable
+1. Click the **Variables** panel on the right.
+2. Add a new variable:
+   - **Name**: `testVariable`
+   - **Type**: `Integer`
 
-Name: testVariable
+---
 
-Type: Integer
+### ✍️ Step 3: Add 'Set Variable' Activity
+1. From the **Activities** pane, drag **Set Variable** onto the canvas.
+2. Rename it to: `Set Test Variable`.
+3. In the **Settings** tab:
+   - **Variable name**: `testVariable`
+   - **Value**: `edfg` *(String value which will cause type mismatch error)*
 
-Step 3: Add 'Set Variable' Activity
-Drag Set Variable to the canvas.
+---
 
-Rename it to: Set Test Variable.
+### 📣 Step 4: Add a 'Teams' Activity
 
-In Settings:
+#### 🔧 Purpose:
+To notify a Microsoft Teams group **if** setting the variable fails.
 
-Variable name: testVariable
+#### 🧭 Navigation:
+1. Drag a **Teams** activity to the canvas.
+2. Rename it to: `Notify via Teams`.
+3. Connect it to the `Set Test Variable` activity:
+   - Click on the arrow → **Add dependency**
+   - Set condition: **Failed**
+4. Select `Notify via Teams`, go to the **Settings** tab.
+5. Configure the Teams message:
+   - **Method**: `POST`
+   - **Path**: `/beta/teams/conversation/message/poster/User/location/Group chat`
+   - **Body**:
+     ```json
+     {
+       "recipient": "19:meeting_YWQ2MjA0NjItMzZlNS00NTk5LWFkYzYtOTc3OGIxYTA2YWY4@thread.v2",
+       "messageBody": "<p>Hi Team, the pipeline failed while setting a variable. Please check.</p>"
+     }
+     ```
 
-Value: edfg (This will fail since edfg is a string and the type is Integer)
+---
+
+### ❌ Step 5: Add a 'Fail' Activity
+1. Drag a **Fail** activity to the canvas.
+2. Rename it to: `Stop with Error`.
+3. Connect it from `Notify via Teams` using **Succeeded** condition.
+4. In the **Settings** tab:
+   - **Message**: `Variable Value Wrong`
+   - **Error Code**: `400`
+
+---
