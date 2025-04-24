@@ -1,4 +1,4 @@
-Notify on Variable Set Failure in Microsoft Fabric
+# 📘 Notify on Variable Set Failure in Microsoft Fabric
 
 ## 🎯 Objective
 This pipeline demonstrates error handling in Microsoft Fabric using:
