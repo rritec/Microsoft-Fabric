@@ -52,15 +52,8 @@ To notify a Microsoft Teams group **if** setting the variable fails.
    - Set condition: **Failed**
 4. Select `Notify via Teams`, go to the **Settings** tab.
 5. Configure the Teams message:
-   - **Method**: `POST`
-   - **Path**: `/beta/teams/conversation/message/poster/User/location/Group chat`
-   - **Body**:
-     ```json
-     {
-       "recipient": "19:meeting_YWQ2MjA0NjItMzZlNS00NTk5LWFkYzYtOTc3OGIxYTA2YWY4@thread.v2",
-       "messageBody": "<p>Hi Team, the pipeline failed while setting a variable. Please check.</p>"
-     }
-     ```
+   
+  ![image](https://github.com/user-attachments/assets/59a29941-7af9-41d9-aa91-22b2d34b4460)
 
 ---
 
