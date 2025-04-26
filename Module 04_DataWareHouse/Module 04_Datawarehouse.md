@@ -35,7 +35,11 @@
 
 ![image](https://github.com/user-attachments/assets/5d89c921-dc84-4620-b33c-12b65fd62721)
 
+## Ingest data into a Warehouse
+1. Click on **New Data Pipeline**
+![image](https://github.com/user-attachments/assets/d443ea4e-2e2d-489d-8ea1-c38c2c5a9962)
 
+2. 
 
 
 ## Lab
