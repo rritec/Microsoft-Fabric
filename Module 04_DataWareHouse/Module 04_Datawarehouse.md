@@ -9,11 +9,10 @@
 - When you need the full power and transactional capabilities (DDL and DML query support) of a data warehouse, this is the fast and simple solution for you.
 - The warehouse can be populated by any one of the supported data ingestion methods such as COPY INTO, Pipelines, Dataflows, or cross database ingestion options such as CREATE TABLE AS SELECT (CTAS), INSERT..SELECT, or SELECT INTO.
 - Listen my old videos about OLTP  and DW.
-- https://youtu.be/NAuWUWmdmsE
-- https://youtu.be/KeJi1xDHQtA
-- https://youtu.be/XeMpv1Q3aJ8
-- https://img.youtube.com/vi/NAuWUWmdmsE/default.jpg
+
 - [![Watch the video](https://img.youtube.com/vi/NAuWUWmdmsE/default.jpg)](https://youtu.be/NAuWUWmdmsE)
+- [![Watch the video](https://img.youtube.com/vi/KeJi1xDHQtA/default.jpg)](https://youtu.be/KeJi1xDHQtA)
+- [![Watch the video](https://img.youtube.com/vi/XeMpv1Q3aJ8/default.jpg)](https://youtu.be/XeMpv1Q3aJ8)
 
 ## Warehouse or lakehouse
 
