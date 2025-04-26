@@ -1,6 +1,6 @@
 # Module 04: Datawarehouse
 
-- Fabric Data Warehouse: In a Microsoft Fabric workspace, a Fabric warehouse is labeled as Warehouse in the Type column.
+- Fabric Data Warehouse: In a Microsoft Fabric workspace, a Fabric warehouse is labeled as **Warehouse** in the **Type** column.
   
   ![image](https://github.com/user-attachments/assets/3c827a1c-4e1c-406c-a5e6-52784b6149e8)
 
