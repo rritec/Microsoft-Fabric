@@ -18,6 +18,11 @@
 
 ## update any one row
 1. before updating notedown UTC timestamp
+``` sql
+--Retrieve the current (UTC) timestamp.
+ SELECT CURRENT_TIMESTAMP;
+```
+2. Update one row
 
 ``` sql
 update emp
