@@ -5,6 +5,4 @@
 
 2. Better please follow below document from here...
 
-
-## Lab
-1. Complete all activites from [MSFT document](https://learn.microsoft.com/en-us/fabric/data-warehouse/tutorial-introduction)
+[tutorial-ingest-data](https://learn.microsoft.com/en-us/fabric/data-warehouse/tutorial-ingest-data)
