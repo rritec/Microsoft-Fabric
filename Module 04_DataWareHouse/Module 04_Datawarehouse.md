@@ -13,6 +13,7 @@
 - https://youtu.be/KeJi1xDHQtA
 - https://youtu.be/XeMpv1Q3aJ8
 - https://img.youtube.com/vi/NAuWUWmdmsE/default.jpg
+- [![Watch the video](https://img.youtube.com/vi/NAuWUWmdmsE/default.jpg)](https://youtu.be/NAuWUWmdmsE)
 
 ## Warehouse or lakehouse
 
