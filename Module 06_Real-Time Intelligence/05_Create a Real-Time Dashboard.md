@@ -132,6 +132,9 @@
 
    - Resize the map tile and zoom in as desired.
 
+
+![image](https://github.com/user-attachments/assets/9612b1a3-a9de-4cd4-a475-5172ea782f8e)
+
 ---
 
 ### 5. Save the Dashboard
