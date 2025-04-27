@@ -82,7 +82,9 @@ for Microsoft Fabric, replacing traditional Log Analytics workspaces!
 7. 
 
 # Reference:
+
 https://learn.microsoft.com/en-us/fabric/real-time-intelligence/eventhouse
+
 https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-1-resources
 
 
