@@ -47,7 +47,8 @@
   - Data format: `Json`
 - **save** and  **Publish**.
 
-![image](https://github.com/user-attachments/assets/dac71ecd-f96c-4044-a93d-4bd02ff80e88)
+![image](https://github.com/user-attachments/assets/dfc76494-6946-4c63-8095-c6e0ea476c0f)
+
 
 
 ---
