@@ -89,13 +89,5 @@ Notice that the `BikepointID` column no longer contains the prefix "BikePoints_"
 - [Stored functions](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/functions/user-defined-functions)
 - [.create function command](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/management/functions)
 
-## Next Step
-- [Real-Time Intelligence tutorial part 4: Query streaming data using KQL](https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-4-query-streaming-data)
-
----
-
-*Tutorial adapted from Microsoft Fabric Documentation*
-
-
 # Reference
 https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-3-transform-kql-database
