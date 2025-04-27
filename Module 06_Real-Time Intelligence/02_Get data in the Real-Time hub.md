@@ -3,7 +3,7 @@
 
 ### 1. Create an Eventstream
 - Go to **Real-Time**  ![image](https://github.com/user-attachments/assets/83d0d115-bd3a-4b1f-8719-a03a0fdd2d3b) section.
-- Click **+ Connect data source** ➔ Choose **Sample scenarios** ➔ **Bicycle rentals** ➔ Connect.
+- Click ![image](https://github.com/user-attachments/assets/d6e17db3-faaf-456d-8d64-3301b0755170)  ➔ Choose **Sample scenarios** ➔ **Bicycle rentals** ➔ Connect.
 - Name source: `TutorialSource`.
 - Rename eventstream: `TutorialEventstream`.
 
