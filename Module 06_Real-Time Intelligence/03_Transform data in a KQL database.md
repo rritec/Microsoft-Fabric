@@ -81,6 +81,20 @@ TransformedData
 
 Notice that the `BikepointID` column no longer contains the prefix "BikePoints_" in the target table.
 
+3. Observe data of London Bridge
+```kusto
+TransformedData
+| where Neighbourhood == "London Bridge"
+| project Timestamp, No_Bikes
+```
+
+4. Observe data of London Bridge in timechart graph
+```kusto
+TransformedData
+| where Neighbourhood == "London Bridge"
+| project Timestamp, No_Bikes
+| render timechart
+```
 ---
 
 ## Related Content
