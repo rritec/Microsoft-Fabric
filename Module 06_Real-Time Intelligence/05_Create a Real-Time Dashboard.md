@@ -52,7 +52,7 @@
    RawData
    | where Neighbourhood == "London Bridge"
    ```
-![image](https://github.com/user-attachments/assets/7948fa06-2b70-4a97-b0dd-608c7606c4d7)
+
 
 4. **Apply changes**:
 
@@ -64,7 +64,7 @@
    - Select **Rename tile**.
    - Enter the new name: `London Bridge bikes`.
    - 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/7948fa06-2b70-4a97-b0dd-608c7606c4d7)
 
 ---
 
