@@ -99,6 +99,8 @@
    - Select **Pin to dashboard**.
    - In the **Pin to dashboard** window, select **In this dashboard** > name the Tile as **max_bikes_street_wise**
 
+![image](https://github.com/user-attachments/assets/8b425faf-ce05-45c4-a929-cd827e743e9a)
+
 ---
 
 ### 4. Add a Map Tile
