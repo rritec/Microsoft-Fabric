@@ -97,7 +97,7 @@
 5. **Pin the visualization to the dashboard**:
 
    - Select **Pin to dashboard**.
-   - In the **Pin to dashboard** window, select **In this dashboard**.
+   - In the **Pin to dashboard** window, select **In this dashboard** > name the Tile as **max_bikes_street_wise**
 
 ---
 
