@@ -19,6 +19,9 @@
 2. **Pin the query to a new dashboard**:
 
    - Select **Pin to dashboard**.
+
+![image](https://github.com/user-attachments/assets/7799cfa5-8d40-4c52-8ac5-285245fb0c31)
+
    - Enter the following details:
      - **Create new tile**: In a new dashboard
      - **Dashboard name**: `TutorialDashboard`
@@ -27,6 +30,9 @@
    - Select **Create**.
 
    The new Real-Time dashboard, `TutorialDashboard`, opens with the `Recent bikes by Bikepoint` tile.
+
+![image](https://github.com/user-attachments/assets/0a0153dd-8597-4358-8d4e-7df27553ece5)
+
 
 ---
 
@@ -44,8 +50,9 @@
 
    ```kusto
    RawData
-   | where Neighbourhood == "Chelsea"
+   | where Neighbourhood == "London Bridge"
    ```
+![image](https://github.com/user-attachments/assets/7948fa06-2b70-4a97-b0dd-608c7606c4d7)
 
 4. **Apply changes**:
 
@@ -55,7 +62,9 @@
 
    - Select the **More menu** (`...`) on the top right corner of the tile.
    - Select **Rename tile**.
-   - Enter the new name: `Chelsea bikes`.
+   - Enter the new name: `London Bridge bikes`.
+   - 
+![Uploading image.png…]()
 
 ---
 
@@ -134,10 +143,6 @@
 You have now created a Real-Time Dashboard with multiple tiles, including a column chart, bar chart, and map, to visualize your streaming data.
 
 ---
-
-## 🔗 Next Step
-
-Proceed to **[Tutorial part 6: Create a Power BI report](https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-6-power-bi-report)** to learn how to integrate your Real-Time Dashboard with Power BI for advanced reporting and analysis.
 
 # Reference
 [Create a Real-Time Dashboard](https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-5-create-dashboard)
