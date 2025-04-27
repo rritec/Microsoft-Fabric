@@ -62,9 +62,6 @@
 **Eventhouse = Modern, real-time, scalable event data platform**  
 for Microsoft Fabric, replacing traditional Log Analytics workspaces!
 
-# Reference:
-https://learn.microsoft.com/en-us/fabric/real-time-intelligence/eventhouse
-https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-1-resources
 
 # Create Eventhouse
 1. Browse to the workspace in which you want to create your tutorial resources. You must create all resources in the same workspace.
@@ -83,4 +80,9 @@ https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-1-resou
 ![image](https://github.com/user-attachments/assets/9d3e723a-d6a7-4e2a-83a5-786fcfcdec50)
 
 7. 
+
+# Reference:
+https://learn.microsoft.com/en-us/fabric/real-time-intelligence/eventhouse
+https://learn.microsoft.com/en-us/fabric/real-time-intelligence/tutorial-1-resources
+
 
