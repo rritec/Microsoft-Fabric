@@ -110,7 +110,7 @@ SELECT ename, sal, deptno FROM RankedSalaries WHERE rnk = 1;
 
 ---
 
-## 6. **Views & Materialized Views**
+## 6. **Views **
 ### **6.1 Creating a View for Employees with Department Names**
 ```sql
 CREATE VIEW vw_emp_details AS
@@ -126,18 +126,4 @@ SELECT * FROM vw_emp_details;
 
 ---
 
-## 7. **Performance Optimization**
 
-
-### **7.1 Using Materialized Views for Aggregated Data**
-```sql
-CREATE MATERIALIZED VIEW mv_avg_salary AS
-SELECT deptno, AVG(sal) AS avg_salary
-FROM emp
-GROUP BY deptno;
-```
-```sql
-SELECT * FROM mv_avg_salary;
-```
-
----
