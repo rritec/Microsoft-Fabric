@@ -110,8 +110,9 @@ SELECT ename, sal, deptno FROM RankedSalaries WHERE rnk = 1;
 
 ---
 
-## 6. **Views **
-### **6.1 Creating a View for Employees with Department Names**
+## 6. Views
+
+# **6.1 Creating a View for Employees with Department Names**
 ```sql
 CREATE VIEW vw_emp_details AS
 SELECT e.empno, e.ename, e.job, e.sal, d.dname, d.loc
