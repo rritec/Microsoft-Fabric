@@ -1,5 +1,7 @@
 # 📚 Eventhouse Overview (Microsoft Fabric)
 
+## Read This
+https://learn.microsoft.com/en-us/fabric/real-time-intelligence/eventhouse
 ## What is Eventhouse?
 - A **scalable solution** for handling **large volumes of real-time data**.
 - Built for **efficient ingestion, processing, and analysis** of **streaming** and **event-based data**.
