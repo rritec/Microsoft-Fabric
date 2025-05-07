@@ -26,37 +26,6 @@
 
 ---
 
-## Inside an Eventhouse
-- **System Overview**: 
-  - Eventhouse details
-  - Storage usage
-  - Compute resource usage
-  - Ingestion rates
-  - Top queried/ingested databases
-- **Databases View**:
-  - Database name and metadata
-  - Activity Tracker
-  - Tables and data previews
-  - Query insights (Top 100 queries)
-
----
-
-## Special Concept: Minimum Consumption
-- To **optimize costs**, Eventhouse can **auto-suspend** when not active.
-- For **always-on** needs (to avoid wake-up latency), you can enable **Minimum Consumption**.
-- Different tiers available, for example:
-  - Extra Small (8.5 CUs, 200GB SSD storage)
-  - Medium (18 CUs, 3.5–4 TB SSD storage)
-  - Extra Large (34 CUs, 7–8 TB SSD storage)
-- Pay for the minimum compute or actual usage — whichever is higher.
-
----
-
-## Important
-- You create **KQL Databases** inside an Eventhouse (either standard databases or shortcuts).
-- Data can also be made available via **OneLake** integration.
-
----
 
 # 🎁 Summary
 **Eventhouse = Modern, real-time, scalable event data platform**  
