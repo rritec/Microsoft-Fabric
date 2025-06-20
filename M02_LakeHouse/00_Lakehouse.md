@@ -60,7 +60,7 @@
 4. Do research on what is **Delta** table .
 5. Right click on emp table observe view files and research on **parquet** file format.
 6. Read [about Delta table](https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-what-is-delta-lake)
-7. Understand ACID with [handson ACID](https://github.com/rritec/Microsoft-Fabric/blob/main/Module%2002%3A%20LakeHouse/delta_table_ACID_operations.md)
+7. Understand ACID with [handson ACID](https://github.com/rritec/Microsoft-Fabric/blob/main/M02_LakeHouse/01_Delta_table_ACID_operations.md)
 
 ## Exercise 4: Ingest data using New Dataflow Gen2
 
