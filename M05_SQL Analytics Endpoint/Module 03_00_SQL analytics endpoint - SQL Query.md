@@ -16,6 +16,11 @@
 
 ![image](https://github.com/user-attachments/assets/090fccf8-5b4a-4d28-a4f0-e7ef887deeb1)
 
+5. Click on **New SQL Query**
+
+![image](https://github.com/user-attachments/assets/bf160a8b-20ef-4bb8-ac4a-5b83dfcc443f)
+
+
 
 
 
