@@ -31,6 +31,7 @@
 SELECT * FROM emp;
 SELECT * FROM dept;
 ```
+![image](https://github.com/user-attachments/assets/60678e18-d068-4059-8c18-7369d4cfeee0)
 
 ### **1.2 Selecting Specific Columns**
 ```sql
