@@ -4,6 +4,16 @@
 - The SQL Analytics Endpoint in Microsoft Fabric is a key component that allows users to query and analyze data stored in OneLake using SQL-based tools and services.
 - It provides a **serverless SQL** experience, enabling seamless integration with **Power BI, Azure Synapse, and other analytical tools**.
 
+## Sample Data Setup
+
+1. Create a new Lakehouse or open an existing one.  
+2. Upload the `emp.csv` and `dept.csv` files from the **labdata** folder into the **Lakehouse data** folder.  
+3. For each file, right-click and choose **Create Table**, assigning it to the `dbo` schema.
+![image](https://github.com/user-attachments/assets/d83b1ed2-ec83-4ed9-a0cd-6ec48f957c7f)
+
+
+
+
 ## 1. **Basic Queries**
 ### **1.1 Select All Data**
 ```sql
