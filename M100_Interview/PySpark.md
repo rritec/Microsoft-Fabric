@@ -91,7 +91,7 @@ Would you like a Databricks notebook example with `.explain()` showing pruning i
 
 ---
 
-## 🧠 What is Lazy Evaluation in PySpark?
+# 🧠 What is Lazy Evaluation in PySpark?
 
 In **lazy evaluation**, PySpark **does not execute your code immediately** when you define transformations like `map()`, `filter()`, or `select()`. Instead, it builds up a **logical execution plan (DAG)** and only **executes** it when an **action** is called — such as `count()`, `collect()`, or `show()`.
 
