@@ -9,7 +9,13 @@
 1. Create a new Lakehouse or open an existing one.  
 2. Upload the `emp.csv` and `dept.csv` files from the **labdata** folder into the **Lakehouse data** folder.  
 3. For each file, right-click and choose **Create Table**, assigning it to the `dbo` schema.
+
 ![image](https://github.com/user-attachments/assets/d83b1ed2-ec83-4ed9-a0cd-6ec48f957c7f)
+
+4. Click on SQL analytics endpoint
+
+![image](https://github.com/user-attachments/assets/090fccf8-5b4a-4d28-a4f0-e7ef887deeb1)
+
 
 
 
