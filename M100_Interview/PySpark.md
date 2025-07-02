@@ -192,3 +192,65 @@ You’ll see the **logical plan** and **physical plan** Spark will use.
 
 Would you like a Databricks notebook that walks through this with `.explain()` and performance tips?
 
+Certainly! Here's a rewritten explanation of **DAG** (Directed Acyclic Graph) tailored for **Microsoft Fabric (Spark or Data Engineering context)**:
+
+---
+
+# 🔁 What is a DAG in Microsoft Fabric?
+
+In Microsoft Fabric, especially when working with **Spark notebooks or Dataflows**, a **DAG (Directed Acyclic Graph)** represents the **logical flow of operations** that transform your data — such as reading, filtering, joining, and writing.
+
+---
+
+### 📘 Breaking it down:
+
+* **Directed**: Each step in the workflow points to the next step — there’s a clear direction from start to finish.
+* **Acyclic**: No loops — once a step is executed, the process does not go back.
+* **Graph**: A structure where **nodes** represent operations (like reading data or applying filters) and **edges** show the dependencies between those operations.
+
+---
+
+### 🔄 How DAG Works in Fabric Spark Notebooks
+
+When you define operations in a Fabric Spark notebook like:
+
+```python
+df = spark.read.parquet("Files/data.parquet")
+df_filtered = df.filter("status = 'Active'")
+df_result = df_filtered.groupBy("country").count()
+```
+
+* These steps **do not run immediately**.
+* Fabric builds a **DAG** behind the scenes — a plan that describes what needs to be done and in what order.
+* Execution only starts when you trigger an **action**, such as:
+
+```python
+df_result.show()
+```
+
+---
+
+### 🎯 Why DAG is Important in Microsoft Fabric
+
+✅ **Optimized Execution**: Fabric can rearrange and combine steps to run them more efficiently.
+
+✅ **Fault Tolerance**: If something fails, Fabric can re-run only the necessary parts using the DAG lineage.
+
+✅ **Scalability**: The DAG helps divide the work into parallel tasks across compute nodes.
+
+---
+
+### ✅ Summary
+
+| Term            | Meaning in Fabric                                    |
+| --------------- | ---------------------------------------------------- |
+| **DAG**         | A plan of operations with dependencies and no cycles |
+| **Built From**  | Transformations (e.g., filter, select, join)         |
+| **Executed On** | Actions like `show()`, `write()`, etc.               |
+| **Benefits**    | Optimization, fault recovery, scalability            |
+
+---
+
+Let me know if you’d like a DAG visualization example or how it maps to **Pipeline DAGs** in Fabric Dataflows or Data Pipelines.
+
+
