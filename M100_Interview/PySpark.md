@@ -494,6 +494,97 @@ Use the **Spark UI DAG**:
 
 ---
 
+Absolutely ram! Here's a compact end-to-end example that simulates **hash-based upserts using a `MERGE` operation**—similar to what you’d do in a data lake system like **Delta Lake on Spark** or **Snowflake**.
+
+I'll walk you through a Python + SQL style demo using **Pandas to simulate the logic** and **MERGE-style logic in SQL** for clarity.
+
+---
+
+# Hash-based Merge(Kind of SCD1)
+
+### ⚙️ Step 1: Create Source and Target DataFrames
+
+```python
+import pandas as pd
+import hashlib
+
+# 🟡 Simulating existing target table
+target_df = pd.DataFrame({
+    'user_id': [101, 102],
+    'amount': [250.00, 399.99],
+    'timestamp': ['2025-07-03T03:50:00Z', '2025-07-03T03:52:10Z']
+})
+
+# 🔵 Simulating new source data with updated and new rows
+source_df = pd.DataFrame({
+    'user_id': [101, 103],  # 101 is existing, 103 is new
+    'amount': [275.00, 199.99],  # 101 has updated amount
+    'timestamp': ['2025-07-03T04:01:00Z', '2025-07-03T04:05:00Z']
+})
+
+# Helper to compute hash from row
+def compute_hash(row):
+    raw = f"{row['user_id']}|{row['amount']}|{row['timestamp']}"
+    return hashlib.sha256(raw.encode('utf-8')).hexdigest()
+
+# Add hash column
+target_df['hash'] = target_df.apply(compute_hash, axis=1)
+source_df['hash'] = source_df.apply(compute_hash, axis=1)
+```
+
+---
+
+### 🔁 Step 2: Perform MERGE Logic (Simulated)
+
+```python
+# Simulate MERGE: identify matching keys and compare hash
+merged = pd.merge(source_df, target_df, on='user_id', how='left', suffixes=('_src', '_tgt'))
+
+# Update required if hash differs
+to_update = merged[~merged['hash_src'].eq(merged['hash_tgt']) & merged['hash_tgt'].notnull()]
+to_insert = merged[merged['hash_tgt'].isnull()]
+
+# Apply updates to target_df
+for idx, row in to_update.iterrows():
+    target_df.loc[target_df['user_id'] == row['user_id'], ['amount', 'timestamp', 'hash']] = (
+        row['amount_src'], row['timestamp_src'], row['hash_src']
+    )
+
+# Insert new rows
+new_rows = source_df[source_df['user_id'].isin(to_insert['user_id'])]
+target_df = pd.concat([target_df, new_rows], ignore_index=True)
+
+print(target_df)
+```
+
+---
+
+### 💡 Final Notes
+
+- This simulates a MERGE by key (`user_id`) with change detection via `hash`.
+- It updates rows only if the hash has changed.
+- It inserts rows if no match is found.
+
+---
+
+### 🧠 SQL-Style MERGE (Reference Only)
+
+```sql
+MERGE INTO target_table AS tgt
+USING source_table AS src
+ON tgt.user_id = src.user_id
+WHEN MATCHED AND tgt.hash != src.hash THEN
+  UPDATE SET tgt.amount = src.amount, tgt.timestamp = src.timestamp, tgt.hash = src.hash
+WHEN NOT MATCHED THEN
+  INSERT (user_id, amount, timestamp, hash)
+  VALUES (src.user_id, src.amount, src.timestamp, src.hash);
+```
+
+---
+
+Want to run this in Spark, Delta Lake, or real-time streams like Kafka? I’ve got recipes for those too!
+
+
 
 
 
