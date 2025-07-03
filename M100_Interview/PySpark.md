@@ -582,7 +582,11 @@ WHEN NOT MATCHED THEN
 
 ---
 
-Want to run this in Spark, Delta Lake, or real-time streams like Kafka? I’ve got recipes for those too!
+# Field-Level Encryption & decryption in PySpark
+
+https://github.com/rritec/Microsoft-Fabric/blob/main/M00_Pre_Requisite/PySpark_Field_Encryption_decryption.ipynb
+
+# 
 
 
 
