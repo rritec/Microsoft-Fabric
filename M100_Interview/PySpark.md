@@ -421,7 +421,81 @@ In Microsoft Fabric Spark notebooks:
 
 ---
 
-Let me know if you'd like a breakdown of **how GC behaves in Fabric vs. Synapse vs. traditional Spark** for deeper comparison.
+Great! Here's a breakdown of **narrow vs. wide transformations** using **PySpark code examples**, aligned with **Microsoft Fabric Spark environment**.
+
+---
+
+# 🔹 1. **Narrow Vs Wide Transformations Example**
+## 🔹 1. **Narrow Transformations Example**
+
+### ✅ Operations: `map()`, `filter()`, `select()`
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+data = [("Alice", 2000), ("Bob", 3000), ("Charlie", 4000)]
+df = spark.createDataFrame(data, ["name", "salary"])
+
+# Narrow transformations
+df_filtered = df.filter(df.salary > 2500)     # Only filters each partition locally
+df_mapped = df_filtered.select("name")        # Just selects columns, no shuffle
+
+df_mapped.show()
+```
+
+📌 **No shuffle**, works within each partition — efficient.
+
+---
+
+## 🔹 2. **Wide Transformations Example**
+
+### ❌ Operations: `groupBy()`, `reduceByKey()`, `join()`
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+data = [("HR", 1), ("IT", 2), ("HR", 3), ("IT", 4)]
+df = spark.createDataFrame(data, ["dept", "emp_id"])
+
+# Wide transformation: causes a shuffle across partitions
+grouped_df = df.groupBy("dept").count()  # Groups by key, needs data movement
+
+grouped_df.show()
+```
+
+📌 This triggers a **shuffle** because data from all partitions must be **grouped by key**.
+
+---
+
+## 🧪 Example in Microsoft Fabric (SQL Analytics Endpoint for comparison)
+
+While Spark Pool supports these transformations, in **Microsoft Fabric’s SQL Endpoint**, similar logic could be written in T-SQL (though transformations are not labeled "narrow/wide").
+
+```sql
+-- Narrow-like (local filtering)
+SELECT name FROM employee WHERE salary > 2500;
+
+-- Wide-like (requires data movement)
+SELECT dept, COUNT(*) FROM employee GROUP BY dept;
+```
+
+---
+
+## 💡 How to Detect Wide Transformations?
+
+Use the **Spark UI DAG**:
+
+* Look for **stage boundaries** (new stages = shuffles = wide).
+* **Shuffle Read/Write** = Wide transformation detected.
+
+---
+
+
+
 
 
 
