@@ -102,7 +102,9 @@ WHERE e.sal > (
 ```
 
 ### **3.4 Understand all**
-``` SELECT 
+```
+
+SELECT 
     d.dname,
     
     COUNT(*) AS total_rows,                                -- Total rows (including NULLs in LEFT JOIN)
