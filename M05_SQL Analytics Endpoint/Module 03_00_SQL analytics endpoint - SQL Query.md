@@ -193,7 +193,46 @@ WITH RankedSalaries AS (
 )
 SELECT ename, sal, deptno FROM RankedSalaries WHERE rnk = 1;
 ```
+### **5.2 Department-Level Salary Summary + Rank Each Employee Within Their Department**
+```
+WITH DeptStats AS (
+    SELECT 
+        deptno,
+        SUM(sal) AS dept_total_salary,
+        AVG(sal) AS dept_avg_salary
+    FROM emp
+    GROUP BY deptno
+),
+EmpRanked AS (
+    SELECT 
+        e.empno,
+        e.ename,
+        e.sal,
+        e.deptno,
+        d.dname,
+        RANK() OVER (PARTITION BY e.deptno ORDER BY e.sal DESC) AS salary_rank
+    FROM emp e
+    JOIN dept d ON e.deptno = d.deptno
+)
+SELECT 
+    er.empno,
+    er.ename,
+    er.sal,
+    er.dname,
+    er.salary_rank,
+    ds.dept_total_salary,
+    ds.dept_avg_salary,
+    ROUND(er.sal - ds.dept_avg_salary, 2) AS diff_from_avg,
+    CASE
+        WHEN er.sal > ds.dept_avg_salary THEN 'Above Avg'
+        WHEN er.sal < ds.dept_avg_salary THEN 'Below Avg'
+        ELSE 'At Avg'
+    END AS salary_position
+FROM EmpRanked er
+JOIN DeptStats ds ON er.deptno = ds.deptno
+ORDER BY er.dname, er.salary_rank;
 
+```
 ---
 
 ## 6. Views
