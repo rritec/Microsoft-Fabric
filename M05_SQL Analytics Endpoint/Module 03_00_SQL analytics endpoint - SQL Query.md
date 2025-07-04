@@ -34,6 +34,8 @@ SELECT * FROM dept;
 ![image](https://github.com/user-attachments/assets/60678e18-d068-4059-8c18-7369d4cfeee0)
 
 ### **1.2 Selecting Specific Columns**
+
+1. [what-is-column-pruning](https://github.com/rritec/Microsoft-Fabric/blob/main/M100_Interview/PySpark.md#-what-is-column-pruning-in-pyspark)
 ```sql
 SELECT empno, ename, job, sal FROM emp;
 SELECT deptno, dname, loc FROM dept;
