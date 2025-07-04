@@ -101,15 +101,75 @@ WHERE e.sal > (
 );
 ```
 
+### **3.4 Understand all**
+``` SELECT 
+    d.dname,
+    
+    COUNT(*) AS total_rows,                                -- Total rows (including NULLs in LEFT JOIN)
+    COUNT(e.empno) AS employee_count,                      -- Total employees (excluding NULLs from unmatched departments)
+    
+    SUM(e.sal) AS total_salary,                            -- Total salary in the department
+    AVG(e.sal) AS avg_salary,                              -- Average salary
+    MIN(e.sal) AS min_salary,                              -- Minimum salary
+    MAX(e.sal) AS max_salary,                              -- Maximum salary    
+
+
+    COUNT(DISTINCT e.job) AS distinct_jobs,                -- Number of distinct job roles
+    COUNT(DISTINCT e.sal) AS distinct_salaries           -- Number of distinct salaries
+
+
+FROM dept d
+LEFT JOIN emp e ON d.deptno = e.deptno
+GROUP BY d.dname;
+```
 ---
 
 ## 4. **Window Functions**
 ### **4.1 Rank Employees by Salary per Department**
 ```sql
-SELECT e.ename, e.sal, d.dname,
-       RANK() OVER (PARTITION BY e.deptno ORDER BY e.sal DESC) AS salary_rank
+SELECT 
+    e.empno,
+    e.ename,
+    --e.job,
+    --e.mgr,
+    --e.hiredate,   
+    --e.comm,
+    e.deptno,
+    d.dname,
+     e.sal,
+
+    -- -- RANKING FUNCTIONS
+    RANK() OVER (ORDER BY e.sal DESC) AS salary_rank
+    -- DENSE_RANK() OVER (ORDER BY e.sal DESC) AS salary_dense_rank,
+    -- ROW_NUMBER() OVER (ORDER BY e.sal DESC) AS salary_row_number,
+    -- NTILE(4) OVER (ORDER BY e.sal DESC) AS salary_quartile,
+
+    -- -- AGGREGATE WINDOW FUNCTIONS
+    -- SUM(e.sal) OVER (PARTITION BY e.deptno) AS dept_total_salary,
+    -- AVG(e.sal) OVER (PARTITION BY e.deptno) AS dept_avg_salary,
+    -- MIN(e.sal) OVER (PARTITION BY e.deptno) AS dept_min_salary,
+    -- MAX(e.sal) OVER (PARTITION BY e.deptno) AS dept_max_salary,
+    -- COUNT(*) OVER (PARTITION BY e.deptno) AS dept_emp_count,
+
+    -- -- RUNNING TOTALS
+    -- SUM(e.sal) OVER (ORDER BY e.sal ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_total_salary,
+    -- AVG(e.sal) OVER (ORDER BY e.sal ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_avg_salary,
+
+    -- -- LAG/LEAD
+    -- LAG(e.sal, 1) OVER (ORDER BY e.sal DESC) AS prev_salary,
+    -- LEAD(e.sal, 1) OVER (ORDER BY e.sal DESC) AS next_salary,
+
+    -- -- FIRST_VALUE, LAST_VALUE
+    -- FIRST_VALUE(e.sal) OVER (PARTITION BY e.deptno ORDER BY e.sal DESC) AS dept_highest_salary,
+    -- LAST_VALUE(e.sal) OVER (PARTITION BY e.deptno ORDER BY e.sal DESC 
+    --     ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS dept_lowest_salary
+
+
+
 FROM emp e
-JOIN dept d ON e.deptno = d.deptno;
+JOIN dept d ON e.deptno = d.deptno
+order by sal desc;
+
 ```
 
 ### **4.2 Running Total of Salaries**
