@@ -1,13 +1,7 @@
-Here is the **updated and enriched `README.md`** file including the topics you mentioned: Grouping & Aggregations, Window Functions, Caching, and OneLake integration. I’ve also added some improvements to keep the learning flow aligned with Microsoft Fabric concepts.
-
----
-
-
 # PySpark Examples with emp and dept Data (Microsoft Fabric Focus)
 
 This repository contains practical **PySpark** examples designed for teaching key data engineering concepts in **Microsoft Fabric** using the classic `emp` and `dept` datasets. It covers reading data, transformations, joins, optimizations, and writing data to **Delta Lake** inside a Fabric Lakehouse.
 
----
 
 ## 📁 Dataset Description
 
