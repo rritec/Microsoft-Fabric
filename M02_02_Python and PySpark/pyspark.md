@@ -47,6 +47,34 @@ for row in dept_df.select("dname").collect():
     print(row.dname)
 ```
 
+```python
+import requests
+import urllib.request
+
+# GitHub API URL for the folder contents
+api_url = "https://api.github.com/repos/rritec/Azure-Cloud-Data-Engineering/contents/Lab%20Data/sample-data/parquet/"
+
+# target Location
+local_path = "/lakehouse/default/Files"
+
+# Call the GitHub API
+response = requests.get(api_url)
+
+if response.status_code == 200:
+    files = response.json()
+    parquet_file = [f['name'] for f in files if f['name'].endswith('.parquet')]
+    print(parquet_files)
+
+else:
+    print("❌ Failed to fetch file list:", response.status_code)
+
+for file in parquet_files:     
+    # Save the parquet file locally
+    print(local_path+file)
+    print(api_url+file)
+    urllib.request.urlretrieve(api_url+file, local_path+file)
+```
+
 ---
 
 ## 🔗 5. Joins
