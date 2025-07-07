@@ -42,12 +42,6 @@ emp_df_with_bonus = emp_df.withColumn("bonus", emp_df.sal * 0.1)
 ## 🔁 4. Loops (for educational use only)
 
 ```python
-# Print department names (avoid loops in production)
-for row in dept_df.select("dname").collect():
-    print(row.dname)
-```
-
-```python
 import requests
 import urllib.request
 
@@ -152,45 +146,7 @@ df.write.format("delta").mode("overwrite").save("Tables/emp_output")
 
 ---
 
-## 🧪 Bonus Use Cases
 
-* Converting CSV to Delta and querying via SQL Analytics Endpoint
-* Data quality checks before writing
-* Repartitioning and coalescing data
-* Creating views from DataFrames
-
----
-
-## 📚 Prerequisites
-
-* Microsoft Fabric Workspace (with Spark runtime enabled)
-* Lakehouse with `emp.csv` and `dept.csv` in Files
-* Access to Delta Lake & SQL Analytics Endpoint (optional)
-
----
-
-## 🧑‍🏫 Target Audience
-
-* Data Engineers using Microsoft Fabric
-* Instructors and students of PySpark
-* Professionals migrating from Azure Data Factory or Synapse to Fabric
-
----
-
-## 📂 Project Structure
-
-```
-/data/
-    emp.csv
-    dept.csv
-
-/notebooks/
-    pyspark_examples.ipynb
-
-/README.md
-```
-
----
 
 ## 🔗 References
 
@@ -206,7 +162,3 @@ Created by [Myla RamReddy](https://datahexa.com) for Microsoft Fabric training a
 
 ```
 
----
-
-Would you like me to create the starter Jupyter Notebook (`pyspark_examples.ipynb`) with code blocks aligned to this README?
-```
