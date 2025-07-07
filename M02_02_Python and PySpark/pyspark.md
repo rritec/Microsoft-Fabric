@@ -145,6 +145,68 @@ df.write.format("delta").mode("overwrite").save("Tables/emp_output")
 ```
 
 ---
+## 12. repartition Vs coalesce
+
+* ✅ `repartition()` — before a **join** to improve parallelism and avoid skew
+* ✅ `coalesce()` — before a **write** to reduce number of output files
+
+---
+
+### 📊 Sample Setup (assuming you already have this)
+
+```python
+emp = spark.read.format("delta").load("/lakehouse/default/Files/emp")
+dept = spark.read.format("delta").load("/lakehouse/default/Files/dept")
+```
+
+---
+
+### 🔁 Best Use Case for `repartition()`
+
+### 🧠 Scenario:
+
+You want to **join emp and dept**, and `emp` has millions of records. You want to **optimize parallelism** for better performance.
+
+```python
+# Repartition emp by deptno to optimize shuffle
+emp_repart = emp.repartition("deptno")
+
+# Join after repartitioning
+result = emp_repart.join(dept, on="deptno", how="inner")
+```
+
+✅ This helps **Spark parallelize the join**, especially if there are **skewed departments**.
+
+---
+
+### 🔽 Best Use Case for `coalesce()`
+
+### 🧠 Scenario:
+
+After transformations or join, you want to **save the result as fewer files** (e.g., 1 file per partition).
+
+```python
+# Coalesce to reduce number of output files
+result_final = result.coalesce(1)
+
+# Save to lakehouse
+result_final.write.mode("overwrite").format("delta").save("/lakehouse/default/Files/emp_dept_joined")
+```
+
+✅ This reduces small files and improves performance during reads later (especially in Power BI or downstream Fabric pipelines).
+
+---
+
+### 📝 Summary
+
+| Step         | Method        | Why?                          |
+| ------------ | ------------- | ----------------------------- |
+| Before join  | `repartition` | Even distribution, avoid skew |
+| Before write | `coalesce`    | Fewer output files            |
+
+---
+
+
 
 
 
