@@ -1,0 +1,152 @@
+[
+  {
+    "empno": 7369,
+    "ename": "SMITH",
+    "job": "CLERK",
+    "mgr": 7902,
+    "hiredate": "17-Dec-80",
+    "sal": 800,
+    "comm": null,
+    "deptno": 20
+  },
+  {
+    "empno": 7900,
+    "ename": "JAMES",
+    "job": "CLERK",
+    "mgr": 7698,
+    "hiredate": "3-Dec-81",
+    "sal": 950,
+    "comm": null,
+    "deptno": 30
+  },
+  {
+    "empno": 7876,
+    "ename": "ADAMS",
+    "job": "CLERK",
+    "mgr": 7788,
+    "hiredate": "23-May-87",
+    "sal": 1000,
+    "comm": null,
+    "deptno": 20
+  },
+  {
+    "empno": 7521,
+    "ename": "WARD",
+    "job": "SALESMAN",
+    "mgr": 7698,
+    "hiredate": "22-Feb-81",
+    "sal": 1250,
+    "comm": 500,
+    "deptno": 30
+  },
+  {
+    "empno": 7654,
+    "ename": "MARTIN",
+    "job": "SALESMAN",
+    "mgr": 7698,
+    "hiredate": "28-Sep-81",
+    "sal": 1250,
+    "comm": 1400,
+    "deptno": 30
+  },
+  {
+    "empno": 7934,
+    "ename": "MILLER",
+    "job": "CLERK",
+    "mgr": 7782,
+    "hiredate": "23-Jan-82",
+    "sal": 1300,
+    "comm": null,
+    "deptno": 10
+  },
+  {
+    "empno": 7844,
+    "ename": "TURNER",
+    "job": "SALESMAN",
+    "mgr": 7698,
+    "hiredate": "8-Sep-81",
+    "sal": 1500,
+    "comm": 0,
+    "deptno": 30
+  },
+  {
+    "empno": 7499,
+    "ename": "ALLEN",
+    "job": "SALESMAN",
+    "mgr": 7698,
+    "hiredate": "20-Feb-81",
+    "sal": 1600,
+    "comm": 300,
+    "deptno": 30
+  },
+  {
+    "empno": 7782,
+    "ename": "CLARK",
+    "job": "MANAGER",
+    "mgr": 7839,
+    "hiredate": "9-Jun-81",
+    "sal": 2450,
+    "comm": null,
+    "deptno": 10
+  },
+  {
+    "empno": 7698,
+    "ename": "BLAKE",
+    "job": "MANAGER",
+    "mgr": 7839,
+    "hiredate": "1-May-81",
+    "sal": 2850,
+    "comm": null,
+    "deptno": 30
+  },
+  {
+    "empno": 7566,
+    "ename": "JONES",
+    "job": "MANAGER",
+    "mgr": 7839,
+    "hiredate": "2-Apr-81",
+    "sal": 2975,
+    "comm": null,
+    "deptno": 20
+  },
+  {
+    "empno": 7788,
+    "ename": "SCOTT",
+    "job": "ANALYST",
+    "mgr": 7566,
+    "hiredate": "19-Apr-87",
+    "sal": 3000,
+    "comm": null,
+    "deptno": 20
+  },
+  {
+    "empno": 7902,
+    "ename": "FORD",
+    "job": "ANALYST",
+    "mgr": 7566,
+    "hiredate": "3-Dec-81",
+    "sal": 3000,
+    "comm": null,
+    "deptno": 20
+  },
+  {
+    "empno": 7839,
+    "ename": "KING",
+    "job": "PRESIDENT",
+    "mgr": null,
+    "hiredate": "17-Nov-81",
+    "sal": 5000,
+    "comm": null,
+    "deptno": 10
+  },
+  {
+    "empno": 7839,
+    "ename": "Ram",
+    "job": "CFO",
+    "mgr": null,
+    "hiredate": "17-Nov-81",
+    "sal": 5000,
+    "comm": null,
+    "deptno": 50
+  }
+]
