@@ -24,9 +24,9 @@ df.write.format("delta").mode("overwrite").save("Tables/"+tableName)
 6. add notebook activity
 7. point out to above notebook and create one parameter
 
-```sql
+
 <img width="734" height="787" alt="image" src="https://github.com/user-attachments/assets/8151ecf6-f8a5-45ef-8673-bbc2be135723" />
-```
+
 
 8. run data pipeline
 9. observe delta table in lakehouse
