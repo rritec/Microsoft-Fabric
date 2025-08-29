@@ -494,12 +494,6 @@ Use the **Spark UI DAG**:
 
 ---
 
-Absolutely ram! Here's a compact end-to-end example that simulates **hash-based upserts using a `MERGE` operation**—similar to what you’d do in a data lake system like **Delta Lake on Spark** or **Snowflake**.
-
-I'll walk you through a Python + SQL style demo using **Pandas to simulate the logic** and **MERGE-style logic in SQL** for clarity.
-
----
-
 # Hash-based Merge(Kind of SCD1)
 
 ### ⚙️ Step 1: Create Source and Target DataFrames
@@ -584,7 +578,7 @@ WHEN NOT MATCHED THEN
 
 # Field-Level Encryption & decryption in PySpark
 
-https://github.com/rritec/Microsoft-Fabric/blob/main/M00_Pre_Requisite/PySpark_Field_Encryption_decryption.ipynb
+https://github.com/rritec/Microsoft-Fabric/blob/main/M02_02_Python and PySpark/PySpark_Field_Encryption_decryption.ipynb
 
 # 
 
