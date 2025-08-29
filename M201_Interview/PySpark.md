@@ -578,7 +578,7 @@ WHEN NOT MATCHED THEN
 
 # Field-Level Encryption & decryption in PySpark
 
-https://github.com/rritec/Microsoft-Fabric/blob/main/M02_02_Python and PySpark/PySpark_Field_Encryption_decryption.ipynb
+[Field-Level Encryption & decryption in PySpark](https://github.com/rritec/Microsoft-Fabric/blob/main/M02_02_Python%20and%20PySpark/PySpark_Field_Encryption_decryption.ipynb)
 
 # 
 
