@@ -30,7 +30,7 @@ SynapseBigDataPoolApplicationsEnded
 // Step 2: Activity Runs (ADF / Synapse Pipelines)
 let act = 
 SynapseIntegrationActivityRuns
-| where extract(@"workspaces/([^/]+)$", 1, _ResourceId) == "syn-gdcde-azure-prod"  // Filter workspace early
+| where extract(@"workspaces/([^/]+)$", 1, _ResourceId) == "xxxxxxxx"  // Filter workspace early
 | project
     Activity_TimeGenerated = TimeGenerated,
     PipelineName,
