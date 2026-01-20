@@ -4,7 +4,7 @@
 - Microsoft **Fabric** is an enterprise-ready, **end-to-end analytics platform**.
 - It unifies data movement, data processing, ingestion, transformation, real-time event routing, and report building.**(ADF + Synpase + Data Science + PowerBI + OneLake)**
 - It supports these capabilities with integrated services like Data Engineering, Data Factory, Data Science, Real-Time Intelligence, Data Warehouse, Lake House, and Databases.
-- It integrates separate components into a cohesive stack.
+- It integrates separate components into a **cohesive** stack.
 - It centralizes data storage with **OneLake** and embeds **AI** capabilities, eliminating the need for manual integration.
 - With Fabric, you can efficiently transform **raw data** into **actionable insights**
 - Go through website https://www.microsoft.com/en-us/microsoft-fabric
