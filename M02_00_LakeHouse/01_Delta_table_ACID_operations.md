@@ -217,3 +217,32 @@ Delta Lake provides powerful features for managing large-scale data pipelines an
 2. **Performance Optimization**: Learn about **Z-Ordering** and **Partitioning** to optimize Delta table performance.
 
 Happy learning and experimenting with Delta Lake in Microsoft Fabric!
+
+## Questions:
+
+Q1. In Microsoft Fabric notebooks, which utility is the equivalent of Databricks dbutils for file system operations?
+
+A. sparkutils
+B. msutils
+C. notebookutils
+D. fabricutils
+
+✅ Correct Answer: C. notebookutils
+📌 Example: notebookutils.fs.ls("Files/")
+
+Q2. When using notebookutils.fs.ls("Files/"), how can you typically differentiate between a folder and a file in the returned FileInfo list?
+
+A. Files have size > 0, folders usually have size = 0
+B. Folders always end with / in the name
+C. Files have extensions, folders never do
+D. Use isDir property on FileInfo
+
+✅ Correct Answer: A. Files have size > 0, folders usually have size = 0
+📌 Fabric FileInfo does not expose an isDir flag like DBFS.
+
+Q3. In a Delta Lake _delta_log entry, what does the value 1769476250879 in commitInfo.timestamp represent?
+
+A. Row count written to the table
+B. File size in bytes
+C. Unix epoch time in milliseconds
+D. Spark job execution ID
