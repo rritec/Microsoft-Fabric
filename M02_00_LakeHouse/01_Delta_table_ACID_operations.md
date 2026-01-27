@@ -260,10 +260,12 @@ D. Spark job execution ID
 
 ✅ Correct Answer: C. Unix epoch time in milliseconds
 📌 It represents the commit time of the transaction and must be divided by 1000 to convert to seconds.
-```%%sql
+```sql
+%%sql
 select from_unixtime(1769476250879 / 1000)```
 
-```# PySpark
+```python
+# PySpark
 from datetime import datetime
 datetime.utcfromtimestamp(1769476250879/1000)```
 
