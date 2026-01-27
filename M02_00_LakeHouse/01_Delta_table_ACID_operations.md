@@ -257,3 +257,14 @@ B. File size in bytes
 C. Unix epoch time in milliseconds
 
 D. Spark job execution ID
+
+✅ Correct Answer: C. Unix epoch time in milliseconds
+📌 It represents the commit time of the transaction and must be divided by 1000 to convert to seconds.
+```%%sql
+select from_unixtime(1769476250879 / 1000)```
+
+```# PySpark
+from datetime import datetime
+datetime.utcfromtimestamp(1769476250879/1000)```
+
+
