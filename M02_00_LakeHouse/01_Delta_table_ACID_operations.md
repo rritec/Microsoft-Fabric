@@ -3,6 +3,8 @@
 
 This guide will walk you through the basic operations you can perform on **Delta Tables** in **Microsoft Fabric** (or **Azure Synapse Analytics**). We'll cover creating a table, updating records, deleting records, and merging data.
 
+```Note: rr_master_lakehouse lakhose name repalce with your lakehouse name ```
+
 ## **1. Introduction to Delta Tables**
 
 Delta Lake is an open-source storage layer that brings **ACID transactions** to Apache Spark and big data workloads. Delta tables support features like:
