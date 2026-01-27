@@ -262,11 +262,13 @@ D. Spark job execution ID
 📌 It represents the commit time of the transaction and must be divided by 1000 to convert to seconds.
 ```sql
 %%sql
-select from_unixtime(1769476250879 / 1000)```
+select from_unixtime(1769476250879 / 1000)
+```
 
 ```python
 # PySpark
 from datetime import datetime
-datetime.utcfromtimestamp(1769476250879/1000)```
+datetime.utcfromtimestamp(1769476250879/1000)
+```
 
 
