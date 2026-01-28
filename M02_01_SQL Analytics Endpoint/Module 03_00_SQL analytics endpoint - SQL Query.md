@@ -3,6 +3,8 @@
 ## Microsoft Fabric SQL Analytics Endpoint
 - The SQL Analytics Endpoint in Microsoft Fabric is a key component that allows users to query and analyze data stored in OneLake using SQL-based tools and services.
 - It provides a **serverless SQL** experience, enabling seamless integration with **Power BI, Azure Synapse, and other analytical tools**.
+- Fabric SQL Analytics Endpoint is a read-only analytical SQL layer over OneLake.It does not support DML, DDL for tables, indexes, stored procedures, temp tables, or fine-grained security. It is optimized for Power BI and ad-hoc analytics using snapshot isolation.
+
 
 ## Sample Data Setup
 
@@ -251,5 +253,191 @@ SELECT * FROM vw_emp_details;
 ```
 
 ---
+
+# Q & A
+
+
+### **1. Which operation is NOT supported in Fabric SQL Analytics Endpoint?**
+
+* A. SELECT queries
+* B. CREATE VIEW
+* C. INSERT INTO table
+* D. JOIN operations
+
+**✅ Answer:** C
+**Explanation:** SQL Analytics Endpoint is **read-only**; DML operations like INSERT, UPDATE, DELETE are not supported.
+
+---
+
+### **2. Which type of table can be created in SQL Analytics Endpoint?**
+
+* A. Managed tables
+* B. External tables
+* C. Temporary tables
+* D. None
+
+**✅ Answer:** D
+**Explanation:** You cannot create tables (managed, external, or temp) in SQL Analytics Endpoint.
+
+---
+
+### **3. Which SQL object creation is supported in Fabric SQL Analytics Endpoint?**
+
+* A. Stored Procedures
+* B. User Defined Functions
+* C. Views
+* D. Triggers
+
+**✅ Answer:** C
+**Explanation:** Only **views** are supported for logical abstraction.
+
+---
+
+### **4. Which isolation model does Fabric SQL Analytics Endpoint use?**
+
+* A. Read Uncommitted
+* B. Read Committed
+* C. Snapshot Isolation
+* D. Serializable
+
+**✅ Answer:** C
+**Explanation:** Fabric SQL endpoint uses **snapshot isolation**, ensuring consistent reads without locking writers.
+
+---
+
+### **5. Which feature is NOT supported for transactional workloads?**
+
+* A. ACID compliance
+* B. Row-level locking
+* C. Consistent reads
+* D. Versioned reads
+
+**✅ Answer:** B
+**Explanation:** Row-level locking is not supported because the endpoint is **analytical and read-only**.
+
+---
+
+### **6. Which data modification statement is allowed in SQL Analytics Endpoint?**
+
+* A. INSERT
+* B. UPDATE
+* C. DELETE
+* D. None
+
+**✅ Answer:** D
+**Explanation:** All DML statements are blocked.
+
+---
+
+### **7. Can you create stored procedures in Fabric SQL Analytics Endpoint?**
+
+* A. Yes
+* B. Only read-only procedures
+* C. Only with Spark integration
+* D. No
+
+**✅ Answer:** D
+**Explanation:** Stored procedures are **not supported**.
+
+---
+
+### **8. Which type of security is LIMITED in Fabric SQL Analytics Endpoint?**
+
+* A. Authentication
+* B. Encryption at rest
+* C. Row-Level Security (RLS)
+* D. Network security
+
+**✅ Answer:** C
+**Explanation:** Fine-grained security like **RLS and CLS is limited** compared to dedicated SQL engines.
+
+---
+
+### **9. Which indexing option is available in SQL Analytics Endpoint?**
+
+* A. Clustered index
+* B. Non-clustered index
+* C. Columnstore index
+* D. None
+
+**✅ Answer:** D
+**Explanation:** You cannot create or manage indexes in SQL Analytics Endpoint.
+
+---
+
+### **10. Which workload is NOT suitable for SQL Analytics Endpoint?**
+
+* A. Power BI reporting
+* B. Ad-hoc analytical queries
+* C. High-volume OLTP workloads
+* D. Data exploration
+
+**✅ Answer:** C
+**Explanation:** SQL Analytics Endpoint is **not designed for OLTP**.
+
+---
+
+### **11. Can SQL Analytics Endpoint be paused or scaled manually?**
+
+* A. Yes, both
+* B. Only scaled
+* C. Only paused
+* D. No
+
+**✅ Answer:** D
+**Explanation:** Compute management is **fully abstracted**.
+
+---
+
+### **12. Which feature related to schema evolution is NOT supported directly?**
+
+* A. Automatic schema inference
+* B. ALTER TABLE ADD COLUMN
+* C. Schema enforcement
+* D. Versioned schema
+
+**✅ Answer:** B
+**Explanation:** Schema changes must be done via **Spark or pipelines**, not SQL endpoint.
+
+---
+
+### **13. Which statement about temporary objects is correct?**
+
+* A. Local temp tables are supported
+* B. Global temp tables are supported
+* C. Both are supported
+* D. None are supported
+
+**✅ Answer:** D
+**Explanation:** Temporary tables are **not supported**.
+
+---
+
+### **14. Which SQL feature commonly used in Dedicated SQL Pools is missing here?**
+
+* A. Views
+* B. Window functions
+* C. Stored procedures
+* D. SELECT
+
+**✅ Answer:** C
+**Explanation:** Stored procedures are not supported.
+
+---
+
+### **15. What is the primary reason Fabric SQL Analytics Endpoint has limitations?**
+
+* A. Licensing restrictions
+* B. Designed only for OLTP
+* C. Optimized for analytical read workloads
+* D. Hardware constraints
+
+**✅ Answer:** C
+**Explanation:** It is optimized for **read-only analytics**, not transactional processing.
+
+---
+
+
+
 
 
