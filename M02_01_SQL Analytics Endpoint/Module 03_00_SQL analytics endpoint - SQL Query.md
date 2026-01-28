@@ -3,7 +3,7 @@
 ## Microsoft Fabric SQL Analytics Endpoint
 - The SQL Analytics Endpoint in Microsoft Fabric is a key component that allows users to query and analyze data stored in OneLake using SQL-based tools and services.
 - It provides a **serverless SQL** experience, enabling seamless integration with **Power BI, Azure Synapse, and other analytical tools**.
-- Fabric SQL Analytics Endpoint is a read-only analytical SQL layer over OneLake.It does not support DML, DDL for tables, indexes, stored procedures, temp tables, or fine-grained security. It is optimized for Power BI and ad-hoc analytics using snapshot isolation.
+- Fabric SQL Analytics Endpoint is a ```read-only``` analytical SQL layer over OneLake.It does not support DML, DDL for tables, indexes, stored procedures, temp tables, or fine-grained security. It is optimized for Power BI and ad-hoc analytics using snapshot isolation.
 
 
 ## Sample Data Setup
