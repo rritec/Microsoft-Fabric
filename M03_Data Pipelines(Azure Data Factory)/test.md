@@ -271,7 +271,7 @@ No JSON copying required.
 ### Json
 <details>
 <summary>Click to expand the JSON</summary>
-```json
+
   {
     "name": "pipe_Succeeded_Notification",
     "objectId": "5aa297c9-4e92-4f28-8ca1-1d9acfb4271f",
@@ -334,7 +334,7 @@ No JSON copying required.
         "lastPublishTime": "2026-02-18T14:48:44Z"
     }
 }
-```
+
   
 </details>
 
@@ -605,18 +605,68 @@ Business Pipeline
 
 ---
 
-## Exam / Interview Ready Statement
-
-> “We implemented a reusable failed-notification pipeline in Microsoft Fabric and invoked it on failure paths, passing the error message dynamically to send actionable Outlook alerts.”
-
----
-
-Excellent — this is the **final missing puzzle piece** 👌
-Below are **student-ready, navigation-focused notes** explaining **how this main pipeline orchestrates copy + success/failure notifications** using the **two reusable Outlook pipelines** you already built.
-
-I’ll keep the **same teaching style** so students can **reproduce it end-to-end in Microsoft Fabric UI**.
-
----
+### Json
+<details>
+<summary>Click to expand the JSON</summary>
+  {
+    "name": "pipe_Failed_Notification",
+    "objectId": "d2fc121a-1865-48ab-abab-4350f61cd78e",
+    "properties": {
+        "activities": [
+            {
+                "name": "sendFailedMail",
+                "type": "Office365Email",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "to": {
+                        "value": "@pipeline().parameters.To",
+                        "type": "Expression"
+                    },
+                    "subject": {
+                        "value": "@concat('Fabric Notifications ',pipeline().parameters.pipeName,' ' ,pipeline().parameters.status)",
+                        "type": "Expression"
+                    },
+                    "body": "<p>Hi Team,</p>\n<p>Workspace ID: @{pipeline().parameters.workspaceid}</p>\n<p>Pipeline Name: @{pipeline().parameters.pipeName}</p>\n<p>Status: @{pipeline().parameters.status}</p>\n<p>ErrorMsg: @{pipeline().parameters.errorMsg}</p>\n<p>Thanks,</p>\n<p>Ram.</p>\n<p><br></p>\n<p><br></p>"
+                },
+                "externalReferences": {
+                    "connection": "62e96cf1-f327-4387-b2b4-9ff9c89ea6f0"
+                }
+            }
+        ],
+        "parameters": {
+            "To": {
+                "type": "string",
+                "defaultValue": "dwramreddy@gmail.com;rritec@gmail.com"
+            },
+            "pipeName": {
+                "type": "string",
+                "defaultValue": "testpipe"
+            },
+            "status": {
+                "type": "String",
+                "defaultValue": "Succeeded"
+            },
+            "workspaceid": {
+                "type": "string",
+                "defaultValue": "123"
+            },
+            "errorMsg": {
+                "type": "string",
+                "defaultValue": "NA"
+            }
+        },
+        "lastModifiedByObjectId": "07dffa9c-d10a-43aa-a4dc-89568542f3c3",
+        "lastPublishTime": "2026-02-18T15:53:56Z"
+    }
+}
+</details>
 
 # 03. Microsoft Fabric – Orchestrating Copy + Outlook Notifications
 
@@ -908,6 +958,228 @@ workspacename = rr-master-workspace
 > “We use a central orchestration pipeline that executes data movement and conditionally invokes reusable Outlook notification pipelines for success and failure, passing runtime metrics and error details dynamically.”
 
 ---
+
+### Json
+<details>
+<summary>Click to expand the JSON</summary>
+
+{
+    "name": "pipe_notifications_using_outlook_teams",
+    "objectId": "9d3d9fab-e21b-4b69-8aa1-b19f47f158f6",
+    "properties": {
+        "activities": [
+            {
+                "name": "Copy data1",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "DelimitedTextSource",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageReadSettings",
+                            "recursive": true,
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextReadSettings"
+                        },
+                        "datasetSettings": {
+                            "annotations": [],
+                            "connectionSettings": {
+                                "name": "b2026_lakehouse",
+                                "properties": {
+                                    "annotations": [],
+                                    "type": "Lakehouse",
+                                    "typeProperties": {
+                                        "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                                        "artifactId": "a375dc6e-2dd7-4a0c-a829-7e6bc66cb0a3",
+                                        "rootFolder": "Files"
+                                    },
+                                    "externalReferences": {
+                                        "connection": "df9c6fe2-f764-42d6-9eb5-ab163b8de723"
+                                    }
+                                }
+                            },
+                            "type": "DelimitedText",
+                            "typeProperties": {
+                                "location": {
+                                    "type": "LakehouseLocation",
+                                    "fileName": "emp1234.csv",
+                                    "folderPath": "bronze"
+                                },
+                                "columnDelimiter": ",",
+                                "escapeChar": "\\",
+                                "firstRowAsHeader": true,
+                                "quoteChar": "\""
+                            },
+                            "schema": []
+                        }
+                    },
+                    "sink": {
+                        "type": "FabricSqlDatabaseSink",
+                        "writeBehavior": "insert",
+                        "sqlWriterUseTableLock": false,
+                        "tableOption": "autoCreate",
+                        "datasetSettings": {
+                            "annotations": [],
+                            "connectionSettings": {
+                                "name": "b22602_rritecdb",
+                                "properties": {
+                                    "annotations": [],
+                                    "type": "FabricSqlDatabase",
+                                    "typeProperties": {
+                                        "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                                        "artifactId": "2e17aa23-5dde-4d3e-9e23-051a4a5704c9"
+                                    },
+                                    "externalReferences": {
+                                        "connection": "7702d57f-cf48-49cb-833f-e499fff3038e"
+                                    }
+                                }
+                            },
+                            "type": "FabricSqlDatabaseTable",
+                            "schema": [],
+                            "typeProperties": {
+                                "schema": "dbo",
+                                "table": "emp20260216"
+                            }
+                        }
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "typeConversion": true,
+                        "typeConversionSettings": {
+                            "allowDataTruncation": true,
+                            "treatBooleanAsNumber": false
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Invoke pipeline1",
+                "type": "InvokePipeline",
+                "dependsOn": [
+                    {
+                        "activity": "Copy data1",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "waitOnCompletion": true,
+                    "operationType": "InvokeFabricPipeline",
+                    "pipelineId": "5aa297c9-4e92-4f28-8ca1-1d9acfb4271f",
+                    "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                    "parameters": {
+                        "To": "dwramreddy@gmail.com;rritec@gmail.com",
+                        "pipeName": {
+                            "value": "@pipeline().PipelineName",
+                            "type": "Expression"
+                        },
+                        "status": {
+                            "value": "@activity('Copy data1').output.executionDetails[0].status",
+                            "type": "Expression"
+                        },
+                        "workspaceid": {
+                            "value": "@pipeline().DataFactory",
+                            "type": "Expression"
+                        },
+                        "Number_of_rows_read": {
+                            "value": "@activity('Copy data1').output.rowsRead",
+                            "type": "Expression"
+                        },
+                        "Number_of_rows_written": {
+                            "value": "@activity('Copy data1').output.rowsCopied",
+                            "type": "Expression"
+                        }
+                    }
+                },
+                "externalReferences": {
+                    "connection": "33e6c899-417f-4c28-959e-b316a4af1be1"
+                }
+            },
+            {
+                "name": "Invoke pipeline1_copy1",
+                "type": "InvokePipeline",
+                "dependsOn": [
+                    {
+                        "activity": "Copy data1",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "waitOnCompletion": true,
+                    "operationType": "InvokeFabricPipeline",
+                    "pipelineId": "d2fc121a-1865-48ab-abab-4350f61cd78e",
+                    "workspaceId": "55732739-60eb-445b-94c4-65725b7190fa",
+                    "parameters": {
+                        "To": "dwramreddy@gmail.com;rritec@gmail.com",
+                        "pipeName": {
+                            "value": "@pipeline().PipelineName",
+                            "type": "Expression"
+                        },
+                        "status": {
+                            "value": "@activity('Copy data1').output.executionDetails[0].status",
+                            "type": "Expression"
+                        },
+                        "workspaceid": {
+                            "value": "@pipeline().DataFactory",
+                            "type": "Expression"
+                        },
+                        "errorMsg": {
+                            "value": "@activity('Copy data1').output.errors[0].Message",
+                            "type": "Expression"
+                        }
+                    }
+                },
+                "externalReferences": {
+                    "connection": "33e6c899-417f-4c28-959e-b316a4af1be1"
+                }
+            }
+        ],
+        "parameters": {
+            "workspacename": {
+                "type": "string",
+                "defaultValue": "rr-master-workspace"
+            }
+        },
+        "libraryVariables": {
+            "rrmasterworkspacevariables_lakehouse_Conn_ID": {
+                "type": "String",
+                "variableName": "lakehouse_Conn_ID",
+                "libraryName": "rr-master-workspace-variables"
+            }
+        },
+        "lastModifiedByObjectId": "07dffa9c-d10a-43aa-a4dc-89568542f3c3",
+        "lastPublishTime": "2026-02-18T13:07:43Z"
+    }
+}
+
+
 
 
 
