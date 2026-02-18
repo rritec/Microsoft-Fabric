@@ -271,7 +271,8 @@ No JSON copying required.
 ### Json
 <details>
 <summary>Click to expand the JSON</summary>
-{
+```json
+  {
     "name": "pipe_Succeeded_Notification",
     "objectId": "5aa297c9-4e92-4f28-8ca1-1d9acfb4271f",
     "properties": {
@@ -333,6 +334,7 @@ No JSON copying required.
         "lastPublishTime": "2026-02-18T14:48:44Z"
     }
 }
+```
   
 </details>
 
