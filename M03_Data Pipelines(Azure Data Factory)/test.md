@@ -48,6 +48,9 @@ Create the following parameters:
 | `Number_of_rows_read`    | String | `NA`                                    | Source row count         |
 | `Number_of_rows_written` | String | `NA`                                    | Target row count         |
 
+
+<img width="761" height="364" alt="image" src="https://github.com/user-attachments/assets/80e1f65d-ee9e-4c8f-8f69-e72b6e6b0bbb" />
+
 ### Why?
 
 Pipeline parameters make this pipeline:
@@ -160,6 +163,7 @@ Paste the following HTML content:
 <p>Thanks,</p>
 <p>Ram.</p>
 ```
+<img width="777" height="808" alt="image" src="https://github.com/user-attachments/assets/b98c3e83-3eb9-4fe1-b788-3dbc5fd750a5" />
 
 ### Why?
 
@@ -263,6 +267,74 @@ Absolutely — let’s do the **FAILED notification pipeline** in the **same stu
 No JSON copying required.
 
 ---
+
+### Json
+<details>
+<summary>Click to expand the JSON</summary>
+{
+    "name": "pipe_Succeeded_Notification",
+    "objectId": "5aa297c9-4e92-4f28-8ca1-1d9acfb4271f",
+    "properties": {
+        "activities": [
+            {
+                "name": "sendSucceededMail",
+                "type": "Office365Email",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "to": {
+                        "value": "@pipeline().parameters.To",
+                        "type": "Expression"
+                    },
+                    "subject": {
+                        "value": "@concat('Fabric Notifications ',pipeline().parameters.pipeName,' ' ,pipeline().parameters.status)",
+                        "type": "Expression"
+                    },
+                    "body": "<p>Hi Team,</p>\n<p>Workspace ID: @{pipeline().parameters.workspaceid}</p>\n<p>Pipeline Name: @{pipeline().parameters.pipeName}</p>\n<p>Status: @{pipeline().parameters.status}</p>\n<p>Number of rows read from Source:@{pipeline().parameters.Number_of_rows_read}</p>\n<p>Number of rows Written to target: @{pipeline().parameters.Number_of_rows_written}</p>\n<p>Thanks,</p>\n<p>Ram.</p>\n<p><br></p>\n<p><br></p>"
+                },
+                "externalReferences": {
+                    "connection": "62e96cf1-f327-4387-b2b4-9ff9c89ea6f0"
+                }
+            }
+        ],
+        "parameters": {
+            "To": {
+                "type": "string",
+                "defaultValue": "dwramreddy@gmail.com;rritec@gmail.com"
+            },
+            "pipeName": {
+                "type": "string",
+                "defaultValue": "testpipe"
+            },
+            "status": {
+                "type": "String",
+                "defaultValue": "succeeded"
+            },
+            "workspaceid": {
+                "type": "string",
+                "defaultValue": "123"
+            },
+            "Number_of_rows_read": {
+                "type": "string",
+                "defaultValue": "NA"
+            },
+            "Number_of_rows_written": {
+                "type": "string",
+                "defaultValue": "NA"
+            }
+        },
+        "lastModifiedByObjectId": "07dffa9c-d10a-43aa-a4dc-89568542f3c3",
+        "lastPublishTime": "2026-02-18T14:48:44Z"
+    }
+}
+  
+</details>
 
 # 02. Microsoft Fabric – Creating a Reusable Outlook **Failed** Notification Pipeline
 
@@ -537,10 +609,306 @@ Business Pipeline
 
 ---
 
-## HomeWork (think about it)
+Excellent — this is the **final missing puzzle piece** 👌
+Below are **student-ready, navigation-focused notes** explaining **how this main pipeline orchestrates copy + success/failure notifications** using the **two reusable Outlook pipelines** you already built.
 
-🔁 **Merge Success + Failure into ONE generic notification pipeline**
-(using `status` + conditional formatting)
+I’ll keep the **same teaching style** so students can **reproduce it end-to-end in Microsoft Fabric UI**.
+
+---
+
+# 03. Microsoft Fabric – Orchestrating Copy + Outlook Notifications
+
+### (Success & Failure using Invoke Pipeline)
+
+## Pipeline Name
+
+```
+pipe_notifications_using_outlook_teams
+```
+
+## Objective
+
+By the end of this exercise, the student will be able to:
+
+* Perform a **Copy activity** in Microsoft Fabric
+* Capture **rows read / rows written**
+* Handle **Success and Failure paths**
+* Call **separate reusable Outlook pipelines**
+* Pass runtime metadata using **Invoke Pipeline**
+
+
+
+
+
+## 1. Pipeline Role (Big Picture)
+
+### Navigation
+
+**Fabric Workspace → Data Engineering → Data Pipelines → pipe_notifications_using_outlook_teams**
+
+### Notes
+
+This is a **business orchestration pipeline**:
+
+* Performs actual data movement
+* Decides **which notification pipeline to call**
+* Does NOT contain any email logic itself
+
+This keeps architecture **clean and enterprise-grade**.
+
+---
+
+## 2. Activity 1 – Copy Data (Business Logic)
+
+### Navigation
+
+**Pipeline canvas → Activities → Copy data**
+
+### Activity Name
+
+```
+Copy data1
+```
+
+---
+
+### 2.1 Source Configuration (Lakehouse – CSV)
+
+#### Navigation
+
+**Copy data1 → Source**
+
+#### Configuration Summary
+
+* Source type: **Delimited Text**
+* Storage: **Lakehouse**
+* Folder:
+
+  ```
+  Files/bronze
+  ```
+* File:
+
+  ```
+  emp1234.csv
+  ```
+* First row as header: ✅
+
+### Why?
+
+This simulates a **real ingestion scenario** from Bronze layer.
+
+---
+
+### 2.2 Sink Configuration (Fabric SQL Database)
+
+#### Navigation
+
+**Copy data1 → Sink**
+
+#### Configuration Summary
+
+* Sink type: **Fabric SQL Database**
+* Schema: `dbo`
+* Table:
+
+  ```
+  emp20260216
+  ```
+* Table option: **Auto create**
+* Write behavior: **Insert**
+
+### Why?
+
+* Demonstrates Lakehouse → Warehouse pattern
+* Auto-create simplifies student labs
+
+---
+
+### 2.3 Copy Metrics (Important for Notifications)
+
+The Copy activity automatically produces:
+
+* `rowsRead`
+* `rowsCopied`
+* `executionDetails`
+* `errors` (if failed)
+
+These outputs are later **passed to notification pipelines**.
+
+---
+
+## 3. Success Path – Invoke Succeeded Notification Pipeline
+
+### Trigger Condition
+
+```
+Copy data1 → Succeeded
+```
+
+### Navigation
+
+**Copy data1 → On Success → Invoke Pipeline**
+
+---
+
+### Activity Name
+
+```
+Invoke pipeline1
+```
+
+### Invoked Pipeline
+
+```
+pipe_Succeeded_Notification
+```
+
+---
+
+### 3.1 Parameter Mapping (Success)
+
+#### Navigation
+
+**Invoke pipeline1 → Settings → Parameters**
+
+| Parameter                | Value                                                       | Purpose                 |
+| ------------------------ | ----------------------------------------------------------- | ----------------------- |
+| `To`                     | Email list                                                  | Notification recipients |
+| `pipeName`               | `@pipeline().PipelineName`                                  | Parent pipeline name    |
+| `status`                 | `@activity('Copy data1').output.executionDetails[0].status` | Success status          |
+| `workspaceid`            | `@pipeline().DataFactory`                                   | Workspace identifier    |
+| `Number_of_rows_read`    | `@activity('Copy data1').output.rowsRead`                   | Rows read               |
+| `Number_of_rows_written` | `@activity('Copy data1').output.rowsCopied`                 | Rows written            |
+
+### Why?
+
+This sends a **rich success email** with:
+
+* Pipeline name
+* Status
+* Operational metrics
+
+---
+
+## 4. Failure Path – Invoke Failed Notification Pipeline
+
+### Trigger Condition
+
+```
+Copy data1 → Failed
+```
+
+### Navigation
+
+**Copy data1 → On Failure → Invoke Pipeline**
+
+---
+
+### Activity Name
+
+```
+Invoke pipeline1_copy1
+```
+
+### Invoked Pipeline
+
+```
+pipe_Failed_Notification
+```
+
+---
+
+### 4.1 Parameter Mapping (Failure)
+
+#### Navigation
+
+**Invoke pipeline1_copy1 → Settings → Parameters**
+
+| Parameter     | Value                                                       | Purpose                  |
+| ------------- | ----------------------------------------------------------- | ------------------------ |
+| `To`          | Email list                                                  | Failure alert recipients |
+| `pipeName`    | `@pipeline().PipelineName`                                  | Failed pipeline name     |
+| `status`      | `@activity('Copy data1').output.executionDetails[0].status` | Failed                   |
+| `workspaceid` | `@pipeline().DataFactory`                                   | Workspace identifier     |
+| `errorMsg`    | `@activity('Copy data1').output.errors[0].Message`          | Error message            |
+
+### Why?
+
+Failure emails must answer **one key question**:
+
+> *Why did it fail?*
+
+This captures the **actual runtime error** from Fabric.
+
+---
+
+## 5. Dependency Design (Very Important Concept)
+
+### Visual Flow
+
+```
+Copy data1
+   |
+   |-- Succeeded --> pipe_Succeeded_Notification
+   |
+   |-- Failed ----> pipe_Failed_Notification
+```
+
+### Notes
+
+* Business pipeline decides the outcome
+* Notification pipelines only **send emails**
+* No branching logic inside notification pipelines
+
+This is **perfect separation of concerns**.
+
+---
+
+## 6. Pipeline Parameters (Optional Extension)
+
+### Navigation
+
+**Pipeline → Parameters**
+
+```text
+workspacename = rr-master-workspace
+```
+
+### Notes
+
+* Can be passed instead of `DataFactory`
+* Useful for:
+
+  * Dev / Test / Prod clarity
+  * Teaching environment awareness
+
+---
+
+## 7. What Students Learn from This Pipeline
+
+✔ Real data movement using Copy activity
+✔ Capturing runtime metrics
+✔ Success vs Failure dependency handling
+✔ Invoking reusable pipelines
+✔ Enterprise notification architecture
+
+---
+
+## 8. Teaching Summary (Very Important Slide)
+
+> “This pipeline performs the business logic and delegates notification responsibilities to reusable pipelines using Invoke Pipeline based on success or failure outcomes.”
+
+---
+
+## 9. Interview-Ready Explanation (Power Answer)
+
+> “We use a central orchestration pipeline that executes data movement and conditionally invokes reusable Outlook notification pipelines for success and failure, passing runtime metrics and error details dynamically.”
+
+---
+
+
+
 
 
 
