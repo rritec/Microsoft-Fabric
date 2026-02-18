@@ -1,10 +1,3 @@
-Perfect 👍
-Below are **step-by-step Microsoft Fabric notes written exactly for students**, so they can **navigate the UI and reproduce the same pipeline** from scratch **without copying JSON**.
-
-I’m writing this in a **“do this → see this → why this”** style, which works very well for classrooms and self-learning.
-
----
-
 # Microsoft Fabric – Creating a Reusable Outlook Succeeded Notification Pipeline
 
 ## Objective
@@ -15,14 +8,6 @@ By the end of this exercise, the student will be able to:
 * Configure **pipeline parameters**
 * Use **dynamic content** in Outlook activity
 * Reuse this pipeline from other pipelines using **Invoke Pipeline**
-
----
-
-![Image](https://learn.microsoft.com/en-us/fabric/data-factory/media/parameters/use-dynamic-content.png)
-
-![Image](https://learn.microsoft.com/en-us/fabric/data-factory/media/outlook-activity/email-details.png)
-
----
 
 ## Step 1: Create a New Data Pipeline
 
@@ -269,17 +254,4 @@ Business Pipeline
 
 ---
 
-## Interview / Exam Ready Statement
 
-> “We implemented a reusable Outlook notification pipeline in Microsoft Fabric and invoked it from all business pipelines using parameters to pass execution metadata.”
-
----
-
-If you want next (recommended for students):
-
-* 🔴 **Failure notification pipeline**
-* 🔁 **Single pipeline handling success + failure**
-* 🧪 **Lab assignment with expected output**
-* 📊 **HTML table email version**
-
-Tell me what you want to add next, and I’ll structure it the same way 👌
