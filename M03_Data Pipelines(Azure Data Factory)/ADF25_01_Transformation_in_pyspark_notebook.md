@@ -9,5 +9,5 @@
 <img width="803" height="772" alt="image" src="https://github.com/user-attachments/assets/7a7f4207-8063-4a98-98ff-53550289d129" />
 
 5. run data pipeline
-9. Observe notebook snapshot
-10. Observe delta table in lakehouse
+6. Observe notebook snapshot
+7. Observe delta table in lakehouse
