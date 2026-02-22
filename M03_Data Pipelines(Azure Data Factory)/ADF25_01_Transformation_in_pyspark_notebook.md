@@ -6,7 +6,7 @@
 4. point out to above notebook and create  parameters
 
 
-<img width="803" height="772" alt="image" src="https://github.com/user-attachments/assets/7a7f4207-8063-4a98-98ff-53550289d129" />
+  <img width="803" height="772" alt="image" src="https://github.com/user-attachments/assets/7a7f4207-8063-4a98-98ff-53550289d129" />
 
 5. run data pipeline
 6. Observe notebook snapshot
