@@ -4,7 +4,8 @@
 
 - Fabric Data Warehouse: In a Microsoft Fabric workspace, a Fabric warehouse is labeled as **Warehouse** in the **Type** column.
   
-  ![image](https://github.com/user-attachments/assets/3c827a1c-4e1c-406c-a5e6-52784b6149e8)
+<img width="1820" height="370" alt="image" src="https://github.com/user-attachments/assets/bc8be682-4242-41e3-9c5d-18c26b736387" />
+
 
 - When you need the full power and transactional capabilities (DDL and DML query support) of a data warehouse, this is the fast and simple solution for you.
 - The warehouse can be populated by any one of the supported data ingestion methods such as COPY INTO, Pipelines, Dataflows, or cross database ingestion options such as CREATE TABLE AS SELECT (CTAS), INSERT..SELECT, or SELECT INTO.
