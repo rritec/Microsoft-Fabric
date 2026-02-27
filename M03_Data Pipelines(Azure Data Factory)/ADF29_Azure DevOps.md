@@ -78,10 +78,19 @@
 3. commit code to git branch and make sure variable library object available in feature/ram
 4. raise pull request from feature/ram to main
 5. complete the mergeing process and make sure main branch has variable library object
-6. open workspace ws_sales_dev and click on source sontrol > click on update all and make sure variable library object is available in workspace ws_sales_dev
+6. open workspace **ws_sales_dev** and click on source sontrol > click on update all and make sure variable library object is available in workspace ws_sales_dev
 7. Click on **Dev ... ** > click on **set as active**
 
 <img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/3482c74e-a480-4709-b02d-50c45572a686" />
+
+8. open **ws_sales_test** workspace > open variable library > Click on **test ... ** > click on **set as active**
+
+<img width="1915" height="570" alt="image" src="https://github.com/user-attachments/assets/1507f917-ba19-4206-a996-f96ec249e6e7" />
+
+9. open **ws_sales_prod** workspace > open variable library > Click on **prod ... ** > click on **set as active**
+<img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/611d3449-4521-43f0-a681-875b158de2e7" />
+
+
 
 
 
