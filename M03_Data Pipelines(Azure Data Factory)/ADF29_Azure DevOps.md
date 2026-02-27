@@ -68,17 +68,20 @@
         1. workspace id: aa27dd33-f0c7-4a59-b615-0df0c3765902
         2. lakehouse id: c337adb3-8601-46a9-b603-8791b5d68366
 
-# Step 6: Create variable library
+# Step 7: Create variable library
 1. variable library is useful in CI/CD process
 2. create as shown below and save it.
 
-<img width="1833" height="408" alt="image" src="https://github.com/user-attachments/assets/6754b5cc-4d8a-459c-9d3f-3d6d32c324ac" />
+<img width="1916" height="633" alt="image" src="https://github.com/user-attachments/assets/502a3e17-735e-49b5-abb4-bf4fe3cec8a7" />
+
 
 3. commit code to git branch and make sure variable library object available in feature/ram
 4. raise pull request from feature/ram to main
 5. complete the mergeing process and make sure main branch has variable library object
 6. open workspace ws_sales_dev and click on source sontrol > click on update all and make sure variable library object is available in workspace ws_sales_dev
+7. Click on **Dev ... ** > click on **set as active**
 
-<img width="1823" height="376" alt="image" src="https://github.com/user-attachments/assets/7a8f5d85-6edc-433e-ae6d-7e577a215c67" />
+<img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/3482c74e-a480-4709-b02d-50c45572a686" />
+
 
 
