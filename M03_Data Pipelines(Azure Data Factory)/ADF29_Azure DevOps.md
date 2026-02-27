@@ -3,6 +3,9 @@
     1. ws_sales_dev
     2. ws_sales_test
     3. ws_sales_prod
+
+    <img width="676" height="885" alt="image" src="https://github.com/user-attachments/assets/67c47664-2418-43f0-b1ba-e5e58c2bcbfc" />
+
 # Step 2: Create DevOps objects
 1. Follow the naming standard and create organization name org_{lob}
     1. org_sales
@@ -12,11 +15,15 @@
     1. repo_sales
 1. use default branch for the dev enviornment . default branch is main.
     1. main
+**Note:** do not create below branch manually
 1. create feature branch with the naming standard as feature/{developername}.
     1. feature/ram
 
 # Step 3: Map Workspace and git Repo
 1.  developent workspace ws_sales_dev map with git repo and main branch
+
+<img width="1746" height="847" alt="image" src="https://github.com/user-attachments/assets/614dab6c-8229-40ac-a5e5-3f4b22274255" />
+
 
 # Step 4: Create lakehouse
 1. create lakehouse lh_{project}
