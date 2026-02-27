@@ -51,4 +51,38 @@
 
 <img width="1823" height="376" alt="image" src="https://github.com/user-attachments/assets/7a8f5d85-6edc-433e-ae6d-7e577a215c67" />
 
-7. 
+# Step 7: Create Deployment Pipeline
+1. create deployment pipeline and name it as **dp_sales**
+<img width="747" height="446" alt="image" src="https://github.com/user-attachments/assets/3d3e1704-8e35-458b-a5f0-87213c6386fd" />
+
+2. By default three stages will be created those are Dev/Test/prod
+<img width="1201" height="274" alt="image" src="https://github.com/user-attachments/assets/fbff6342-9b4b-42b4-a4d4-1ef9280537aa" />
+
+3. Map each stage with respective workspace
+<img width="1218" height="234" alt="image" src="https://github.com/user-attachments/assets/9d89661c-ac78-4ae9-b3aa-ed46cd4c4570" />
+
+4. Select Test Stage and observe the difference of objects > Select all objects > click on deploy
+5. Now Dev and Test Stages should be on same page and you should see green color
+<img width="1307" height="681" alt="image" src="https://github.com/user-attachments/assets/b9e49cad-de3e-4fca-b61a-42cc724e9ffe" />
+
+6. Go to Test workspace and observe two objects(lakehouse/variable Library) and click on lakehouse and observe the URL and note down Workspace id/Lakehouse ID
+    1. https://app.powerbi.com/groups/048e68c9-dd2f-44cf-8b71-b869b44bfb10/lakehouses/23642408-0a80-4b96-970d-a74ac5469c7f?experience=fabric-developer
+    2. Workspace id: 048e68c9-dd2f-44cf-8b71-b869b44bfb10
+    3. lakehouses id: 23642408-0a80-4b96-970d-a74ac5469c7f
+     
+   
+8. Copy above ids in variable library under test valueset in dev workspace
+9. redeploy from dev to test
+10. Make sure in respective workspaces, respective valueset is active
+<img width="1733" height="695" alt="image" src="https://github.com/user-attachments/assets/edbe2eca-d782-49af-8664-3e3571cd998e" />
+
+11. Deploy from test to prod stage, copy lakehouse ref url
+    1. https://app.powerbi.com/groups/74dbb2ab-dca0-49a8-bfeb-68c563a5c96b/lakehouses/1f4c5ccb-d8a4-424d-bcc5-e3bd486c24a7?experience=fabric-developer
+    2. Workspace id: 74dbb2ab-dca0-49a8-bfeb-68c563a5c96b
+    3. lakehouses id: 1f4c5ccb-d8a4-424d-bcc5-e3bd486c24a7
+12. Update these workspace and lakehouse GUIDs in variable library of prod valueset from dev workspace
+13. redeploy this variable library from dev to test and test to prod
+14. from prod workspace prod valueset mark as active.
+<img width="1900" height="848" alt="image" src="https://github.com/user-attachments/assets/9e897828-855c-4a0d-8779-48f83e091b65" />
+
+15. 
