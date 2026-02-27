@@ -15,6 +15,7 @@
     1. repo_sales
 1. use default branch for the dev enviornment . default branch is main.
     1. main
+    
 **Note:** do not create below branch manually
 1. create feature branch with the naming standard as feature/{developername}.
     1. feature/ram
