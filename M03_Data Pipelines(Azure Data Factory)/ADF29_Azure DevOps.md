@@ -90,7 +90,8 @@
 9. open **ws_sales_prod** workspace > open variable library > Click on **prod ... ** > click on **set as active**
 <img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/611d3449-4521-43f0-a681-875b158de2e7" />
 
-
+# Step 8: Create Metadata Driven Framework for ingestion
+1. variable library is useful in CI/CD process
 
 
 
