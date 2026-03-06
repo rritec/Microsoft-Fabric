@@ -97,7 +97,7 @@ Transformations shape, clean, enrich, and restructure data after ingestion.
 
 # 📊 Data Analyst Role
 
-The Data Analyst consumes and presents data to derive business insights and support decision-making.
+The Data Analyst presents data to derive business insights and support decision-making.
 
 ---
 
