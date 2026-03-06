@@ -1,0 +1,215 @@
+{
+    "name": "pl_master_ingestion",
+    "objectId": "42a0dbe3-806d-4665-8b4e-5d96e5d3ebe4",
+    "properties": {
+        "activities": [
+            {
+                "name": "getMetadata",
+                "type": "Lookup",
+                "dependsOn": [
+                    {
+                        "activity": "Wait1",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "LakehouseTableSource",
+                        "sqlReaderQuery": "select * from metadata.sourcetargetsystem",
+                        "partitionOption": "None"
+                    },
+                    "firstRowOnly": true,
+                    "datasetSettings": {
+                        "annotations": [],
+                        "connectionSettings": {
+                            "name": "af45247f_c92a_4c73_a65c_475be714c0cb",
+                            "properties": {
+                                "annotations": [],
+                                "type": "Lakehouse",
+                                "typeProperties": {
+                                    "workspaceId": "@pipeline().libraryVariables.workspace_id",
+                                    "artifactId": "@pipeline().libraryVariables.lakehouse_id",
+                                    "rootFolder": "Tables"
+                                },
+                                "externalReferences": {
+                                    "connection": "@pipeline().libraryVariables.lakehouse_conn"
+                                }
+                            }
+                        },
+                        "type": "LakehouseTable",
+                        "schema": []
+                    }
+                }
+            },
+            {
+                "name": "Route_based_on_source_system",
+                "type": "Switch",
+                "dependsOn": [
+                    {
+                        "activity": "getMetadata",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "typeProperties": {
+                    "on": {
+                        "value": "@activity('getMetadata').output.firstRow.SourceSystemName",
+                        "type": "Expression"
+                    },
+                    "cases": [
+                        {
+                            "value": "GITHUB",
+                            "activities": [
+                                {
+                                    "name": "copydata_github_csv_to_lakehouse_files",
+                                    "type": "Copy",
+                                    "dependsOn": [],
+                                    "policy": {
+                                        "timeout": "0.12:00:00",
+                                        "retry": 0,
+                                        "retryIntervalInSeconds": 30,
+                                        "secureOutput": false,
+                                        "secureInput": false
+                                    },
+                                    "typeProperties": {
+                                        "source": {
+                                            "type": "BinarySource",
+                                            "storeSettings": {
+                                                "type": "HttpReadSettings",
+                                                "requestMethod": "GET"
+                                            },
+                                            "formatSettings": {
+                                                "type": "BinaryReadSettings"
+                                            },
+                                            "datasetSettings": {
+                                                "annotations": [],
+                                                "type": "Binary",
+                                                "typeProperties": {
+                                                    "location": {
+                                                        "type": "HttpServerLocation",
+                                                        "relativeUrl": {
+                                                            "value": "@activity('getMetadata').output.firstRow.SourceConnectionString",
+                                                            "type": "Expression"
+                                                        }
+                                                    }
+                                                },
+                                                "externalReferences": {
+                                                    "connection": "@pipeline().libraryVariables.rritec_git_conn"
+                                                }
+                                            }
+                                        },
+                                        "sink": {
+                                            "type": "BinarySink",
+                                            "storeSettings": {
+                                                "type": "LakehouseWriteSettings"
+                                            },
+                                            "datasetSettings": {
+                                                "annotations": [],
+                                                "connectionSettings": {
+                                                    "name": "d8be63ee_3bf8_4c4d_a6e4_18a74042bcf9",
+                                                    "properties": {
+                                                        "annotations": [],
+                                                        "type": "Lakehouse",
+                                                        "typeProperties": {
+                                                            "workspaceId": "@pipeline().libraryVariables.workspace_id",
+                                                            "artifactId": "@pipeline().libraryVariables.lakehouse_id",
+                                                            "rootFolder": "Files"
+                                                        },
+                                                        "externalReferences": {
+                                                            "connection": "@pipeline().libraryVariables.lakehouse_conn"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "Binary",
+                                                "typeProperties": {
+                                                    "location": {
+                                                        "type": "LakehouseLocation",
+                                                        "fileName": {
+                                                            "value": "@activity('getMetadata').output.firstRow.TargetFileOrTableName",
+                                                            "type": "Expression"
+                                                        },
+                                                        "folderPath": {
+                                                            "value": "@activity('getMetadata').output.firstRow.TargetFolderOrSchemaName",
+                                                            "type": "Expression"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "enableStaging": false
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "defaultActivities": []
+                }
+            },
+            {
+                "name": "CreateMetadata",
+                "type": "TridentNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "notebookId": "78350882-c78b-4448-9f00-4d0f65c24645",
+                    "workspaceId": "aa27dd33-f0c7-4a59-b615-0df0c3765902"
+                }
+            },
+            {
+                "name": "Wait1",
+                "type": "Wait",
+                "dependsOn": [
+                    {
+                        "activity": "CreateMetadata",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "typeProperties": {
+                    "waitTimeInSeconds": 60
+                }
+            }
+        ],
+        "libraryVariables": {
+            "workspace_id": {
+                "type": "String",
+                "variableName": "workspace_id",
+                "libraryName": "vl_sales"
+            },
+            "lakehouse_id": {
+                "type": "String",
+                "variableName": "lakehouse_id",
+                "libraryName": "vl_sales"
+            },
+            "rritec_git_conn": {
+                "type": "String",
+                "variableName": "rritec_git_conn",
+                "libraryName": "vl_sales"
+            },
+            "lakehouse_conn": {
+                "type": "String",
+                "variableName": "lakehouse_conn",
+                "libraryName": "vl_sales"
+            }
+        },
+        "lastModifiedByObjectId": "07dffa9c-d10a-43aa-a4dc-89568542f3c3",
+        "lastPublishTime": "2026-03-04T02:25:18Z"
+    }
+}
