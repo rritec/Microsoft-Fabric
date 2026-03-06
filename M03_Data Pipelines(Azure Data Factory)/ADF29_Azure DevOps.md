@@ -1,3 +1,11 @@
+Let us implement CICD as for below document and diagram
+
+https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deploy-using-fabric-deployment-pipelines
+
+<img width="878" height="396" alt="image" src="https://github.com/user-attachments/assets/26550c0b-7fb1-4b29-966e-dc6750ae83fe" />
+
+
+
 # Step 1: Create Required workspaces
 1. Follow the naming standard and create three work spaces ws_{project}_{env}
     1. ws_sales_dev
