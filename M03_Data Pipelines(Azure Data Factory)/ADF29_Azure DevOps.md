@@ -91,7 +91,20 @@
 <img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/611d3449-4521-43f0-a681-875b158de2e7" />
 
 # Step 8: Create Metadata Driven Framework for ingestion
-1. variable library is useful in CI/CD process
+1. Create one notebook with all required metadata. If it has too many enties of metadata then divide into three noteebooks and call those three notebooks into bootstrap notebook
+    1. Create schema for metadata
+    2. Create DDL Scripts of Tables
+    3. Insert metadata rows using merge command so that any one by mistake enters same record twice system will skip the duplicate records.
+    4. These thre notebooks call in bootstrap notebook 
+   
+3. In my training room in staed of four above notebooks, using [single notebook](https://github.com/rritec/Microsoft-Fabric/blob/main/M03_Data%20Pipelines(Azure%20Data%20Factory)/nb_Metadata_Configuration.ipynb)
+# Step 9: add requirred variables in variable library
+1. open variable library and add as shown below
+<img width="1692" height="470" alt="image" src="https://github.com/user-attachments/assets/ee3447b7-6e65-492a-a194-86d79d37d7ee" />
+
+# Step 10: Create Master ingestion pipeline
+1. Create pipeline using this [json file](https://github.com/rritec/Microsoft-Fabric/blob/main/M03_Data%20Pipelines(Azure%20Data%20Factory)/master_ingestion_pipeline.json)
+2. run this pipeline and observe it.
 
 
 
