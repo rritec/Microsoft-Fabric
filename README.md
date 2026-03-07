@@ -68,6 +68,7 @@ This course provides an in-depth understanding of Microsoft Fabric, a unified pl
 - Data Analysts
 - Business Analysts
 - Cloud Architects
+- AI Engineers
 
 ---
 
