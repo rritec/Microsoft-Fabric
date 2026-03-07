@@ -29,15 +29,12 @@
    - Integration with Power BI  
    -Data Governance  
 
-### Getting Help
-- **Documentation**: [Official Documentation](https://docs.microsoft.com/en-us/fabric)
-- **Community**: Join us on [Microsoft Tech Community](https://techcommunity.microsoft.com/t5/microsoft-fabric/ct-p/Microsoft-Fabric)
 
 ### Troubleshooting
-- Review common issues in [Troubleshooting Guide](https://docs.microsoft.com/en-us/microsoft-fabric/troubleshoot)
+- Review common issues in [Troubleshooting Guide](https://github.com/rritec/Microsoft-Fabric/issues)
 
 ### Community Resources
 - [Microsoft Fabric GitHub Repository](https://github.com/rritec/Microsoft-Fabric)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/microsoft-fabric)
+
 
 For further inquiries, reach out via our community forum or contact support.
