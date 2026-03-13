@@ -34,3 +34,7 @@ where empno='7369'
 --Create a clone of the dbo.emp table at a specific point in time.   
 CREATE TABLE [dbo].[emp2] AS CLONE OF [dbo].[emp] AT '2025-01-01T10:00:00.000';
 ```
+
+# Questions
+
+1. Do you know CTAS(CREATE TABLE AS SELECT)
