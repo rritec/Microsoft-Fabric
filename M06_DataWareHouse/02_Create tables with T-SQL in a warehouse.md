@@ -83,4 +83,4 @@ FROM OPENROWSET(
 ```
 
 ## Reference:
-[tutorial-create-tables](https://learn.microsoft.com/en-us/fabric/data-warehouse/tutorial-create-tables)
+[tutorial-create-tables using CTAS](https://learn.microsoft.com/en-us/fabric/data-warehouse/tutorial-create-tables)
