@@ -1,0 +1,30 @@
+# config.yml
+# Pipeline configuration file stored in Fabric Environment Resources
+# No re-publish needed when you update this file
+
+pipeline:
+  name: "Sales Pipeline"
+  version: "1.0.0"
+  environment: "development"
+
+lakehouse:
+  name: "sales_lakehouse"
+  tables:
+    customers: "dim_customers"
+    orders: "fact_orders"
+    audit: "pipeline_audit_log"
+
+warehouse:
+  name: "sales_warehouse"
+  schema: "dbo"
+
+data_quality:
+  max_null_pct: 5
+  max_duplicate_pct: 1
+  numeric_cols: ["amount", "quantity"]
+  key_cols: ["order_id"]
+
+notifications:
+  on_failure: true
+  on_success: false
+  email: "data-team@company.com"

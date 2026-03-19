@@ -1,0 +1,10 @@
+category,category_code,department,tax_rate,is_active
+Electronics,ELEC,Technology,0.08,true
+Clothing,CLTH,Fashion,0.05,true
+Furniture,FURN,Home,0.07,true
+Books,BOOK,Education,0.00,true
+Sports,SPRT,Recreation,0.06,true
+Kitchen,KTCH,Home,0.07,true
+Beauty,BEAU,Personal Care,0.05,true
+Toys,TOYS,Children,0.05,true
+Automotive,AUTO,Vehicles,0.09,false

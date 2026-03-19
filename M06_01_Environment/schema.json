@@ -1,0 +1,22 @@
+{
+  "table": "fact_orders",
+  "version": "1.0.0",
+  "description": "Sales orders fact table schema contract",
+  "columns": [
+    {"name": "order_id",        "type": "IntegerType", "nullable": false, "pk": true},
+    {"name": "customer_id",     "type": "StringType",  "nullable": false, "fk": "dim_customers.customer_id"},
+    {"name": "vendor",          "type": "StringType",  "nullable": true},
+    {"name": "category",        "type": "StringType",  "nullable": false},
+    {"name": "unit_price",      "type": "DoubleType",  "nullable": false},
+    {"name": "quantity",        "type": "IntegerType", "nullable": false},
+    {"name": "total_amount",    "type": "DoubleType",  "nullable": false},
+    {"name": "status",          "type": "StringType",  "nullable": false},
+    {"name": "payment_method",  "type": "StringType",  "nullable": true},
+    {"name": "order_date",      "type": "StringType",  "nullable": false}
+  ],
+  "validations": {
+    "unit_price":   {"min": 0.01},
+    "quantity":     {"min": 1, "max": 9999},
+    "total_amount": {"min": 0.01}
+  }
+}
