@@ -150,7 +150,7 @@ In this case, if **John** already exists in the Delta table, his record will be 
 ---
 
 
-```
+
 ## **6. Conclusion**
 
 In this guide, we’ve covered the basic operations that you can perform on Delta tables in **Microsoft Fabric** or **Azure Synapse Analytics**:
