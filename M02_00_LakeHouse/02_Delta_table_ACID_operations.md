@@ -25,11 +25,6 @@ ACID is a set of properties that guarantee reliable and consistent data operatio
 * Once data is committed, it stays safe—even if there’s a crash.
 * Example: After a successful write, data won’t disappear due to system failure.
 
----
-Here’s a clear, practical comparison of how ACID works across **Delta Lake**, **Apache Iceberg**, and **Apache Hudi**—focused on real differences that matter in architecture and interviews.
-
----
-
 ## How ACID is Implemented
 
 ### **Delta Lake**
