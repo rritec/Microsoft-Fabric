@@ -1,19 +1,76 @@
 
-# **Working with Delta Tables in Microsoft Fabric**
+## **1. What is ACID**
 
-This guide will walk you through the basic operations you can perform on **Delta Tables** in **Microsoft Fabric** (or **Azure Synapse Analytics**). We'll cover creating a table, updating records, deleting records, and merging data.
+ACID is a set of properties that guarantee reliable and consistent data operations in systems like **Delta Lake**.
 
-Note: in below code ```rr_master_lakehouse``` lakhose name repalce with your lakehouse name 
+### ACID explained in simple terms:
 
-## **1. Introduction to Delta Tables**
+**1. Atomicity (All or Nothing)**
 
-Delta Lake is an open-source storage layer that brings **ACID transactions** to Apache Spark and big data workloads. Delta tables support features like:
+* A transaction either fully completes or doesn’t happen at all.
+* Example: If you're inserting 1,000 records and something fails at record 500, none of the records are saved.
 
-- **ACID transactions**
-- **Time travel (data versioning)**
-- **Schema enforcement and evolution**
+**2. Consistency (Valid State Always)**
+
+* Data must always follow defined rules (schema, constraints).
+* Example: If a column expects integers, you cannot insert text — the system prevents invalid data.
+
+**3. Isolation (No Interference)**
+
+* Multiple transactions can run at the same time without affecting each other.
+* Example: Two users updating the same table won’t see each other’s incomplete changes.
+
+**4. Durability (Permanent Storage)**
+
+* Once data is committed, it stays safe—even if there’s a crash.
+* Example: After a successful write, data won’t disappear due to system failure.
 
 ---
+Here’s a clear, practical comparison of how ACID works across **Delta Lake**, **Apache Iceberg**, and **Apache Hudi**—focused on real differences that matter in architecture and interviews.
+
+---
+
+## How ACID is Implemented
+
+### **Delta Lake**
+
+* Uses a **transaction log (_delta_log)** stored alongside data
+* Every change (insert/update/delete) is recorded as a new log entry
+* Ensures ACID via **optimistic concurrency control**
+
+👉 Simple, tightly integrated with Spark
+
+---
+
+### **Apache Iceberg**
+
+* Uses **snapshot-based architecture**
+* Each commit creates a new **metadata snapshot**
+* Readers always see a consistent snapshot
+
+👉 Strong isolation with clean versioning model
+
+---
+
+### **Apache Hudi**
+
+* Uses a **timeline (commit log)** with different actions (commit, delta commit, compaction)
+* Supports both:
+
+  * Copy-on-Write (COW)
+  * Merge-on-Read (MOR)
+
+👉 Flexible but slightly more complex
+
+
+### 🔷 One-Line Summary
+
+* **Delta Lake** = Transaction log approach
+* **Iceberg** = Snapshot isolation approach
+* **Hudi** = Timeline + streaming-first approach
+
+---
+
 
 ## **2. Setting Up Your Environment**
 
