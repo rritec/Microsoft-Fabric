@@ -3,6 +3,7 @@
 Schema Evolution in a Delta Lake means the table structure (schema) can change over time without recreating the table.
 
 ✅ Only adding new columns 
+
 ❌ No datatype change supports
 
 ## Step 1: Create Initial Delta Table (employees)
