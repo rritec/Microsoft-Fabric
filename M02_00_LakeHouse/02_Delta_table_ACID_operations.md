@@ -25,7 +25,7 @@ ACID is a set of properties that guarantee reliable and consistent data operatio
 * Once data is committed, it stays safe—even if there’s a crash.
 * Example: After a successful write, data won’t disappear due to system failure.
 
-## How ACID is Implemented
+## How ACID is Implemented Delta Lake / Iceberg / Hudi
 ---
 ### **Delta Lake**
 
@@ -65,9 +65,7 @@ ACID is a set of properties that guarantee reliable and consistent data operatio
 ---
 
 
-## **2. Setting Up Your Environment**
-
-Before starting, ensure you have **Microsoft Fabric** or **Azure Synapse Analytics** connected to your **Spark** environment and that you have access to Delta Lake functionality.
+## **2. LAB**
 
 ### **Step 1: Import Required Libraries**
 
