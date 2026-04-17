@@ -1,6 +1,6 @@
 
 ## **1. What is ACID**
-
+---
 ACID is a set of properties that guarantee reliable and consistent data operations in systems like **Delta Lake**.
 
 ### ACID explained in simple terms:
@@ -26,7 +26,7 @@ ACID is a set of properties that guarantee reliable and consistent data operatio
 * Example: After a successful write, data won’t disappear due to system failure.
 
 ## How ACID is Implemented
-
+---
 ### **Delta Lake**
 
 * Uses a **transaction log (_delta_log)** stored alongside data
@@ -35,7 +35,6 @@ ACID is a set of properties that guarantee reliable and consistent data operatio
 
 👉 Simple, tightly integrated with Spark
 
----
 
 ### **Apache Iceberg**
 
@@ -45,7 +44,6 @@ ACID is a set of properties that guarantee reliable and consistent data operatio
 
 👉 Strong isolation with clean versioning model
 
----
 
 ### **Apache Hudi**
 
