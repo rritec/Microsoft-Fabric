@@ -23,10 +23,10 @@ df_version.show()
 df_version = spark.read.format("delta").option("versionAsOf", 1).load(delta_table_path)
 df_version.show()
 # Query Delta table as of a specific version
-df_version = spark.read.format("delta").option("versionAsOf", 3).load(delta_table_path)
+df_version = spark.read.format("delta").option("versionAsOf", 2).load(delta_table_path)
 df_version.show()
 # Query Delta table as of a specific version
-df_version = spark.read.format("delta").option("versionAsOf", 4).load(delta_table_path)
+df_version = spark.read.format("delta").option("versionAsOf", 3).load(delta_table_path)
 df_version.show()
 ```
 ![image](https://github.com/user-attachments/assets/ca41239e-4771-46d4-bf9f-23cc76119a99)
