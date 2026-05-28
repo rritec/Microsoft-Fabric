@@ -1,0 +1,22 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "Dataflowgen2",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "emp": {
+      "queryId": "a82aa5ad-3289-4248-9ba8-85cbbf7fc365",
+      "queryName": "emp"
+    }
+  },
+  "connections": [
+    {
+      "path": "https://mylaramreddy-my.sharepoint.com/personal/deepthi_mylaramreddy_onmicrosoft_com/",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"0ed4f15d-1d8c-4673-a07a-03f8f670da77\"}"
+    }
+  ]
+}

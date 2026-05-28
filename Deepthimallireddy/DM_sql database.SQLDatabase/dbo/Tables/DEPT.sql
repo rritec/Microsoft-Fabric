@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[DEPT] (
+    [DEPTNO] INT          NOT NULL,
+    [DNAME]  VARCHAR (20) NULL,
+    [LOC]    VARCHAR (20) NULL,
+    PRIMARY KEY CLUSTERED ([DEPTNO] ASC)
+);
+
+
+GO
+

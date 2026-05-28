@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "ADF17_Create Dataflow equal to sql query"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1035070e-34e5-94f7-41e2-0b2c98fe1931"
+  }
+}

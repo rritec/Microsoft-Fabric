@@ -1,0 +1,75 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "split transformation",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "EMP": {
+      "queryId": "544f692d-6f00-4b79-8862-cce2f616aa31",
+      "queryName": "EMP"
+    },
+    "DEPT": {
+      "queryId": "dfa64289-fc51-4e98-a607-f57d5aa310b6",
+      "queryName": "DEPT"
+    },
+    "EMP 10- 2026": {
+      "queryId": "5594eed3-fab7-4daf-8dc2-85dc70d2071a",
+      "queryName": "EMP 10- 2026",
+      "loadEnabled": false
+    },
+    "EMP 2026_DataDestination": {
+      "queryId": "57b93ca3-82b2-475c-ad76-d0fdb21d522e",
+      "queryName": "EMP 2026_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "EMP 20-2026": {
+      "queryId": "6137f860-dae8-4653-92fa-f0aec9d29885",
+      "queryName": "EMP 20-2026",
+      "loadEnabled": false
+    },
+    "EMP 20-2026_DataDestination": {
+      "queryId": "b045a89a-c1ae-4378-88b9-ac5c407685ac",
+      "queryName": "EMP 20-2026_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "EMP 30-2026": {
+      "queryId": "33219736-39bf-4009-b42b-e7ce813425d4",
+      "queryName": "EMP 30-2026",
+      "loadEnabled": false
+    },
+    "EMP 30-2026_DataDestination": {
+      "queryId": "272d187a-2362-40a0-a157-45505a97d1f6",
+      "queryName": "EMP 30-2026_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "EMP-50-2026": {
+      "queryId": "c50c64a7-e4a8-41e0-92c4-563050959edf",
+      "queryName": "EMP-50-2026",
+      "loadEnabled": false
+    },
+    "EMP-50-2026_DataDestination": {
+      "queryId": "7162ee9d-5b0a-4909-8665-65f203531318",
+      "queryName": "EMP-50-2026_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "FabricSql",
+      "kind": "FabricSql",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"6a73b663-b664-4100-96f5-a2d99d716628\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"857465c7-7a02-4031-ad79-720f75b1ea4c\"}"
+    }
+  ]
+}

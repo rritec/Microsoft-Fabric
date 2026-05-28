@@ -1,0 +1,9 @@
+CREATE TABLE [dbo].[SALGRADE] (
+    [GRADE] INT   NOT NULL,
+    [LOSAL] MONEY NULL,
+    [HISAL] MONEY NULL
+);
+
+
+GO
+

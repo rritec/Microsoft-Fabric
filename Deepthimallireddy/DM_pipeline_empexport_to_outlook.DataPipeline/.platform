@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "DM_pipeline_empexport_to_outlook"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f5e6ee70-338e-8f79-4915-a896cabb659a"
+  }
+}

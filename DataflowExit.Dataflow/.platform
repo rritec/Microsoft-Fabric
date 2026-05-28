@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "DataflowExit"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4a1a70fa-c497-acf7-4b5b-5cfed66349f7"
+  }
+}

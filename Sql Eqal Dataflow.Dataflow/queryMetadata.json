@@ -1,0 +1,38 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "Sql Eqal Dataflow",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "DEPT": {
+      "queryId": "f5583763-2b76-4f2b-91da-de822676ad73",
+      "queryName": "DEPT"
+    },
+    "EMP": {
+      "queryId": "82611562-a046-4a76-8b9f-473b772a1559",
+      "queryName": "EMP",
+      "loadEnabled": false
+    },
+    "EMP_DataDestination": {
+      "queryId": "77e9a0fd-98d9-4aec-aa6b-e6fdb2b588d3",
+      "queryName": "EMP_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "FabricSql",
+      "kind": "FabricSql",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"6a73b663-b664-4100-96f5-a2d99d716628\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"857465c7-7a02-4031-ad79-720f75b1ea4c\"}"
+    }
+  ]
+}

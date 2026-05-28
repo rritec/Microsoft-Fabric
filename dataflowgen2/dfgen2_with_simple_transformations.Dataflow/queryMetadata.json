@@ -1,0 +1,34 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "dfgen2_with_simple_transformations",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "emp": {
+      "queryId": "cc28fa9e-101c-487f-a8a5-da0352c0b900",
+      "queryName": "emp",
+      "loadEnabled": false
+    },
+    "emp_DataDestination": {
+      "queryId": "2ed84d5d-30ce-45ac-891f-8c7ea44d38d2",
+      "queryName": "emp_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "https://raw.githubusercontent.com/rritec/Microsoft-Fabric/refs/heads/main/Labdata/emp.csv",
+      "kind": "Web",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"4a2a0b0d-991b-419c-a336-8fa83e2f5092\"}"
+    },
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"c01a07c6-dc4f-45d2-b60b-b1c2c450ee41\"}"
+    }
+  ]
+}

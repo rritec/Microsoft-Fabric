@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb01_create_config_table"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "84a43a71-1f6c-b4ae-4c64-762543edea9e"
+  }
+}

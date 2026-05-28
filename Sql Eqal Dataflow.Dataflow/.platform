@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Dataflow",
+    "displayName": "Sql Eqal Dataflow"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cb0909c2-e6f1-8b19-41c4-809afb7b2a7a"
+  }
+}

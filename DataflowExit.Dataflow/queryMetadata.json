@@ -1,0 +1,42 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "DataflowExit",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "EMP 20-2026": {
+      "queryId": "4b88acfe-f3f2-40dd-a0e3-f365e3f20f3c",
+      "queryName": "EMP 20-2026"
+    },
+    "EMP 30-2026": {
+      "queryId": "62b1ac87-d85a-4704-b55d-ca15f6c30694",
+      "queryName": "EMP 30-2026"
+    },
+    "EMP20-EMP30": {
+      "queryId": "654637a2-b630-4679-b9b8-8e671bbcaeae",
+      "queryName": "EMP20-EMP30",
+      "loadEnabled": false
+    },
+    "EMP20-EMP30_DataDestination": {
+      "queryId": "fdd91327-67ac-435c-bac8-7ec8c0eaca2d",
+      "queryName": "EMP20-EMP30_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"857465c7-7a02-4031-ad79-720f75b1ea4c\"}"
+    },
+    {
+      "path": "FabricSql",
+      "kind": "FabricSql",
+      "connectionId": "{\"ClusterId\":\"f8eb627a-7196-4c49-a364-c4c7f7c4281a\",\"DatasourceId\":\"6a73b663-b664-4100-96f5-a2d99d716628\"}"
+    }
+  ]
+}

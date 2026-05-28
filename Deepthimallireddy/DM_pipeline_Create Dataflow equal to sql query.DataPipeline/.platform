@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "DM_pipeline_Create Dataflow equal to sql query"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "667a3d08-a097-a0b5-4369-ed18d1f105db"
+  }
+}
