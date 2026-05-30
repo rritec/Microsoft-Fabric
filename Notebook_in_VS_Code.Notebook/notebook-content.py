@@ -20,8 +20,14 @@
 # META         },
 # META         {
 # META           "id": "ecb89715-4f3a-402f-a899-81f8c9b06928"
+# META         },
+# META         {
+# META           "id": "e7bf30d6-1e0c-48d1-b396-aaca203aeda6"
 # META         }
 # META       ]
+# META     },
+# META     "warehouse": {
+# META       "known_warehouses": []
 # META     }
 # META   }
 # META }
