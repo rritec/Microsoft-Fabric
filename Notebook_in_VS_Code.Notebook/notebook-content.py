@@ -8,21 +8,24 @@
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
-# META       "default_lakehouse": "c8964cc6-2403-4b70-83c5-e4b65f7da4c3",
+# META       "default_lakehouse": "5f7da4c3-e4b6-83c5-4b70-2403c8964cc6",
 # META       "default_lakehouse_name": "bronze",
-# META       "default_lakehouse_workspace_id": "12f495ce-6aee-4531-98b5-aad2886e82a5",
+# META       "default_lakehouse_workspace_id": "00000000-0000-0000-0000-000000000000",
 # META       "known_lakehouses": [
 # META         {
-# META           "id": "c8964cc6-2403-4b70-83c5-e4b65f7da4c3"
+# META           "id": "2c036b85-0c83-9d53-4ce1-85d935333e4a",
+# META           "workspace_id": "00000000-0000-0000-0000-000000000000"
 # META         },
 # META         {
-# META           "id": "35333e4a-85d9-4ce1-9d53-0c832c036b85"
-# META         },
-# META         {
-# META           "id": "ecb89715-4f3a-402f-a899-81f8c9b06928"
+# META           "id": "c9b06928-81f8-a899-402f-4f3aecb89715",
+# META           "workspace_id": "00000000-0000-0000-0000-000000000000"
 # META         },
 # META         {
 # META           "id": "e7bf30d6-1e0c-48d1-b396-aaca203aeda6"
+# META         },
+# META         {
+# META           "id": "5f7da4c3-e4b6-83c5-4b70-2403c8964cc6",
+# META           "workspace_id": "00000000-0000-0000-0000-000000000000"
 # META         }
 # META       ]
 # META     },
@@ -37,6 +40,30 @@
 # Welcome to your new notebook
 # Type here in the cell editor to add code!
 
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df = spark.sql("SELECT * FROM `ram-test`.lh_test.dbo.emp LIMIT 1000")
+display(df)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+df = spark.sql("SELECT * FROM bronze.dbo.emp LIMIT 1000")
+display(df)
 
 # METADATA ********************
 
