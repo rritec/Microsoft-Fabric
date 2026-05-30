@@ -21,9 +21,6 @@
 # META           "workspace_id": "00000000-0000-0000-0000-000000000000"
 # META         },
 # META         {
-# META           "id": "e7bf30d6-1e0c-48d1-b396-aaca203aeda6"
-# META         },
-# META         {
 # META           "id": "5f7da4c3-e4b6-83c5-4b70-2403c8964cc6",
 # META           "workspace_id": "00000000-0000-0000-0000-000000000000"
 # META         }
