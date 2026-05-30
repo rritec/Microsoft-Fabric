@@ -68,3 +68,34 @@ display(df)
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+df = spark.sql("SELECT * FROM bronze.dbo.emp LIMIT 1000")
+display(df)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# MARKDOWN ********************
+
+# # new cwll added
+
+# MARKDOWN ********************
+
+
+# CELL ********************
+
+# MAGIC %%sql
+# MAGIC select * from bronze.dbo.emp
+
+# METADATA ********************
+
+# META {
+# META   "language": "sparksql",
+# META   "language_group": "synapse_pyspark"
+# META }

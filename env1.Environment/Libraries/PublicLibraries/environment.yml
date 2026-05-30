@@ -1,3 +1,4 @@
 dependencies:
   - pip:
       - mimesis==19.1.0
+      - openpyxl>=3.0.0
