@@ -39,7 +39,7 @@ emp_df_with_bonus = emp_df.withColumn("bonus", emp_df.sal * 0.1)
 
 ---
 
-## 🔁 4. Loops (for educational use only)
+## 🔁 4. Loops
 
 ```python
 import requests
