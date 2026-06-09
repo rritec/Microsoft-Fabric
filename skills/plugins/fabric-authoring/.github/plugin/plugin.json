@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "name": "fabric-authoring",
+  "description": "Developer skills for authoring Microsoft Skills for Fabric solutions - SDKs, APIs, automation scripts, CI/CD",
+  "version": "0.3.3",
+  "license": "MIT",
+  "repository": "https://github.com/microsoft/skills-for-fabric",
+  "keywords": [
+    "fabric",
+    "microsoft-fabric",
+    "authoring",
+    "developer",
+    "medallion",
+    "sdk",
+    "api"
+  ],
+  "skills": [
+    "./skills/check-updates",
+    "./skills/sqldw-authoring-cli",
+    "./skills/spark-authoring-cli",
+    "./skills/eventhouse-authoring-cli",
+    "./skills/eventstream-authoring-cli",
+    "./skills/activator-authoring-cli",
+    "./skills/semantic-model-authoring",
+    "./skills/dataflows-authoring-cli",
+    "./skills/dataflows-save-as-authoring-cli",
+    "./skills/e2e-medallion-architecture"
+  ],
+  "agents": [
+    "./agents/FabricAdmin.agent.md",
+    "./agents/FabricDataEngineer.agent.md",
+    "./agents/FabricAppDev.agent.md"
+  ],
+  "mcpServers": {}
+}

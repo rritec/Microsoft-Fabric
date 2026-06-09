@@ -1,0 +1,136 @@
+# Microsoft Fabric Development Rules for Windsurf
+
+# Update Check: At session start, check for skills-for-fabric updates by reading the
+# remote package.json version from https://github.com/microsoft/skills-for-fabric
+# (via "git fetch origin main --quiet && git show origin/main:package.json"
+# or GitHub API with authentication) and comparing with the local package.json
+# version. Show changelog if update available.
+
+project_context: |
+  This project uses Microsoft Fabric for data engineering, warehousing, and analytics.
+  Primary API reference: https://learn.microsoft.com/en-us/rest/api/fabric/articles/
+  For authentication and deployment patterns, see DEVELOPMENT-GUIDE.md at repository root.
+  Repository layering is Agents -> Skills -> Common.
+  For cross-endpoint orchestration (like medallion architecture), use agents/FabricDataEngineer.agent.md first, then delegate depth work to skills/.
+
+rules:
+  # Lakehouse & Spark
+  - name: delta_lake_format
+    description: Always use Delta Lake format for Lakehouse tables
+    pattern: "spark.write.format(\"delta\")"
+    
+  - name: mssparkutils_usage
+    description: Use mssparkutils for Fabric-specific operations
+    applies_to: ["*.py", "*.ipynb"]
+    
+  - name: spark_optimization
+    description: Run OPTIMIZE and VACUUM for Delta table maintenance
+    
+  # Warehouse
+  - name: tsql_surface_area
+    description: Check T-SQL surface area - not all SQL Server features supported
+    reference: https://learn.microsoft.com/en-us/fabric/data-warehouse/tsql-surface-area
+    
+  - name: limit_queries
+    description: Always use TOP/LIMIT when exploring data
+    pattern: "SELECT TOP"
+    
+  # KQL (Real-Time Intelligence)
+  - name: kql_time_filter
+    description: Always include time filters in KQL queries
+    pattern: "where Timestamp > ago("
+
+  - name: kql_has_over_contains
+    description: Use 'has' over 'contains' for indexed string search in KQL
+    pattern: "| where .* has "
+
+  - name: kql_idempotent_schema
+    description: Use .create-merge table and .create-or-alter function for safe KQL schema deployment
+    pattern: ".create-merge table"
+
+  - name: kql_skills
+    description: Authoring skill is eventhouse-authoring-cli, consumption skill is eventhouse-consumption-cli
+    reference: skills/eventhouse-authoring-cli/SKILL.md
+
+  - name: spark_operations
+    description: Use spark-operations-cli for read-only Spark job diagnosis, session health, and performance triage
+    reference: skills/spark-operations-cli/SKILL.md
+
+  # Dataflows Gen2 (Data Integration)
+  - name: dataflows_skills
+    description: Authoring skill is dataflows-authoring-cli, consumption skill is dataflows-consumption-cli
+    reference: skills/dataflows-authoring-cli/SKILL.md
+
+  - name: eventstream_skills
+    description: Authoring skill is eventstream-authoring-cli, consumption skill is eventstream-consumption-cli
+    reference: skills/eventstream-authoring-cli/SKILL.md
+
+  - name: activator_skills
+    description: Authoring skill is activator-authoring-cli, consumption skill is activator-consumption-cli
+    reference: skills/activator-authoring-cli/SKILL.md
+
+  - name: fabriciq_skills
+    description: Consumption skill is semantic-model-consumption (raw DAX), FabricIQ skill is fabriciq (multi-step Power BI analysis)
+    reference: skills/fabriciq/SKILL.md
+
+  - name: catalog_search
+    description: Use POST /v1/catalog/search to find items across workspaces by name, description, or type
+    reference: skills/search-consumption-cli/SKILL.md
+
+  - name: powerbi_report_planning
+    description: Plan and gather requirements before authoring PBIR — use for "build a new dashboard" intents
+    reference: skills/powerbi-report-planning/SKILL.md
+
+  - name: powerbi_report_design
+    description: Produce the design brief (tone, archetype, layout, theme) before PBIR edits
+    reference: skills/powerbi-report-design/SKILL.md
+
+  - name: powerbi_report_authoring
+    description: Edit PBIR/PBIP files (pages, visuals, formatting, themes) and validate via the CLI
+    reference: skills/powerbi-report-authoring/SKILL.md
+
+  - name: powerbi_report_management
+    description: Manage Fabric Power BI report items (create/get/update/delete) via az rest
+    reference: skills/powerbi-report-management/SKILL.md
+
+  # Warehouse Operations
+  - name: sqldw_skills
+    description: Authoring skill is sqldw-authoring-cli, consumption skill is sqldw-consumption-cli, operations skill is sqldw-operations-cli
+    reference: skills/sqldw-operations-cli/SKILL.md
+    
+  # Security
+  - name: no_hardcoded_secrets
+    description: Never hardcode credentials - use Key Vault or environment variables
+    forbidden_patterns:
+      - "password="
+      - "secret="
+      - "connectionstring="
+      
+  # Architecture
+  - name: medallion_architecture
+    description: Prefer Bronze/Silver/Gold data organization
+
+  # Semantic Model skills (Power BI)
+  - name: semantic_model_skills
+    description: Authoring skill is semantic-model-authoring, consumption skill is semantic-model-consumption
+    reference: skills/semantic-model-authoring/SKILL.md
+
+best_practices:
+  - Use parameterized notebooks and pipelines
+  - Implement incremental processing over full refreshes
+  - Document DAX measures with comments
+  - Use REST APIs for programmatic Fabric management
+
+documentation_links:
+  lakehouse: https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview
+  warehouse: https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing
+  notebooks: https://learn.microsoft.com/en-us/fabric/data-engineering/how-to-use-notebook
+  pipelines: https://learn.microsoft.com/en-us/fabric/data-factory/data-factory-overview
+  dataflows_gen2: https://learn.microsoft.com/en-us/fabric/data-factory/dataflows-gen2-overview
+  kql: https://learn.microsoft.com/en-us/fabric/real-time-intelligence/create-database
+  kql_query_reference: https://learn.microsoft.com/en-us/kusto/query/
+  kusto_cli: https://learn.microsoft.com/en-us/kusto/tools/kusto-cli
+  semantic_models: https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand
+  powerbi_reports: https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-report
+  data_agents: https://learn.microsoft.com/en-us/fabric/data-science/concept-data-agent
+  data_agent_evaluation: https://learn.microsoft.com/en-us/fabric/data-science/fabric-data-agent-sdk

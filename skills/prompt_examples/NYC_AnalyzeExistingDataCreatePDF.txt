@@ -1,0 +1,4 @@
+I have New York City taxi trips in a data warehouse called DemoDW, in a workspace called FabricCLIDemo.
+Analyze the data inside the warehouse and produce a report of key indicators for every month (average trip duration, average trip fare, number of trips and anything else you find useful).
+I want outlier analysis to be performed across months, as well as a 3-months forecast.
+When done, include all this in a PDF document.

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "name": "fabric-operations",
+  "description": "Operations skills for diagnosing Microsoft Fabric performance and health - system views, multi-step investigation workflows",
+  "version": "0.3.3",
+  "license": "MIT",
+  "repository": "https://github.com/microsoft/skills-for-fabric",
+  "keywords": [
+    "fabric",
+    "microsoft-fabric",
+    "operations",
+    "monitoring",
+    "diagnostics",
+    "performance"
+  ],
+  "skills": [
+    "./skills/check-updates",
+    "./skills/sqldw-operations-cli",
+    "./skills/spark-operations-cli"
+  ],
+  "agents": [
+    "./agents/FabricAdmin.agent.md",
+    "./agents/FabricDataEngineer.agent.md",
+    "./agents/FabricAppDev.agent.md"
+  ],
+  "mcpServers": {}
+}

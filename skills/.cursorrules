@@ -1,0 +1,147 @@
+# Microsoft Fabric Development Rules
+
+> **Update Check**: At session start, check for skills-for-fabric updates by reading the remote `package.json` version from `https://github.com/microsoft/skills-for-fabric` (via `git fetch origin main --quiet && git show origin/main:package.json` or GitHub API with authentication) and comparing with the local `package.json` version. Show changelog if update available.
+
+## Context
+This project works with Microsoft Fabric for data engineering, warehousing, and analytics.
+Primary API reference: https://learn.microsoft.com/en-us/rest/api/fabric/articles/
+
+## Architecture Mode
+- Follow repository layering: Agents -> Skills -> Common.
+- For medallion and other cross-endpoint workflows, start with `agents/FabricDataEngineer.agent.md`.
+- Delegate endpoint-specific tasks to corresponding skills in `skills/`.
+
+## Development Guide
+For authentication and deployment patterns, see **DEVELOPMENT-GUIDE.md** at repository root.
+
+## Authentication
+All operations require Azure AD tokens via `az login`:
+```bash
+az login
+az account get-access-token --resource https://api.fabric.microsoft.com
+```
+
+## Developer Pattern: REST + Protocol
+Developers use REST APIs to manage artifacts, then protocol-specific connections to access data:
+- REST → ODBC for Warehouse
+- REST → Spark for Lakehouse
+- REST → XMLA/DAX for Semantic Models
+- REST → KQL for Real-Time Intelligence
+
+## Code Generation Rules
+
+### Lakehouse & Spark
+- Always use Delta Lake format for tables
+- Use mssparkutils for Fabric-specific operations (fs, credentials, notebook)
+- Include partition columns for large tables
+- Run OPTIMIZE and VACUUM for table maintenance
+
+### Warehouse (T-SQL)
+- Check T-SQL surface area - not all SQL Server features are supported
+- Use CTAS for large transformations
+- Prefer stored procedures for reusable logic
+- Always include TOP/LIMIT when exploring data
+- Authoring skill: `skills/sqldw-authoring-cli/SKILL.md`
+- Consumption skill: `skills/sqldw-consumption-cli/SKILL.md`
+- Operations skill: `skills/sqldw-operations-cli/SKILL.md`
+
+### Notebooks
+- Tag first cell as "parameters" for parameterized notebooks
+- Use mssparkutils.credentials.getSecret() for secrets
+- Structure with clear markdown headers
+
+### Pipelines
+- Use expressions for dynamic content: @pipeline().parameters.Name
+- Implement error handling with failure activities
+- Add retry policies for transient failures
+
+### KQL (Real-Time Intelligence)
+- Always include time filters: `where Timestamp > ago(1h)`
+- Use `has` over `contains` for indexed term search
+- Use `summarize` with `bin()` for time-series aggregations
+- Prefer materialized views for frequent aggregation queries
+- Use `.create-merge table` and `.create-or-alter function` for idempotent schema deployment
+- Primary CLI tool: `az rest` against the Kusto REST API (see eventhouse skills for patterns)
+- Authoring skill: `skills/eventhouse-authoring-cli/SKILL.md`
+- Consumption skill: `skills/eventhouse-consumption-cli/SKILL.md`
+
+### Spark Operations
+- Operations skill: `skills/spark-operations-cli/SKILL.md` — read-only triage for failed jobs, stuck sessions, performance bottlenecks
+
+### Dataflows Gen2 (Data Integration)
+- Use Fabric REST API for dataflow lifecycle management and Power Query M mashup authoring
+- Primary CLI tool: `az rest` against the Fabric REST API
+- Authoring skill: `skills/dataflows-authoring-cli/SKILL.md`
+- Consumption skill: `skills/dataflows-consumption-cli/SKILL.md`
+
+### Eventstreams (Real-Time Intelligence)
+- Create and manage Eventstream topologies via Fabric REST API
+- Supports 25 source types, 8 operators (Filter, Aggregate, GroupBy, SQL, etc.), 4 destination types
+- Node names must be alphanumeric PascalCase, 3-63 characters
+- Primary CLI tool: `az rest` against the Fabric REST API (see eventstream skills for patterns)
+- Authoring skill: `skills/eventstream-authoring-cli/SKILL.md`
+- Consumption skill: `skills/eventstream-consumption-cli/SKILL.md`
+
+### Activator / Reflex (Real-Time Intelligence)
+- Use Fabric REST API to create Activator items and update Reflex definitions
+- Authoring skill: `skills/activator-authoring-cli/SKILL.md`
+- Consumption skill: `skills/activator-consumption-cli/SKILL.md`
+
+### Power BI / FabricIQ
+- Consumption skill: `skills/semantic-model-consumption/SKILL.md` — raw DAX queries via MCP ExecuteQuery
+- FabricIQ skill: `skills/fabriciq/SKILL.md` — multi-step Power BI analysis (discover, inspect, resolve, generate, execute)
+
+### Catalog Search (Item Discovery)
+- Use `POST /v1/catalog/search` to find items across workspaces by name, description, or workspace name
+- Filter by type with `"filter": "Type eq 'Lakehouse'"` syntax
+- Use empty search string with type filter to list all items of a type
+- Consumption skill: `skills/search-consumption-cli/SKILL.md`
+
+### Semantic Models (DAX)
+- Primary CLI tool: `az rest` against the Fabric REST API
+- Primary MCP tool: `powerbi-modeling-mcp`
+- Authoring skill: `skills/semantic-model-authoring/SKILL.md`
+- Consumption skill: `skills/semantic-model-consumption/SKILL.md`
+
+### Power BI Reports (PBIR/PBIP)
+- Keep planning, design, local PBIR edits, and Fabric item management as separate phases
+- Planning: `skills/powerbi-report-planning/SKILL.md`
+- Design: `skills/powerbi-report-design/SKILL.md`
+- Authoring: `skills/powerbi-report-authoring/SKILL.md`
+- Management: `skills/powerbi-report-management/SKILL.md`
+
+### Data Agents
+- Use Python SDK within Fabric notebooks for rapid prototyping
+- Provide custom instructions for domain-specific terminology
+- Add few-shot examples to improve query accuracy
+- Limit data sources to 5 maximum per agent
+
+### Data Agent Evaluation
+- Use pandas DataFrame with question/expected_answer columns
+- Validate few-shot examples before adding to agents
+- Test sandbox stage before production
+- Track evaluation accuracy over time
+
+## File Patterns
+
+### PySpark Notebook
+```python
+# Parameters cell (tag as "parameters")
+input_table = "default_table"
+
+# Main logic
+df = spark.read.format("delta").load(f"Tables/{input_table}")
+```
+
+### T-SQL
+```sql
+-- Always limit exploratory queries
+SELECT TOP 100 * FROM dbo.TableName WHERE DateColumn >= '2024-01-01';
+```
+
+### KQL
+```kql
+TableName
+| where Timestamp > ago(24h)
+| summarize Count=count() by bin(Timestamp, 1h)
+```

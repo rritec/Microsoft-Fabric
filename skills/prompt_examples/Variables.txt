@@ -1,0 +1,4 @@
+Demo NYC Taxi Trip data is available here https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page.
+
+Create a new Fabric workspace. Create a lakehouse and load the data into it using a notebook.
+Use variable library to reference the lakehouse. Access the lakehouse via the variable, not the default lakehouse.

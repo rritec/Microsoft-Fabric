@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Template for Fabric MCP server configuration. Copy and customize for your environment.",
+  
+  "mcpServers": {
+    "fabric": {
+      "url": "https://YOUR_FABRIC_MCP_SERVER_URL",
+      "transport": "http",
+      "description": "Microsoft Fabric MCP server for workspace and artifact operations",
+      "auth": {
+        "type": "bearer",
+        "token": "${FABRIC_MCP_TOKEN}"
+      },
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": false
+      }
+    },
+    "fabric-warehouse": {
+      "url": "https://YOUR_WAREHOUSE_MCP_SERVER_URL",
+      "transport": "http",
+      "description": "Fabric Warehouse MCP server for SQL operations",
+      "auth": {
+        "type": "bearer",
+        "token": "${FABRIC_MCP_TOKEN}"
+      }
+    },
+    "fabric-lakehouse": {
+      "url": "https://YOUR_LAKEHOUSE_MCP_SERVER_URL", 
+      "transport": "http",
+      "description": "Fabric Lakehouse MCP server for Delta table and file operations",
+      "auth": {
+        "type": "bearer",
+        "token": "${FABRIC_MCP_TOKEN}"
+      }
+    }
+  },
+
+  "_comments": {
+    "url": "Replace with your actual MCP server URLs",
+    "token": "Set FABRIC_MCP_TOKEN environment variable or replace with actual token",
+    "transport": "Use 'http' for remote servers, 'stdio' for local process-based servers",
+    "capabilities": "Adjust based on what your MCP server supports"
+  }
+
+}

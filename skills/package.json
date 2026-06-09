@@ -1,0 +1,39 @@
+{
+  "name": "@microsoft/skills-for-fabric",
+  "version": "0.3.3",
+  "description": "AI coding assistant skills for Microsoft Fabric developers and consumers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/skills-for-fabric.git"
+  },
+  "keywords": [
+    "fabric",
+    "microsoft-fabric",
+    "copilot",
+    "github-copilot",
+    "claude",
+    "ai-skills",
+    "data-engineering",
+    "data-warehouse",
+    "lakehouse",
+    "power-bi"
+  ],
+  "author": "Microsoft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/microsoft/skills-for-fabric/issues"
+  },
+  "homepage": "https://github.com/microsoft/skills-for-fabric#readme",
+  "files": [
+    "agents/**",
+    "skills/**",
+    "mcp-setup/**"
+  ],
+  "scripts": {
+    "postinstall": "node -e \"console.log('\\n✅ Skills for Fabric installed. Use the GitHub Copilot CLI plugin marketplace, or copy the relevant skills/ folder into your AI tool configuration.\\n')\"",
+    "report:coverage-gaps": "python tests/coverage_gap_report.py",
+    "test": "pytest",
+    "test:semantic": "pytest -m semantic",
+    "test:integration": "pytest -m integration"
+  }
+}

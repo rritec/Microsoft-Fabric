@@ -1,0 +1,14 @@
+Demo NYC Taxi Trip data is available here https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+I want to create a Fabric project to look at this data.
+Follow the medallion architecture principles.
+
+Download all data dictionaries and dimension/lookup tables in a Fabric Lakehouse Files section. Also, download all the trip data for 2025.
+
+Then, from this data, create clean tables. Preserve the dimensional model, keep dimension tables and fact tables.
+If data is separated by months, then make sure your fact tables union across all year.
+
+Perform any necessary data cleaning, and create an aggregate reporting view in the SQL Endpoint, which has all the core measures, by month.
+
+Generate a Power BI semantic model, including the dimension tables, the fact tables and measures for all the aggregations you created in the SQL Endpoint view.
+
+Before deploying, ask me which workspace you should use, or whether you should create a new one.

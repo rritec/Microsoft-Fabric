@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "name": "fabric-consumption",
+  "description": "Consumer skills for interactive Microsoft Skills for Fabric operations - queries, exploration, monitoring",
+  "version": "0.3.3",
+  "license": "MIT",
+  "repository": "https://github.com/microsoft/skills-for-fabric",
+  "keywords": [
+    "fabric",
+    "microsoft-fabric",
+    "consumption",
+    "query",
+    "exploration"
+  ],
+  "skills": [
+    "./skills/check-updates",
+    "./skills/semantic-model-consumption",
+    "./skills/fabriciq",
+    "./skills/sqldw-consumption-cli",
+    "./skills/spark-consumption-cli",
+    "./skills/eventhouse-consumption-cli",
+    "./skills/eventstream-consumption-cli",
+    "./skills/activator-consumption-cli",
+    "./skills/dataflows-consumption-cli",
+    "./skills/search-consumption-cli"
+  ],
+  "agents": [
+    "./agents/FabricAdmin.agent.md",
+    "./agents/FabricDataEngineer.agent.md",
+    "./agents/FabricAppDev.agent.md",
+    "./agents/FabricIQ.agent.md"
+  ],
+  "mcpServers": {
+    "FabricIQ": {
+      "type": "http",
+      "url": "https://api.fabric.microsoft.com/v1/mcp/fabricaihub/integrations/m365",
+      "headers": {
+        "X-VARIANTS": "Fabric.Routing.LargeModelJMESPath"
+      },
+      "tools": [
+        "DiscoverArtifacts",
+        "GetReportMetadata",
+        "GetSemanticModelSchema",
+        "ValueSearch",
+        "ExecuteQuery",
+        "ResolveReportIdFromUrl"
+      ]
+    }
+  }
+}

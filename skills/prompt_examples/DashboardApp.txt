@@ -1,0 +1,5 @@
+NYC Taxi Trips data is in the DemoDW warehouse of the FabricCLIDemo workspace. I am a taxi driver. 
+Generate me an interactive dashboard which connects to the warehouse, takes into account the month, day of the week and time of day, 
+and tells me where should I pick up customers to maximize tips. 
+Also, it should allow me to select a location to pick passengers and tell me what tips I should expect now in that location, by reanalyzing the database. 
+When done, launch the app.

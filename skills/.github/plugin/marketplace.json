@@ -1,0 +1,305 @@
+{
+  "name": "fabric-collection",
+  "metadata": {
+    "description": "Microsoft Skills for Fabric collection for GitHub Copilot CLI",
+    "version": "0.3.3"
+  },
+  "owner": {
+    "name": "Microsoft",
+    "email": "copilot@microsoft.com"
+  },
+  "plugins": [
+    {
+      "name": "fabric-skills",
+      "source": "./plugins/fabric-skills",
+      "description": "Complete bundle: all Microsoft Skills for Fabric for developers and consumers",
+      "version": "0.3.3",
+      "skills": [
+        "./skills/check-updates",
+        "./skills/semantic-model-consumption",
+        "./skills/fabriciq",
+        "./skills/semantic-model-authoring",
+        "./skills/sqldw-consumption-cli",
+        "./skills/sqldw-authoring-cli",
+        "./skills/spark-consumption-cli",
+        "./skills/spark-authoring-cli",
+        "./skills/eventhouse-consumption-cli",
+        "./skills/eventhouse-authoring-cli",
+        "./skills/eventstream-consumption-cli",
+        "./skills/eventstream-authoring-cli",
+        "./skills/activator-consumption-cli",
+        "./skills/activator-authoring-cli",
+        "./skills/sqldw-operations-cli",
+        "./skills/spark-operations-cli",
+        "./skills/dataflows-consumption-cli",
+        "./skills/dataflows-authoring-cli",
+        "./skills/dataflows-save-as-authoring-cli",
+        "./skills/search-consumption-cli",
+        "./skills/databricks-migration",
+        "./skills/synapse-migration",
+        "./skills/hdinsight-migration",
+        "./skills/e2e-medallion-architecture"
+      ],
+      "agents": [
+        "./agents/FabricAdmin.agent.md",
+        "./agents/FabricDataEngineer.agent.md",
+        "./agents/FabricAppDev.agent.md",
+        "./agents/FabricIQ.agent.md"
+      ],
+      "mcpServers": {
+        "FabricIQ": {
+          "type": "http",
+          "url": "https://api.fabric.microsoft.com/v1/mcp/fabricaihub/integrations/m365",
+          "headers": {
+            "X-VARIANTS": "Fabric.Routing.LargeModelJMESPath"
+          },
+          "tools": [
+            "DiscoverArtifacts",
+            "GetReportMetadata",
+            "GetSemanticModelSchema",
+            "ValueSearch",
+            "ExecuteQuery",
+            "ResolveReportIdFromUrl"
+          ]
+        }
+      },
+      "repository": "https://github.com/microsoft/skills-for-fabric",
+      "keywords": [
+        "fabric",
+        "microsoft-fabric",
+        "medallion",
+        "data-warehouse",
+        "lakehouse",
+        "analytics",
+        "kql",
+        "kusto",
+        "eventhouse",
+        "real-time-intelligence"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "skills-for-fabric",
+      "source": "./plugins/fabric-skills",
+      "description": "[DEPRECATED ALIAS of fabric-skills@fabric-collection \u2014 pre-0.3.0 users only; new installs should use fabric-skills.] Complete bundle: all Microsoft Skills for Fabric for developers and consumers",
+      "version": "0.3.3",
+      "skills": [
+        "./skills/check-updates",
+        "./skills/semantic-model-consumption",
+        "./skills/fabriciq",
+        "./skills/semantic-model-authoring",
+        "./skills/sqldw-consumption-cli",
+        "./skills/sqldw-authoring-cli",
+        "./skills/spark-consumption-cli",
+        "./skills/spark-authoring-cli",
+        "./skills/eventhouse-consumption-cli",
+        "./skills/eventhouse-authoring-cli",
+        "./skills/eventstream-consumption-cli",
+        "./skills/eventstream-authoring-cli",
+        "./skills/activator-consumption-cli",
+        "./skills/activator-authoring-cli",
+        "./skills/sqldw-operations-cli",
+        "./skills/spark-operations-cli",
+        "./skills/dataflows-consumption-cli",
+        "./skills/dataflows-authoring-cli",
+        "./skills/dataflows-save-as-authoring-cli",
+        "./skills/search-consumption-cli",
+        "./skills/databricks-migration",
+        "./skills/synapse-migration",
+        "./skills/hdinsight-migration",
+        "./skills/e2e-medallion-architecture"
+      ],
+      "agents": [
+        "./agents/FabricAdmin.agent.md",
+        "./agents/FabricDataEngineer.agent.md",
+        "./agents/FabricAppDev.agent.md",
+        "./agents/FabricIQ.agent.md"
+      ],
+      "mcpServers": {
+        "FabricIQ": {
+          "type": "http",
+          "url": "https://api.fabric.microsoft.com/v1/mcp/fabricaihub/integrations/m365",
+          "headers": {
+            "X-VARIANTS": "Fabric.Routing.LargeModelJMESPath"
+          },
+          "tools": [
+            "DiscoverArtifacts",
+            "GetReportMetadata",
+            "GetSemanticModelSchema",
+            "ValueSearch",
+            "ExecuteQuery",
+            "ResolveReportIdFromUrl"
+          ]
+        }
+      },
+      "repository": "https://github.com/microsoft/skills-for-fabric",
+      "keywords": [
+        "fabric",
+        "microsoft-fabric",
+        "medallion",
+        "data-warehouse",
+        "lakehouse",
+        "analytics",
+        "kql",
+        "kusto",
+        "eventhouse",
+        "real-time-intelligence"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "fabric-authoring",
+      "source": "./plugins/fabric-authoring",
+      "description": "Developer skills for authoring Microsoft Skills for Fabric solutions - SDKs, APIs, automation scripts, CI/CD",
+      "version": "0.3.3",
+      "skills": [
+        "./skills/check-updates",
+        "./skills/sqldw-authoring-cli",
+        "./skills/spark-authoring-cli",
+        "./skills/eventhouse-authoring-cli",
+        "./skills/eventstream-authoring-cli",
+        "./skills/activator-authoring-cli",
+        "./skills/semantic-model-authoring",
+        "./skills/dataflows-authoring-cli",
+        "./skills/dataflows-save-as-authoring-cli",
+        "./skills/e2e-medallion-architecture"
+      ],
+      "agents": [
+        "./agents/FabricAdmin.agent.md",
+        "./agents/FabricDataEngineer.agent.md",
+        "./agents/FabricAppDev.agent.md"
+      ],
+      "mcpServers": {},
+      "repository": "https://github.com/microsoft/skills-for-fabric",
+      "keywords": [
+        "fabric",
+        "microsoft-fabric",
+        "authoring",
+        "developer",
+        "medallion",
+        "sdk",
+        "api"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "fabric-consumption",
+      "source": "./plugins/fabric-consumption",
+      "description": "Consumer skills for interactive Microsoft Skills for Fabric operations - queries, exploration, monitoring",
+      "version": "0.3.3",
+      "skills": [
+        "./skills/check-updates",
+        "./skills/semantic-model-consumption",
+        "./skills/fabriciq",
+        "./skills/sqldw-consumption-cli",
+        "./skills/spark-consumption-cli",
+        "./skills/eventhouse-consumption-cli",
+        "./skills/eventstream-consumption-cli",
+        "./skills/activator-consumption-cli",
+        "./skills/dataflows-consumption-cli",
+        "./skills/search-consumption-cli"
+      ],
+      "agents": [
+        "./agents/FabricAdmin.agent.md",
+        "./agents/FabricDataEngineer.agent.md",
+        "./agents/FabricAppDev.agent.md",
+        "./agents/FabricIQ.agent.md"
+      ],
+      "mcpServers": {
+        "FabricIQ": {
+          "type": "http",
+          "url": "https://api.fabric.microsoft.com/v1/mcp/fabricaihub/integrations/m365",
+          "headers": {
+            "X-VARIANTS": "Fabric.Routing.LargeModelJMESPath"
+          },
+          "tools": [
+            "DiscoverArtifacts",
+            "GetReportMetadata",
+            "GetSemanticModelSchema",
+            "ValueSearch",
+            "ExecuteQuery",
+            "ResolveReportIdFromUrl"
+          ]
+        }
+      },
+      "repository": "https://github.com/microsoft/skills-for-fabric",
+      "keywords": [
+        "fabric",
+        "microsoft-fabric",
+        "consumption",
+        "query",
+        "exploration"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "fabric-operations",
+      "source": "./plugins/fabric-operations",
+      "description": "Operations skills for diagnosing Microsoft Fabric performance and health - system views, multi-step investigation workflows",
+      "version": "0.3.3",
+      "skills": [
+        "./skills/check-updates",
+        "./skills/sqldw-operations-cli",
+        "./skills/spark-operations-cli"
+      ],
+      "agents": [
+        "./agents/FabricAdmin.agent.md",
+        "./agents/FabricDataEngineer.agent.md",
+        "./agents/FabricAppDev.agent.md"
+      ],
+      "mcpServers": {},
+      "repository": "https://github.com/microsoft/skills-for-fabric",
+      "keywords": [
+        "fabric",
+        "microsoft-fabric",
+        "operations",
+        "monitoring",
+        "diagnostics",
+        "performance"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "powerbi-authoring",
+      "source": "./plugins/powerbi-authoring",
+      "description": "Developer skills for authoring Microsoft Power BI solutions.",
+      "version": "0.3.3",
+      "skills": [
+        "./skills/check-updates",
+        "./skills/semantic-model-authoring",
+        "./skills/powerbi-report-planning",
+        "./skills/powerbi-report-design",
+        "./skills/powerbi-report-authoring",
+        "./skills/powerbi-report-management"
+      ],
+      "agents": [],
+      "mcpServers": {
+        "powerbi-modeling-mcp": {
+          "type": "local",
+          "command": "npx",
+          "args": [
+            "-y",
+            "@microsoft/powerbi-modeling-mcp@latest",
+            "--start"
+          ],
+          "tools": [
+            "*"
+          ]
+        }
+      },
+      "repository": "https://github.com/microsoft/skills-for-fabric",
+      "keywords": [
+        "fabric",
+        "microsoft-fabric",
+        "authoring",
+        "powerbi",
+        "semantic-model",
+        "pbip",
+        "pbir",
+        "report",
+        "developer"
+      ],
+      "license": "MIT"
+    }
+  ]
+}
