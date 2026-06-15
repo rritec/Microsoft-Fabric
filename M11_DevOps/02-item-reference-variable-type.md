@@ -25,6 +25,8 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
    a. Open ram-dev workspace > Click on **New item** > Click on **pipeline**
    
    b. Name it `detail-pipeline`
+
+   !(dp)["media/detail-pipeline-1.png"]
    
  
    <img width="594" height="279" alt="image" src="media/detail-pipeline-1.png" />
