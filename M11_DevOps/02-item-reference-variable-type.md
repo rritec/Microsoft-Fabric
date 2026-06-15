@@ -20,21 +20,15 @@
 ## Classroom exercises — expanded step-by-step
 Below are six guided exercises. Each exercise lists small, verifiable steps students can follow.
 
-1. Create a simple child pipeline (`detail-pipeline`)
+1) Create a simple child pipeline (`detail-pipeline`)
+	a. Open ram-dev workspace > Click on **New item** > Click on **pipeline** 
+	b. Name it `detail-pipeline` 
+    !(detail-pipeline)[media/detail-pipeline-1.png]
+    c. and add a simple activity (for example: a Lookup, Execute Notebook, or a Web activity that logs sample output).
+	c. Save and publish the pipeline.
+	d. Verify it runs manually (Run → check run history).
 
-	a. Open the `ram-dev` workspace → click **New item** → select **Pipeline**.
-
-	b. Name it `detail-pipeline`.
-
-	![detail-pipeline](media/detail-pipeline-1.png)
-
-	c. Add a simple activity (for example: Lookup, Execute Notebook, or a Web activity that logs sample output).
-
-	d. Save and publish the pipeline.
-
-	e. Verify it runs manually (Run → check run history).
-
-2) Create a Variable Library and add an Item Reference variable
+3) Create a Variable Library and add an Item Reference variable
 	a. Open the Variable Library for the workspace.
 	b. Click **+ New variable**.
 	c. Name the variable `DetailPipelineRef`, choose **Item reference** as the type, and click the ellipsis (...) to pick an item.
@@ -42,23 +36,23 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
 	e. Save the variable and confirm it appears as a read-only item on the variable library page.
 	- Placeholder screenshot: M11_DevOps/media/item-picker.png
 
-3) Inspect the variable from a notebook (see stored IDs)
+4) Inspect the variable from a notebook (see stored IDs)
 	a. Open a notebook in the same workspace.
 	b. Use the notebook utils example below to resolve the variable and print `workspaceId` and `itemId`.
 	c. Confirm the printed IDs match the referenced item.
 
-4) Create a master pipeline (`master-pipeline`) that calls the child via variable
+5) Create a master pipeline (`master-pipeline`) that calls the child via variable
 	a. Create `master-pipeline` and add an activity that invokes or triggers the pipeline referenced by the variable (e.g., a Pipeline activity or notebook that reads the IDs and calls the child).
 	b. Configure the activity to read `DetailPipelineRef` from the Variable Library at runtime.
 	c. Save, publish, and test the master pipeline to confirm it triggers the child pipeline.
 
-5) Create a deployment pipeline and deploy to a Test workspace
+6) Create a deployment pipeline and deploy to a Test workspace
 	a. Use your CI/CD process (or manual export) to prepare deployment artifacts (variable library JSON and pipeline definitions).
 	b. In the Test workspace, import the variable library and pipelines.
 	c. Activate the appropriate value-set if you created stage-specific value-sets.
 	d. Run the deployed `master-pipeline` in Test and confirm it calls the correct `detail-pipeline` there.
 
-6) Change variable library item references
+7) Change variable library item references
 	a. In the Test or Prod workspace, edit `DetailPipelineRef` and choose a different target item or a different value-set.
 	b. Save and re-run the master pipeline to verify it now uses the updated referenced item.
 
