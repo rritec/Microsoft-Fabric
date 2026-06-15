@@ -21,7 +21,8 @@
 Below are six guided exercises. Each exercise lists small, verifiable steps students can follow.
 
 1) Create a simple child pipeline (`detail-pipeline`)
-	a. Open ram-dev workspace > Click on **New item** > Click on **pipeline** 
+
+    a. Open ram-dev workspace > Click on **New item** > Click on **pipeline** 
 	b. Name it `detail-pipeline` 
     !(detail-pipeline)[media/detail-pipeline-1.png]
     c. and add a simple activity (for example: a Lookup, Execute Notebook, or a Web activity that logs sample output).
