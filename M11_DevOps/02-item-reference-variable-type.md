@@ -20,13 +20,19 @@
 ## Classroom exercises — expanded step-by-step
 Below are six guided exercises. Each exercise lists small, verifiable steps students can follow.
 
-1) Create a simple child pipeline (`detail-pipeline`)
-	a. Open ram-dev workspace > Click on **New item** > Click on **pipeline** 
-	b. Name it `detail-pipeline` 
-    !(detail-pipeline)[media/detail-pipeline-1.png]
-    c. and add a simple activity (for example: a Lookup, Execute Notebook, or a Web activity that logs sample output).
-	c. Save and publish the pipeline.
-	d. Verify it runs manually (Run → check run history).
+1. Create a simple child pipeline (`detail-pipeline`)
+
+	a. Open the `ram-dev` workspace → click **New item** → select **Pipeline**.
+
+	b. Name it `detail-pipeline`.
+
+	![detail-pipeline](media/detail-pipeline-1.png)
+
+	c. Add a simple activity (for example: Lookup, Execute Notebook, or a Web activity that logs sample output).
+
+	d. Save and publish the pipeline.
+
+	e. Verify it runs manually (Run → check run history).
 
 2) Create a Variable Library and add an Item Reference variable
 	a. Open the Variable Library for the workspace.
