@@ -37,15 +37,15 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
 
 	- Click on `Add value set` > name it is ram-dev
 
-        ![detail-pipeline](..\Labdata\media\fabric-0002.png)
+        ![detail-pipeline](../Labdata/media/fabric-0002.png)
 
     - save it.
-     ![detail-pipeline](..\Labdata\media\fabric-0004.png)  
+     ![detail-pipeline](../Labdata/media/fabric-0004.png)  
 
 
 1. Exercise 3: Inspect the variable from a notebook (see stored IDs)
 	- Create a notebook with the name `understand-item-reference`
-    ![detail-pipeline](..\Labdata\media\fabric-0005.png)  
+    ![detail-pipeline](../Labdata/media/fabric-0005.png)  
     - in first cell paste below code and run it and understand the `map` object
     ```python
     var_ref = "$(/**/ram-variable-library/DetailPipelineRef)"
@@ -60,13 +60,13 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
     print(item_id)
     ```
 
-    ![detail-pipeline](..\Labdata\media\fabric-0006.png) 
+    ![detail-pipeline](../Labdata/media/fabric-0006.png) 
 
 
 
 1. Exercise 3: Create a master pipeline (`master-pipeline`) that calls the child via variable
 	- Create `master-pipeline`
-        ![detail-pipeline](..\Labdata\media\fabric-0007.png)
+        ![detail-pipeline](../Labdata/media/fabric-0007.png)
     - 
     and add an activity that invokes or triggers the pipeline referenced by the variable (e.g., a Pipeline activity or notebook that reads the IDs and calls the child).
 	b. Configure the activity to read `DetailPipelineRef` from the Variable Library at runtime.
