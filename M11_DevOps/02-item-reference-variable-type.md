@@ -29,7 +29,7 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
    ![detail-pipeline](media/detail-pipeline-1.png)
    
  
-   <img width="594" height="279" alt="image" src="media/detail-pipeline-1.png" />
+
 
    
    c. and add a simple activity (for example: a Lookup, Execute Notebook, or a Web activity that logs sample output).
