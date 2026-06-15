@@ -27,7 +27,7 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
    b. Name it `detail-pipeline`
    
  
-   <img width="594" height="279" alt="image" src="https://github.com/rritec/Microsoft-Fabric/blob/main/M11_DevOps/media/detail-pipeline-1.png" />
+   <img width="594" height="279" alt="image" src="/media/detail-pipeline-1.png" />
 
    
    c. and add a simple activity (for example: a Lookup, Execute Notebook, or a Web activity that logs sample output).
