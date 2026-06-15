@@ -20,29 +20,55 @@
 ## Classroom exercises — expanded step-by-step
 Below are six guided exercises. Each exercise lists small, verifiable steps students can follow.
 
-1) Create a simple child pipeline (`detail-pipeline`)
-	a. Open ram-dev workspace > Click on **New item** > Click on **pipeline** 
-	b. Name it `detail-pipeline` 
-    !(detail-pipeline)[media/detail-pipeline-1.png]
-    c. and add a simple activity (for example: a Lookup, Execute Notebook, or a Web activity that logs sample output).
-	c. Save and publish the pipeline.
-	d. Verify it runs manually (Run → check run history).
+1. Exercise 1: Create a simple child pipeline (`detail-pipeline`)
+	- Open the `ram-dev` workspace → click **New item** → select **Pipeline**.
+	- Name it `detail-pipeline`.
+	![detail-pipeline](media/detail-pipeline-1.png)
+	- Add a simple activity set variable
+	- Save and publish the pipeline.
+	- Verify it by runing manually
 
-3) Create a Variable Library and add an Item Reference variable
-	a. Open the Variable Library for the workspace.
-	b. Click **+ New variable**.
-	c. Name the variable `DetailPipelineRef`, choose **Item reference** as the type, and click the ellipsis (...) to pick an item.
-	d. In the picker, filter to the workspace and select `detail-pipeline`.
-	e. Save the variable and confirm it appears as a read-only item on the variable library page.
-	- Placeholder screenshot: M11_DevOps/media/item-picker.png
+1. Exercise 2: Create a Variable Library and add an Item Reference variable
+	- Open the `ram-dev` workspace → click **New item** → select **Variable Library**.
+	- Name it `ram-variable-library`.
+    - Click on **New variable**
+    - Name it `DetailPipelineRef` > Select Type as `Item Reference` > Click on Select item and select `detail-pipeline`
+	![detail-pipeline](../Labdata/media/detail-pipeline-2.png)
 
-4) Inspect the variable from a notebook (see stored IDs)
-	a. Open a notebook in the same workspace.
-	b. Use the notebook utils example below to resolve the variable and print `workspaceId` and `itemId`.
-	c. Confirm the printed IDs match the referenced item.
+	- Click on `Add value set` > name it is ram-dev
 
-5) Create a master pipeline (`master-pipeline`) that calls the child via variable
-	a. Create `master-pipeline` and add an activity that invokes or triggers the pipeline referenced by the variable (e.g., a Pipeline activity or notebook that reads the IDs and calls the child).
+        ![detail-pipeline](..\Labdata\media\fabric-0002.png)
+
+    - save it.
+     ![detail-pipeline](..\Labdata\media\fabric-0004.png)  
+
+
+1. Exercise 3: Inspect the variable from a notebook (see stored IDs)
+	- Create a notebook with the name `understand-item-reference`
+    ![detail-pipeline](..\Labdata\media\fabric-0005.png)  
+    - in first cell paste below code and run it and understand the `map` object
+    ```python
+    var_ref = "$(/**/ram-variable-library/DetailPipelineRef)"
+    var_obj = notebookutils.variableLibrary.get(var_ref)
+    print(var_obj)
+    ```
+    - In second cell paste below code and run it and understand IDs
+    ```python
+    workspace_id = var_obj.get("workspaceId").value()
+    item_id = var_obj.get("itemId").value()
+    print(workspace_id)
+    print(item_id)
+    ```
+
+    ![detail-pipeline](..\Labdata\media\fabric-0006.png) 
+
+
+
+1. Exercise 3: Create a master pipeline (`master-pipeline`) that calls the child via variable
+	- Create `master-pipeline`
+        ![detail-pipeline](..\Labdata\media\fabric-0007.png)
+    - 
+    and add an activity that invokes or triggers the pipeline referenced by the variable (e.g., a Pipeline activity or notebook that reads the IDs and calls the child).
 	b. Configure the activity to read `DetailPipelineRef` from the Variable Library at runtime.
 	c. Save, publish, and test the master pipeline to confirm it triggers the child pipeline.
 
