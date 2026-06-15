@@ -41,6 +41,7 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
         ![detail-pipeline](..\Labdata\media\fabric-0002.png)
 
     - save it.
+      
      ![detail-pipeline](..\Labdata\media\fabric-0004.png)  
 
 
