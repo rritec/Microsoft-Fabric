@@ -21,88 +21,73 @@
 Below are six guided exercises. Each exercise lists small, verifiable steps students can follow.
 
 1. Exercise 1: Create a simple child pipeline (`detail-pipeline`)
-	- Open the `ram-dev` workspace → click **New item** → select **Pipeline**.
-	- Name it `detail-pipeline`.
-	![detail-pipeline](media/detail-pipeline-1.png)
-	- Add a simple activity set variable
-	- Save and publish the pipeline.
-	- Verify it by runing manually
+    - Open the `ram-dev` workspace → click **New item** → select **Pipeline**.
+    - Name the pipeline `detail-pipeline`.
+    - Add a simple activity (for example, a short Lookup or Wait) and save and publish the pipeline.
+    - Verify: run the pipeline manually and confirm it completes successfully.
+    ![Detail pipeline creation screenshot](../Labdata/media/detail-pipeline-1.png)
 
-1. Exercise 2: Create a Variable Library and add an Item Reference variable
-	- Open the `ram-dev` workspace → click **New item** → select **Variable Library**.
-	- Name it `ram-variable-library`.
-    - Click on **New variable**
-    - Name it `DetailPipelineRef` > Select Type as `Item Reference` > Click on Select item and select `detail-pipeline`
-      
-	![detail-pipeline](../Labdata/media/detail-pipeline-2.png)
+2. Exercise 2: Create a Variable Library and add an Item Reference variable
+    - Open the `ram-dev` workspace → click **New item** → select **Variable Library**.
+    - Name it `ram-variable-library`.
+    - Click **New variable**.
+    - Name the variable `DetailPipelineRef`, select **Type** = `Item Reference`, click **Select item**, and choose `detail-pipeline`.
+    ![Select item for item reference](../Labdata/media/detail-pipeline-2.png)
+    - Click **Add value set**, name it `ram-dev`, then save the variable library.
+    ![Add value set screenshot](../Labdata/media/fabric-0002.png)
+    ![Saved variable library screenshot](../Labdata/media/fabric-0004.png)
 
-	- Click on `Add value set` > name it is ram-dev
-
-        ![detail-pipeline](../Labdata/media/fabric-0002.png)
-
-    - save it.
-     ![detail-pipeline](../Labdata/media/fabric-0004.png)  
-
-
-1. Exercise 3: Inspect the variable from a notebook (see stored IDs)
-	- Create a notebook with the name `understand-item-reference`
-    ![detail-pipeline](../Labdata/media/fabric-0005.png)  
-    - in first cell paste below code and run it and understand the `map` object
+3. Exercise 3: Inspect the variable from a notebook (see stored IDs)
+    - Create a notebook named `understand-item-reference`.
+    ![Create notebook screenshot](../Labdata/media/fabric-0005.png)
+    - In the first cell paste and run the code below to retrieve the variable object:
     ```python
     var_ref = "$(/**/ram-variable-library/DetailPipelineRef)"
     var_obj = notebookutils.variableLibrary.get(var_ref)
     print(var_obj)
     ```
-    - In second cell paste below code and run it and understand IDs
+    - In the second cell run the code below to extract the stored GUIDs:
     ```python
     workspace_id = var_obj.get("workspaceId").value()
     item_id = var_obj.get("itemId").value()
     print(workspace_id)
     print(item_id)
     ```
+    - Verify: confirm the two printed values are GUIDs and correspond to the `detail-pipeline` item.
+    ![Variable object screenshot](../Labdata/media/fabric-0006.png)
 
-    ![detail-pipeline](../Labdata/media/fabric-0006.png) 
+4. Exercise 4: Create a master pipeline (`master-pipeline`) that calls the child via variable
+    - Create `master-pipeline` and add an `Invoke pipeline` activity.
+    ![Master pipeline creation screenshot](../Labdata/media/fabric-0007.png)
+    - Under **Library variables** click **New** and create a variable named `vDetailPipelineRef` that references `ram-variable-library/DetailPipelineRef`.
+    ![Library variable screenshot](../Labdata/media/fabric-0008.png)
+    - Configure the `Invoke pipeline` activity: in Settings, pick `FabricDataPipelines` for the service, then use dynamic content to set the workspace and pipeline values. Example dynamic expression referencing the variable:
+    ```
+    $(/**/ram-variable-library/DetailPipelineRef)
+    ```
+    - Save and run the `master-pipeline`; verify the child `detail-pipeline` runs as expected.
+    ![Invoke pipeline run screenshot](../Labdata/media/fabric-0012.png)
 
+5. Exercise 5: Create a deployment pipeline and deploy to a `ram-test` workspace
+    - Click **Workspaces** → **Deployment pipelines** → **New pipeline** and name it `ram-deployment-pipeline`.
+    ![Deployment pipeline list screenshot](../Labdata/media/fabric-0013.png)
+    - Click **Create and continue**, then map the source and target workspaces.
+    ![Map workspaces screenshot](../Labdata/media/fabric-0014.png)
+    - Select the `Test` environment, choose the objects to deploy (include the variable library and pipelines), and click **Deploy**.
+    - Verify: wait for the deployment success notification and then confirm the objects appear in `ram-test`.
+    ![Deployment success screenshot](../Labdata/media/fabric-0016.png)
 
+6. Exercise 6: Adjust value sets for the `ram-test` environment
+    - Currently Fabric does not autobind item references during deployment. As a result, you must create and activate an environment-specific value set (for example, `ram-test`) in the Variable Library and update the item reference there.
+    - Steps: in the source workspace create a `ram-test` value set for `ram-variable-library`, set the item reference to the `detail-pipeline` in `ram-test` (or update after deployment), then save.
+    ![Edit value set screenshot](../Labdata/media/fabric-0017.png)
+    - Deploy only the Variable Library object to the `ram-test` workspace, then in `ram-test` open the variable library and activate the `ram-test` value set.
+    ![Deploy variable library screenshot](../Labdata/media/fabric-0021.png)
+    ![Activate value set screenshot](../Labdata/media/fabric-0022.png)
+    - Verify: in `ram-test` confirm the active value set contains the correct workspace and item IDs for the test copies of the assets.
 
-1. Exercise 3: Create a master pipeline (`master-pipeline`) that calls the child via variable
-	- Create `master-pipeline`
-        ![detail-pipeline](../Labdata/media/fabric-0007.png)
-    - 
-    and add an activity that invokes or triggers the pipeline referenced by the variable (e.g., a Pipeline activity or notebook that reads the IDs and calls the child).
-	b. Configure the activity to read `DetailPipelineRef` from the Variable Library at runtime.
-	c. Save, publish, and test the master pipeline to confirm it triggers the child pipeline.
-
-6) Create a deployment pipeline and deploy to a Test workspace
-	a. Use your CI/CD process (or manual export) to prepare deployment artifacts (variable library JSON and pipeline definitions).
-	b. In the Test workspace, import the variable library and pipelines.
-	c. Activate the appropriate value-set if you created stage-specific value-sets.
-	d. Run the deployed `master-pipeline` in Test and confirm it calls the correct `detail-pipeline` there.
-
-7) Change variable library item references
-	a. In the Test or Prod workspace, edit `DetailPipelineRef` and choose a different target item or a different value-set.
-	b. Save and re-run the master pipeline to verify it now uses the updated referenced item.
-
-## Code example — resolve an Item Reference in a notebook
-```python
-var_ref = "$(/**/VarLibItem/DetailPipelineRef)"
-var_obj = notebookutils.variableLibrary.get(var_ref)
-workspace_id = var_obj.get("workspaceId").value()
-item_id = var_obj.get("itemId").value()
-print("workspaceId:", workspace_id)
-print("itemId:", item_id)
-```
-
-## Best practices & notes
-- Keep values within a value-set the same item type to prevent runtime issues.
-- Remember: only the IDs are stored in the variable JSON — names and metadata are resolved at runtime.
-- Use descriptive variable names (e.g., `DetailPipelineRef`) and add notes so teammates understand the target.
-
-## Screenshots (placeholders)
-- Add your screenshots to: `M11_DevOps/media/` and replace the placeholder paths used above (e.g., `item-picker.png`).
-
+    
 ## References
 - Official Microsoft Learn: Item reference variable type — https://learn.microsoft.com/en-us/fabric/cicd/variable-library/item-reference-variable-type
 
----
-_Edited to expand exercises, add clarifications and examples._
+
