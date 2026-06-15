@@ -33,6 +33,7 @@ Below are six guided exercises. Each exercise lists small, verifiable steps stud
 	- Name it `ram-variable-library`.
     - Click on **New variable**
     - Name it `DetailPipelineRef` > Select Type as `Item Reference` > Click on Select item and select `detail-pipeline`
+      
 	![detail-pipeline](../Labdata/media/detail-pipeline-2.png)
 
 	- Click on `Add value set` > name it is ram-dev
