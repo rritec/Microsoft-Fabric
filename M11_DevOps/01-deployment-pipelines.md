@@ -78,6 +78,12 @@ https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deplo
   - workspace id: `aa27dd33-f0c7-4a59-b615-0df0c3765902`
   - lakehouse id: `c337adb3-8601-46a9-b603-8791b5d68366`
 
+# Step 6.1: Create a Pipeline and prompt upto production
+- WIP
+
+# Step 6.2: Create a Notebook and prompt upto production
+- WIP
+
 # Step 7: Create a variable library
 - Variable libraries are useful in CI/CD processes.
 - Create a variable library named `vl_sales` and save it.
