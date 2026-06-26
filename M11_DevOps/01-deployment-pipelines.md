@@ -183,9 +183,8 @@ https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deplo
         "lastModifiedByObjectId": "8c233f9a-3c91-4fd0-8401-89e2cf1555b8",
         "lastPublishTime": "2026-06-26T03:10:11Z"
     }
-    }
-```
-
+    } ```
+    
 ## 6.1.1 Create the GitHub HTTP connection
 - Before the pipeline can read files from GitHub, create a cloud connection for the HTTP server.
 - Example connection details from the diagram:
