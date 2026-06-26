@@ -79,7 +79,127 @@ https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deplo
   - lakehouse id: `c337adb3-8601-46a9-b603-8791b5d68366`
 
 # Step 6.1: Create a Pipeline and prompt upto production
-- WIP
+- Create a feature pipeline in the branched workspace that reads a file from GitHub and writes it into the lakehouse.
+- Create a pipeline named `Pipeline_1_read_github_file_and_load_into_lakehouse`.
+- Add `copy activity` and Click on  `copy activity`.
+- Source details:
+  - Uses `BinarySource` with `HttpReadSettings` to GET the file from GitHub.
+  - Reads from a Git repository path under `refs/heads/main/Labdata/emp.csv`.
+  - The source dataset is configured as a binary dataset with an HTTP server location.
+- Sink details:
+  - Uses `BinarySink` with `LakehouseWriteSettings` to write into the target lakehouse.
+  - The sink dataset is a binary lakehouse dataset that writes to `Sales/emp.csv`.
+  - The lakehouse connection references a workspace ID and lakehouse artifact ID for `lh_sales`.
+  - json code is 
+  ```json
+  {
+    "name": "Pipeline_1_read_github_file_and_load_into_lakehouse_v1",
+    "objectId": "3e3da63f-0ce5-45c3-9b0d-93b086ecee97",
+    "properties": {
+        "activities": [
+            {
+                "name": "Copy data1",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "source": {
+                        "type": "BinarySource",
+                        "storeSettings": {
+                            "type": "HttpReadSettings",
+                            "requestMethod": "GET"
+                        },
+                        "formatSettings": {
+                            "type": "BinaryReadSettings"
+                        },
+                        "datasetSettings": {
+                            "annotations": [],
+                            "type": "Binary",
+                            "typeProperties": {
+                                "location": {
+                                    "type": "HttpServerLocation",
+                                    "relativeUrl": "rritec/POWERBI/refs/heads/master/02.%20Labdata/emp.csv"
+                                }
+                            },
+                            "externalReferences": {
+                                "connection": "3044eb7c-4886-45af-bf2b-071abc821266"
+                            }
+                        }
+                    },
+                    "sink": {
+                        "type": "BinarySink",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageWriteSettings"
+                        },
+                        "datasetSettings": {
+                            "annotations": [],
+                            "connectionSettings": {
+                                "name": "lh_sales",
+                                "properties": {
+                                    "annotations": [],
+                                    "type": "Lakehouse",
+                                    "typeProperties": {
+                                        "workspaceId": "11c4d609-b0bb-47bf-8109-2b7fdd011131",
+                                        "artifactId": "292319ff-4a25-4c41-89bf-ccede0683382",
+                                        "rootFolder": "Files"
+                                    },
+                                    "externalReferences": {
+                                        "connection": "912c0355-466e-408b-adc3-43168a45c738"
+                                    }
+                                }
+                            },
+                            "type": "Binary",
+                            "typeProperties": {
+                                "location": {
+                                    "type": "LakehouseLocation",
+                                    "fileName": "emp.csv",
+                                    "folderPath": "Sales"
+                                }
+                            }
+                        }
+                    },
+                    "enableStaging": false
+                }
+            }
+        ],
+        "libraryVariables": {
+            "vl_sales_src_github_conn": {
+                "type": "Object",
+                "variableName": "src_github_conn",
+                "libraryName": "vl_sales"
+            },
+            "vl_sales_src_github_conn_refpath": {
+                "type": "String",
+                "variableName": "src_github_conn_refpath",
+                "libraryName": "vl_sales"
+            }
+        },
+        "lastModifiedByObjectId": "8c233f9a-3c91-4fd0-8401-89e2cf1555b8",
+        "lastPublishTime": "2026-06-26T03:10:11Z"
+    }
+    }
+```
+
+## 6.1.1 Create the GitHub HTTP connection
+- Before the pipeline can read files from GitHub, create a cloud connection for the HTTP server.
+- Example connection details from the diagram:
+  - Connection name: `github_ritec_Microsoft-Fabric`
+  - Connection type: `HttpServer`
+  - Authentication method: `Anonymous`
+  - Data source path: `https://raw.githubusercontent.com/`
+- Use this connection as the external reference for the source dataset in the pipeline.
+- If your Git repository is private, use the appropriate authentication method instead of anonymous access.
+- Ensure the connection is available in the branched workspace before running the pipeline.
+
+- Important notes: 
+  - This is a file copy from GitHub into the lakehouse file system.
+  - After creating and validating the pipeline in the feature branch/workspace, promote it through Dev, Test, and Prod using the deployment pipeline.
 
 # Step 6.2: Create a Notebook and prompt upto production
 - WIP
