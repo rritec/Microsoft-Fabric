@@ -78,22 +78,33 @@ https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deplo
   - workspace id: `aa27dd33-f0c7-4a59-b615-0df0c3765902`
   - lakehouse id: `c337adb3-8601-46a9-b603-8791b5d68366`
 
-# Step 6.1: Create a Pipeline and prompt upto production
+# Step 6.1: Create a Pipeline and deploy upto production
 - Create a feature pipeline in the branched workspace that reads a file from GitHub and writes it into the lakehouse.
 - Create a pipeline named `Pipeline_1_read_github_file_and_load_into_lakehouse`.
 - Add `copy activity` and Click on  `copy activity`.
 - Source details:
-  - Uses `BinarySource` with `HttpReadSettings` to GET the file from GitHub.
-  - Reads from a Git repository path under `refs/heads/main/Labdata/emp.csv`.
-  - The source dataset is configured as a binary dataset with an HTTP server location.
-- Sink details:
-  - Uses `BinarySink` with `LakehouseWriteSettings` to write into the target lakehouse.
-  - The sink dataset is a binary lakehouse dataset that writes to `Sales/emp.csv`.
-  - The lakehouse connection references a workspace ID and lakehouse artifact ID for `lh_sales`.
+  - Click on `Source` Tab
+  - Click on `connection` drop down > click on `Browse all` > type `http` > click on`http`
+
+    ![Activate value set screenshot](../Labdata/media/fabric-0023.png)
+
+  - provide url as `https://raw.githubusercontent.com/` > click on connect
+
+     ![Activate value set screenshot](../Labdata/media/fabric-0024.png)
+
+  - Provide `Relative URL` as `rritec/Microsoft-Fabric/refs/heads/main/Labdata/emp.csv`
+
+    ![Activate value set screenshot](../Labdata/media/fabric-0025.png)
+
+  - Click on `Destination` and provide details as shown
+
+      ![Activate value set screenshot](../Labdata/media/fabric-0026.png)
+
+  - Save and run and make sure it is running successfully 
   - json code is 
   ```json
   {
-    "name": "Pipeline_1_read_github_file_and_load_into_lakehouse_v1",
+    "name": "Pipeline_1_read_github_file_and_load_into_lakehouse",
     "objectId": "3e3da63f-0ce5-45c3-9b0d-93b086ecee97",
     "properties": {
         "activities": [
@@ -124,7 +135,7 @@ https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deplo
                             "typeProperties": {
                                 "location": {
                                     "type": "HttpServerLocation",
-                                    "relativeUrl": "rritec/POWERBI/refs/heads/master/02.%20Labdata/emp.csv"
+                                    "relativeUrl": "rritec/Microsoft-Fabric/refs/heads/main/Labdata/emp.csv"
                                 }
                             },
                             "externalReferences": {
@@ -185,48 +196,50 @@ https://learn.microsoft.com/en-us/fabric/cicd/manage-deployment#option-3---deplo
     }
     } ```
     
-## 6.1.1 Create the GitHub HTTP connection
-- Before the pipeline can read files from GitHub, create a cloud connection for the HTTP server.
-- Example connection details from the diagram:
-  - Connection name: `github_ritec_Microsoft-Fabric`
-  - Connection type: `HttpServer`
-  - Authentication method: `Anonymous`
-  - Data source path: `https://raw.githubusercontent.com/`
-- Use this connection as the external reference for the source dataset in the pipeline.
-- If your Git repository is private, use the appropriate authentication method instead of anonymous access.
-- Ensure the connection is available in the branched workspace before running the pipeline.
 
-- Important notes: 
-  - This is a file copy from GitHub into the lakehouse file system.
-  - After creating and validating the pipeline in the feature branch/workspace, promote it through Dev, Test, and Prod using the deployment pipeline.
 
-# Step 6.2: Create a Notebook and prompt upto production
+# Step 6.2: Create a Notebook and deploy upto production
+- WIP
+
+# Step 6.3: Create a Dataflow Gen 2 and deploy upto production
+- WIP
+
+# Step 6.4: Create a Warehouse and one sample table and deploy upto production
 - WIP
 
 # Step 7: Create a variable library
-- Variable libraries are useful in CI/CD processes.
-- Create a variable library named `vl_sales` and save it.
 
-<img width="1916" height="633" alt="image" src="https://github.com/user-attachments/assets/502a3e17-735e-49b5-abb4-bf4fe3cec8a7" />
+1. Variable libraries are useful in CI/CD processes.
+1. Create a variable library named `vl_sales` > create a a variable/valuesets/and provide values as shown below. We can configure for each environment one path. > save it.
+
+    ![Activate value set screenshot](../Labdata/media/fabric-0028.png)
 
 1. Commit code to your feature branch and ensure the variable library object is present in `feature/ram`.
 2. Raise a pull request from `feature/ram` to `main`.
 3. Complete the merge and confirm the `main` branch contains the variable library object.
 4. Open the workspace `ws_sales_dev`, go to Source control > Update all, and confirm the variable library object is available in `ws_sales_dev`.
-5. In the Dev workspace, select the variable library and click Set as active.
+5. In the Dev workspace, select the variable library > Dev Value set >  and click Set as active.
 
-<img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/3482c74e-a480-4709-b02d-50c45572a686" />
+    ![Activate value set screenshot](../Labdata/media/fabric-0029.png)
 
 6. Using the Deployment pipeline, deploy the variable library `vl_sales` from Dev -> Test -> Prod.
 7. In `ws_sales_test`, open the variable library and click Set as active.
 
-<img width="1915" height="570" alt="image" src="https://github.com/user-attachments/assets/1507f917-ba19-4206-a996-f96ec249e6e7" />
+    ![Activate value set screenshot](../Labdata/media/fabric-0030.png)
 
 8. In `ws_sales_prod`, open the variable library and click Set as active.
 
-<img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/611d3449-4521-43f0-a681-875b158de2e7" />
+    ![Activate value set screenshot](../Labdata/media/fabric-0031.png)
 
-<img width="1903" height="570" alt="image" src="https://github.com/user-attachments/assets/611d3449-4521-43f0-a681-875b158de2e7" />
+9. Run the pipeline in dev and make sure dev file content is copied to lakehouse 
+
+    ![Activate value set screenshot](../Labdata/media/fabric-0032.png)
+9. Run the pipeline in test and make sure dev file content is copied to lakehouse 
+
+    ![Activate value set screenshot](../Labdata/media/fabric-0033.png)
+9. Run the pipeline in prod and make sure dev file content is copied to lakehouse 
+
+    ![Activate value set screenshot](../Labdata/media/fabric-0034.png)
 
 # Optional
 
