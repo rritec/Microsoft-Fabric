@@ -1,146 +1,161 @@
-Absolutely. Since you worked through this as a real hands-on lab, the GitHub lesson should preserve both the why and the exact build/deploy sequence, with your screenshots placed at the checkpoints where they prove something.
+# Microsoft Fabric Deployment Plan: End-to-End Lakehouse to Warehouse Deployment
 
-Below is a copy-paste-ready Markdown lesson. I’ve used screenshot placeholders such as images/01-workspace.png. Save the screenshots you already captured into an images folder in your GitHub repository and rename them accordingly.
+## Overview
 
-Microsoft Fabric Deployment Plans: End-to-End Lakehouse to Warehouse Deployment
-Overview
+This hands-on lesson demonstrates how to use a Microsoft Fabric Deployment Plan to deploy a solution in which a downstream Warehouse object depends on data that must first be produced in a Lakehouse.
 
-This lesson demonstrates an end-to-end Microsoft Fabric Deployment Plan scenario based on the Microsoft sample where a downstream item depends on data produced by an upstream item.
+The solution uses:
 
-The solution contains:
+- Development workspace: `ram-dev`
+- Test workspace: `ram-test`
+- `Sales_Lakehouse`
+- `Hydrate_TopCustomers` notebook
+- `Publish_TopCustomers` notebook
+- `Sales_Warehouse`
+- `dbo.vw_top_customers` Warehouse view
+- `Sales_Deployment_Plan`
+- A Fabric deployment pipeline from Dev to Test
+- Azure DevOps Git integration for the development workspace
 
-A Lakehouse for storing data.
-A Hydrate notebook that creates source data.
-A Publish notebook that transforms and publishes the final table.
-A Warehouse containing a view over the Lakehouse table.
-A Deployment Plan that controls deployment and notebook execution order.
-A Deployment Pipeline that promotes the solution from Development to Test.
+The central lesson is that deployment order by itself is not always sufficient. The Lakehouse definition can deploy before the Warehouse, but the Warehouse view also requires `dbo.top_customers` to exist at runtime. The deployment plan solves this by executing the notebooks after the Lakehouse deploys and before the Warehouse deploys.
 
-The key problem is that deploying a Lakehouse copies the item definition but does not deploy the runtime-created table data. Therefore, deploying the Warehouse immediately can fail because its view depends on a table that does not yet exist.
+---
 
-The Deployment Plan solves this by running the notebooks between the Lakehouse deployment and Warehouse deployment. Microsoft describes this as one of the primary deployment-plan scenarios.
+## 1. Target Architecture
 
-1. Architecture
+The runtime data flow is:
 
-The logical application flow is:
-
+```text
 Hydrate_TopCustomers
-        │
-        │ writes
-        ▼
+        |
+        | writes
+        v
 dbo.dev_top_customers
-        │
-        │ read by
-        ▼
+        |
+        | read by
+        v
 Publish_TopCustomers
-        │
-        │ publishes
-        ▼
+        |
+        | publishes
+        v
 dbo.top_customers
-        │
-        │ read by
-        ▼
+        |
+        | read by
+        v
 dbo.vw_top_customers
+```
 
+The containment relationships are:
 
-The Fabric item containment is:
-
+```text
 Sales_Lakehouse
-├── dbo.dev_top_customers
-└── dbo.top_customers
+|-- dbo.dev_top_customers
+`-- dbo.top_customers
 
 Sales_Warehouse
-└── dbo.vw_top_customers
+`-- dbo.vw_top_customers
+```
 
+The required deployment sequence is:
 
-The deployment orchestration is:
-
+```text
 Deploy Sales_Lakehouse
-        │
-        ▼
+        |
+        v
 Run Hydrate_TopCustomers
-        │
-        ▼
+        |
+        v
 Run Publish_TopCustomers
-        │
-        ▼
-Sales_Lakehouse deployment group completes
-        │
-        ▼
+        |
+        v
+Complete Sales_Lakehouse deployment group
+        |
+        v
 Deploy Sales_Warehouse
+```
 
+---
 
-Microsoft's sample uses the same pattern: two deployment groups, with the two notebooks running as post-deployment actions of the Lakehouse group and the Warehouse group depending on the Lakehouse group.
+## 2. Environment
 
-2. Environment
+This lesson uses two Fabric workspaces.
 
-For this exercise, two Fabric workspaces are used:
+### Development
 
-Environment	WorkspaceDevelopment	ram-dev
-Test	ram-test
-
-The development workspace is connected to an Azure DevOps Git repository.
-
-The deployment pipeline is:
-
+```text
 ram-dev
-   │
-   │ Dev → Test
-   ▼
+```
+
+`ram-dev` is connected to an Azure DevOps repository.
+
+### Test
+
+```text
 ram-test
+```
 
-3. Create the Development Artifacts
+`ram-test` is the clean target workspace used to validate deployment.
 
-The following artifacts are created in ram-dev:
+The deployment pipeline maps the environments as follows:
 
+```text
+Dev                         Test
+ram-dev  ---------------->  ram-test
+```
+
+---
+
+## 3. Create the Development Artifacts
+
+Create the following Fabric items in `ram-dev`:
+
+```text
 ram-dev
-│
-├── Sales_Lakehouse
-├── Hydrate_TopCustomers
-├── Publish_TopCustomers
-├── Sales_Warehouse
-└── Sales_Deployment_Plan
+|-- Sales_Lakehouse
+|-- Hydrate_TopCustomers
+|-- Publish_TopCustomers
+|-- Sales_Warehouse
+`-- Sales_Deployment_Plan
+```
 
+Do not manually create the Lakehouse tables in the Test workspace. The notebooks are responsible for producing the tables during deployment.
 
-The Lakehouse tables are intentionally created by the notebooks rather than manually.
+---
 
-Lakehouse tables themselves are not tracked as data by Git/deployment operations, which is central to this scenario.
+## 4. Create `Sales_Lakehouse`
 
-4. Create Sales_Lakehouse
+Create a Fabric Lakehouse named:
 
-Create a Lakehouse named:
-
+```text
 Sales_Lakehouse
+```
 
+Initially, leave the Lakehouse empty.
 
-Leave the Lakehouse empty initially.
+The notebooks will later create:
 
-At this point:
+```text
+dbo.dev_top_customers
+dbo.top_customers
+```
 
-Sales_Lakehouse
-└── Tables
-    └── (empty)
+---
 
-
-The required tables will be created by the notebooks.
-
-5. Create Hydrate_TopCustomers
+## 5. Create `Hydrate_TopCustomers`
 
 Create a Fabric notebook named:
 
+```text
 Hydrate_TopCustomers
+```
 
+Attach `Sales_Lakehouse` as its default Lakehouse.
 
-Attach Sales_Lakehouse as the notebook's default Lakehouse.
+The purpose of this notebook is to create the source customer dataset and save it as `dbo.dev_top_customers`.
 
-The notebook will create the initial customer dataset and persist the data as:
+### 5.1 Create the sample source data
 
-dbo.dev_top_customers
-
-5.1 Create Sample Data
-
-Add the following PySpark code:
-
+```python
 from pyspark.sql import functions as F
 
 sales_data = [
@@ -166,43 +181,44 @@ columns = [
 df = spark.createDataFrame(sales_data, columns)
 
 display(df)
+```
 
+Expected result: 10 customer records.
 
-The initial dataset contains 10 customers.
+### 5.2 Add load metadata
 
-5.2 Add Load Metadata
-
-Add a timestamp that records when the data was hydrated.
-
+```python
 df = df.withColumn(
     "loaded_at",
     F.current_timestamp()
 )
 
 display(df)
+```
 
+The resulting columns are:
 
-The resulting schema contains:
-
+```text
 customer_id
 customer_name
 country
 total_sales
 loaded_at
+```
 
-5.3 Create dev_top_customers
+### 5.3 Write `dev_top_customers`
 
-Write the DataFrame to the Lakehouse as a Delta table:
-
+```python
 df.write \
     .format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
     .saveAsTable("dev_top_customers")
+```
 
+Verify the table:
 
-Verify:
-
+```python
 spark.sql("""
     SELECT
         customer_id,
@@ -213,97 +229,90 @@ spark.sql("""
     FROM dev_top_customers
     ORDER BY total_sales DESC
 """).show(truncate=False)
+```
 
+The Lakehouse should now contain:
 
-The resulting Lakehouse structure is:
-
+```text
 Sales_Lakehouse
-└── Tables
-    └── dbo
-        └── dev_top_customers
+`-- Tables
+    `-- dbo
+        `-- dev_top_customers
+```
 
-Screenshot
-images/01-hydrate-top-customers.png
+---
 
+## 6. Configure Notebook Git Binding
 
-What this screenshot demonstrates: Hydrate_TopCustomers successfully created and populated dbo.dev_top_customers.
+For each notebook, configure the Git binding so the notebook uses the corresponding Lakehouse in the destination workspace.
 
-6. Configure Notebook Git Binding
+Apply the setting to:
 
-For both notebooks, configure:
-
-Git settings
-    ↓
-Git binding
-    ↓
-Lakehouse in new workspace
-
-
-Apply this configuration to:
-
+```text
 Hydrate_TopCustomers
 Publish_TopCustomers
-
-
-This is important because the notebook should bind to the corresponding Lakehouse when deployed into another workspace rather than continuing to reference the Development Lakehouse.
-
-Fabric stores logical identifiers for attached notebook dependencies and can automatically bind them to corresponding resources in another workspace.
-
-When deployed to Test, the intended relationship is:
-
-ram-test
-├── Sales_Lakehouse
-├── Hydrate_TopCustomers ─────► ram-test/Sales_Lakehouse
-└── Publish_TopCustomers ─────► ram-test/Sales_Lakehouse
-
-
-not:
-
-ram-test/Publish_TopCustomers
-              │
-              └────────► ram-dev/Sales_Lakehouse
-
-7. Create Publish_TopCustomers
-
-Create another notebook named:
-
-Publish_TopCustomers
-
-
-Attach:
-
-Sales_Lakehouse
-
-
-as its default Lakehouse.
-
-The notebook implements:
-
-dbo.dev_top_customers
-        │
-        ▼
-Publish_TopCustomers
-        │
-        ▼
-dbo.top_customers
-
-7.1 Read the Development Table
-source_df = spark.table("dbo.dev_top_customers")
-
-display(source_df)
-
-
-The notebook should return the 10 records generated by Hydrate_TopCustomers.
-
-7.2 Identify Top Customers
-
-For this exercise, a top customer is defined as a customer with:
-
-total_sales >= 50000
-
+```
 
 Use:
 
+```text
+Git settings
+  -> Git binding
+     -> Lakehouse in new workspace
+```
+
+The desired behavior after deployment is:
+
+```text
+ram-test
+|-- Sales_Lakehouse
+|-- Hydrate_TopCustomers ----> ram-test/Sales_Lakehouse
+`-- Publish_TopCustomers ----> ram-test/Sales_Lakehouse
+```
+
+The notebooks should not continue referencing the Development Lakehouse after deployment.
+
+---
+
+## 7. Create `Publish_TopCustomers`
+
+Create another notebook named:
+
+```text
+Publish_TopCustomers
+```
+
+Attach `Sales_Lakehouse` as the default Lakehouse.
+
+This notebook reads the hydrated table, identifies top customers, and creates the published table.
+
+The processing chain is:
+
+```text
+dbo.dev_top_customers
+        |
+        v
+Publish_TopCustomers
+        |
+        v
+dbo.top_customers
+```
+
+### 7.1 Read the hydrated table
+
+```python
+source_df = spark.table("dbo.dev_top_customers")
+
+display(source_df)
+```
+
+Expected result: 10 records.
+
+### 7.2 Select top customers
+
+For this exercise, define a top customer as a customer whose total sales are at least 50,000.
+
+```python
 from pyspark.sql import functions as F
 
 top_customers_df = (
@@ -322,30 +331,34 @@ top_customers_df = (
 )
 
 display(top_customers_df)
+```
 
+Expected customers:
 
-The transformation produces six customers:
-
+```text
 1001  Contoso Ltd
 1002  Fabrikam Inc
 1003  Adventure Works
 1004  Northwind Traders
 1005  Wide World Importers
 1006  Tailspin Toys
+```
 
-7.3 Publish dbo.top_customers
+Expected count: 6 rows.
 
-Write the transformed DataFrame:
+### 7.3 Write `dbo.top_customers`
 
+```python
 top_customers_df.write \
     .format("delta") \
     .mode("overwrite") \
     .option("overwriteSchema", "true") \
     .saveAsTable("dbo.top_customers")
+```
 
+Verify the published table:
 
-Verify:
-
+```python
 result_df = spark.sql("""
     SELECT
         customer_id,
@@ -358,26 +371,27 @@ result_df = spark.sql("""
 """)
 
 display(result_df)
+```
 
+The Lakehouse should now contain:
 
-The Lakehouse now contains:
-
+```text
 Sales_Lakehouse
-└── Tables
-    └── dbo
-        ├── dev_top_customers
-        └── top_customers
+`-- Tables
+    `-- dbo
+        |-- dev_top_customers
+        `-- top_customers
+```
 
-8. Add a Readiness Check
+---
 
-This is an important part of the deployment scenario.
+## 8. Add a Readiness Check to `Publish_TopCustomers`
 
-A Deployment Plan considers an action complete when the notebook run completes. It does not automatically wait for downstream services such as the Lakehouse SQL analytics endpoint to synchronize.
+The Warehouse deployment must not begin before `dbo.top_customers` is available.
 
-Microsoft specifically highlights this issue in the sample and recommends keeping the readiness logic inside the action.
+Add the following as the final cell of `Publish_TopCustomers`.
 
-For this lab, the following check verifies the Spark table and then provides a synchronization buffer.
-
+```python
 import time
 
 max_wait_seconds = 300
@@ -425,125 +439,131 @@ print(
 time.sleep(sql_sync_wait_seconds)
 
 print("Publish_TopCustomers completed successfully.")
-
+```
 
 Expected output:
 
+```text
 dbo.top_customers is available with 6 rows.
 Waiting 30 seconds for SQL analytics endpoint metadata synchronization...
 Publish_TopCustomers completed successfully.
+```
 
+> **Important:** The table polling in this lab verifies the Spark table. The 30-second wait is a synchronization buffer for the SQL analytics endpoint. For production workloads, prefer a deterministic readiness test against the downstream system instead of relying only on a fixed delay.
 
-Note
+---
 
-The first part verifies Spark table availability. The 30-second delay is a synchronization buffer used for this lab. A production implementation should preferably poll the SQL analytics endpoint directly rather than rely on a fixed delay.
+## 9. Validate the Lakehouse SQL Analytics Endpoint
 
-Screenshot
-images/02-publish-readiness-check.png
-
-9. Verify the Lakehouse SQL Analytics Endpoint
-
-Open the SQL analytics endpoint associated with:
-
-Sales_Lakehouse
-
+Open the SQL analytics endpoint associated with `Sales_Lakehouse`.
 
 Run:
 
+```sql
 SELECT *
 FROM dbo.top_customers
 ORDER BY total_sales DESC;
+```
 
+Expected result: 6 rows.
 
-Expected result:
+This validates the path:
 
-6 rows
-
-
-This verifies:
-
-Spark
-   │
-   ▼
+```text
+Spark write
+    |
+    v
 Delta table
-   │
-   ▼
-SQL analytics endpoint
+    |
+    v
+Lakehouse SQL analytics endpoint
+```
 
+---
 
-The Lakehouse SQL analytics endpoint exposes Delta Lake tables through its T-SQL surface.
+## 10. Create `Sales_Warehouse`
 
-10. Create Sales_Warehouse
+Create a Fabric Warehouse named:
 
-Create a Warehouse named:
-
+```text
 Sales_Warehouse
+```
 
+Do not create another physical copy of `top_customers` inside the Warehouse.
 
-Do not copy top_customers into the Warehouse.
+The target architecture is:
 
-The Warehouse should consume the Lakehouse table:
-
+```text
 Sales_Lakehouse
-└── dbo.top_customers
-          │
-          ▼
+`-- dbo.top_customers
+        |
+        | read by
+        v
 Sales_Warehouse
-└── dbo.vw_top_customers
+`-- dbo.vw_top_customers
+```
 
-11. Add Sales_Lakehouse to the Warehouse Explorer
+---
 
-From the Sales_Warehouse Explorer:
+## 11. Add the Lakehouse SQL Endpoint to the Warehouse Explorer
 
+Open `Sales_Warehouse`.
+
+In Explorer, select:
+
+```text
 + Warehouses
+```
 
+Add the SQL analytics endpoint associated with `Sales_Lakehouse`.
 
-Select the SQL analytics endpoint associated with:
+The Explorer should show both objects:
 
-Sales_Lakehouse
-
-
-After adding the endpoint, Explorer should show both:
-
+```text
 Sales_Warehouse
-└── Schemas
-    └── dbo
+`-- Schemas
+    `-- dbo
 
 Sales_Lakehouse
-└── Schemas
-    └── dbo
-        ├── dev_top_customers
-        └── top_customers
+`-- Schemas
+    `-- dbo
+        |-- dev_top_customers
+        `-- top_customers
+```
 
+---
 
-Fabric supports cross-database querying between Warehouse and SQL analytics endpoint objects in the same active workspace. Cross-database queries use three-part database.schema.object naming.
+## 12. Test the Cross-Database Query
 
-12. Test Cross-Database Access
+From `Sales_Warehouse`, run:
 
-From Sales_Warehouse, run:
-
+```sql
 SELECT *
 FROM [Sales_Lakehouse].[dbo].[top_customers]
 ORDER BY total_sales DESC;
+```
 
+Expected result: 6 rows.
 
-The query should return the same six rows.
+This validates that the Warehouse can read the Lakehouse table using three-part naming:
 
-Screenshot
-images/03-cross-database-query.png
+```text
+database.schema.object
+```
 
+In this example:
 
-This screenshot demonstrates that Sales_Warehouse can query:
-
+```text
 Sales_Lakehouse.dbo.top_customers
+```
 
+---
 
-without copying the source data.
+## 13. Create `dbo.vw_top_customers`
 
-13. Create vw_top_customers
+Create the Warehouse view:
 
-Create a view in Sales_Warehouse:
-
+```sql
 CREATE VIEW dbo.vw_top_customers
 AS
 SELECT
@@ -552,249 +572,239 @@ SELECT
     country,
     total_sales
 FROM [Sales_Lakehouse].[dbo].[top_customers];
+```
 
+Validate the view:
 
-Verify:
-
+```sql
 SELECT *
 FROM dbo.vw_top_customers
 ORDER BY total_sales DESC;
+```
 
+Expected result: 6 rows.
 
-Expected result:
+The completed Development dependency chain is:
 
-6 rows
-
-
-The final data dependency is:
-
-Sales_Lakehouse
-└── dbo.top_customers
-          │
-          │ read by
-          ▼
-Sales_Warehouse
-└── dbo.vw_top_customers
-
-Screenshot
-images/04-warehouse-view-results.png
-
-14. Review the Development Dependency Chain
-
-The complete application now looks like:
-
+```text
 Hydrate_TopCustomers
-        │
-        │ writes
-        ▼
+        |
+        | writes
+        v
 dbo.dev_top_customers
    Sales_Lakehouse
-        │
-        │ read by
-        ▼
+        |
+        | read by
+        v
 Publish_TopCustomers
-        │
-        │ publishes
-        ▼
+        |
+        | publishes
+        v
 dbo.top_customers
    Sales_Lakehouse
-        │
-        │ read by
-        ▼
+        |
+        | read by
+        v
 dbo.vw_top_customers
    Sales_Warehouse
+```
 
+---
 
-The containment relationships are:
+## 14. Commit the Fabric Items to Azure DevOps
 
-Sales_Lakehouse
-├── dbo.dev_top_customers
-└── dbo.top_customers
+Save and commit the Fabric items from `ram-dev` to Azure DevOps.
 
-Sales_Warehouse
-└── dbo.vw_top_customers
+The repository will contain item definitions similar to:
 
-15. Review Fabric Lineage
-
-Open the workspace lineage/dependency view.
-
-The development workspace contains:
-
-Sales_Lakehouse
-Sales_Lakehouse SQL analytics endpoint
-Hydrate_TopCustomers
-Publish_TopCustomers
-Sales_Warehouse
-
-Screenshot
-images/05-workspace-lineage.png
-
-
-This view helps distinguish item dependencies/bindings from the runtime dependency that the deployment plan must manage.
-
-16. Commit the Solution to Azure DevOps
-
-After saving the artifacts, commit the Fabric workspace to Azure DevOps.
-
-The repository contains structures similar to:
-
+```text
 Hydrate_TopCustomers.Notebook/
-├── .platform
-├── notebook-content.py
-└── notebook-settings.json
+|-- .platform
+|-- notebook-content.py
+`-- notebook-settings.json
 
 Publish_TopCustomers.Notebook/
-├── .platform
-├── notebook-content.py
-└── notebook-settings.json
+|-- .platform
+|-- notebook-content.py
+`-- notebook-settings.json
 
 Sales_Lakehouse.Lakehouse/
-├── .platform
-├── alm.settings.json
-├── lakehouse.metadata.json
-└── shortcuts.metadata.json
+|-- .platform
+|-- alm.settings.json
+|-- lakehouse.metadata.json
+`-- shortcuts.metadata.json
 
 Sales_Warehouse.Warehouse/
-├── dbo/
-│   └── Views/
-│       └── vw_top_customers.sql
-├── .gitignore
-├── .platform
-└── Sales_Warehouse.sqlproj
+|-- dbo/
+|   `-- Views/
+|       `-- vw_top_customers.sql
+|-- .gitignore
+|-- .platform
+`-- Sales_Warehouse.sqlproj
+```
 
+An important observation is that the runtime-created Lakehouse tables are not represented like the Warehouse view definition.
 
-Notice that:
+This is precisely why the notebooks must execute in the target environment.
 
-dev_top_customers
-top_customers
+---
 
+## 15. Understand Why an Ordinary Deployment Is Not Enough
 
-do not appear as Lakehouse table files in Git.
+Consider an empty target workspace.
 
-This is expected. Fabric Git/deployment operations do not track the Lakehouse table data itself.
+If the deployment only copied item definitions, the flow would effectively be:
 
-Screenshot
-images/06-azure-devops-repository.png
-
-17. Why a Normal Deployment Is Not Enough
-
-Suppose the destination is completely empty.
-
-A simple deployment would conceptually do:
-
+```text
 Deploy Sales_Lakehouse
-        ↓
+        |
+        v
 Sales_Lakehouse exists
-        ↓
-BUT dbo.top_customers does not exist
-        ↓
+        |
+        v
+dbo.top_customers does not yet exist
+        |
+        v
 Deploy Sales_Warehouse
-        ↓
-Create vw_top_customers
-        ↓
-View references missing dbo.top_customers
-        ↓
-Deployment can fail
+        |
+        v
+Attempt to create dbo.vw_top_customers
+        |
+        v
+View references a table that has not yet been produced
+        |
+        v
+Potential deployment failure
+```
 
+The important distinction is:
 
-The critical observation is:
+> Deployment order answers which item deploys first. It does not necessarily perform the runtime work required to make the next item valid.
 
-Deployment order answers "what deploys first?" but does not necessarily perform the runtime activity required to make downstream objects valid.
+For this solution, runtime work must occur between the Lakehouse and Warehouse deployments.
 
-Microsoft's sample specifically uses this scenario to demonstrate why deployment plans are useful.
+---
 
-18. Create Sales_Deployment_Plan
+## 16. Create `Sales_Deployment_Plan`
 
 Create a Fabric Deployment Plan named:
 
+```text
 Sales_Deployment_Plan
-
+```
 
 The plan contains two deployment groups.
 
-Group 1: Sales_Lakehouse
+---
 
-Deploy:
+## 17. Configure the `Sales_Lakehouse` Deployment Group
 
+Add `Sales_Lakehouse` as the first deployment group.
+
+The group deploys:
+
+```text
 Sales_Lakehouse
+```
 
+Add two **After** actions:
 
-Configure these After actions:
-
+```text
 Hydrate_TopCustomers
-        │
-        ▼
 Publish_TopCustomers
+```
 
+Configure the action dependency so that:
 
-Publish_TopCustomers must depend on Hydrate_TopCustomers.
+```text
+Hydrate_TopCustomers
+        |
+        v
+Publish_TopCustomers
+```
 
-The effective group is:
+`Publish_TopCustomers` must not start until `Hydrate_TopCustomers` has finished.
 
+The group is logically:
+
+```text
 GROUP: Sales_Lakehouse
 
 Deploy
-└── Sales_Lakehouse
+`-- Sales_Lakehouse
 
 After
-├── Hydrate_TopCustomers
-│
-└── Publish_TopCustomers
-        ↑
-        │ depends on Hydrate
+|-- Hydrate_TopCustomers
+|       |
+|       v
+`-- Publish_TopCustomers
+```
 
-Group 2: Sales_Warehouse
+---
 
-Deploy:
+## 18. Configure the `Sales_Warehouse` Deployment Group
 
+Add `Sales_Warehouse` as the second deployment group.
+
+The group deploys:
+
+```text
 Sales_Warehouse
+```
 
+Connect the groups so that:
 
-Configure:
-
-Sales_Warehouse
-    depends on
+```text
 Sales_Lakehouse group
+        |
+        v
+Sales_Warehouse group
+```
 
+The Warehouse group depends on completion of the entire Lakehouse group, including both post-deployment notebook actions.
 
-The complete Deployment Plan becomes:
+The complete plan is:
 
-┌─────────────────────────────────────┐
-│ GROUP: Sales_Lakehouse              │
-│                                     │
-│ Deploy Sales_Lakehouse              │
-│          ↓                          │
-│ Run Hydrate_TopCustomers            │
-│          ↓                          │
-│ Run Publish_TopCustomers            │
-└──────────────────┬──────────────────┘
-                   │
-                   ▼
-┌─────────────────────────────────────┐
-│ GROUP: Sales_Warehouse              │
-│                                     │
-│ Deploy Sales_Warehouse              │
-└─────────────────────────────────────┘
+```text
++--------------------------------------+
+| GROUP: Sales_Lakehouse               |
+|                                      |
+| Deploy Sales_Lakehouse               |
+|          |                           |
+|          v                           |
+| Run Hydrate_TopCustomers             |
+|          |                           |
+|          v                           |
+| Run Publish_TopCustomers             |
++-------------------+------------------+
+                    |
+                    v
++--------------------------------------+
+| GROUP: Sales_Warehouse               |
+|                                      |
+| Deploy Sales_Warehouse               |
++--------------------------------------+
+```
 
+Save the Deployment Plan.
 
-Microsoft's deployment-plan sample uses this same two-group structure.
+---
 
-Screenshot
-images/07-sales-deployment-plan.png
+## 19. Commit the Deployment Plan to Git
 
-19. Inspect plan.yml
+Commit `Sales_Deployment_Plan` from `ram-dev` to Azure DevOps.
 
-Commit the Deployment Plan to Azure DevOps.
+The repository should contain:
 
-Fabric stores the plan definition as:
-
+```text
 Sales_Deployment_Plan.DeploymentPlan/
-├── .platform
-└── plan.yml
+|-- .platform
+`-- plan.yml
+```
 
+The generated `plan.yml` follows this logical structure:
 
-The generated YAML has the logical structure:
-
+```yaml
 $schema: https://developer.microsoft.com/json-schemas/fabric/item/deploymentPlan/definition/plan/1.0.0/schema.json
 version: 1.0.0
 
@@ -812,461 +822,548 @@ groups:
         job:
           type: Execute
           logicalId: <publish-notebook-logical-id>
-
         dependsOn:
           - actionName: Hydrate_TopCustomers_SynapseNotebook
 
   - name: Sales_Warehouse
     logicalId: <sales-warehouse-logical-id>
-
     dependsOn:
       - groupName: Sales_Lakehouse
+```
 
+There are two important dependency levels.
 
-The important dependencies are:
+### Action dependency
 
-ACTION DEPENDENCY
-
+```text
 Publish_TopCustomers
-        ↓ dependsOn
+        |
+        | dependsOn
+        v
 Hydrate_TopCustomers
+```
 
+### Group dependency
 
-and:
-
-GROUP DEPENDENCY
-
+```text
 Sales_Warehouse
-        ↓ dependsOn
+        |
+        | dependsOn
+        v
 Sales_Lakehouse
+```
 
+The execution order is determined by these dependency relationships.
 
-Fabric uses logicalId to identify Fabric items across workspaces, and dependsOn determines execution order rather than simply the position of objects in the YAML file.
+---
 
-Screenshot
-images/08-plan-yaml.png
+## 20. Prepare the Test Workspace
 
-20. Prepare the Test Workspace
+Use the target workspace:
 
-The target workspace is:
-
+```text
 ram-test
+```
 
+Before deployment, keep the workspace empty.
 
-Before deployment, the workspace is intentionally empty.
+Do not manually create:
 
-ram-test
-└── EMPTY
+```text
+Sales_Lakehouse
+Hydrate_TopCustomers
+Publish_TopCustomers
+Sales_Warehouse
+dbo.dev_top_customers
+dbo.top_customers
+dbo.vw_top_customers
+```
 
+The empty target is important because it proves that the deployment and Deployment Plan create the required solution.
 
-This provides a clean test proving that the target tables are produced by the deployment-plan actions rather than being manually created.
+---
 
-Screenshot
-images/09-empty-test-workspace.png
+## 21. Configure the Deployment Pipeline
 
-21. Configure the Deployment Pipeline
+Use the Fabric deployment pipeline:
 
-The Deployment Pipeline is:
-
+```text
 ram-deployment-pipeline
+```
 
+Map the stages as:
 
-with:
-
+```text
 Dev                         Test
-ram-dev  ────────────────►  ram-test
+ram-dev  ---------------->  ram-test
+```
 
-Screenshot
-images/10-deployment-pipeline.png
+---
 
-22. Select the Deployment Plan
+## 22. Select the Deployment Plan During Deployment
 
-Start the deployment from:
+Start a deployment from Dev to Test.
 
-Dev
+Configure:
 
+```text
+Deploy from: Dev
+Target:      Test
+With plan:   Sales_Deployment_Plan
+```
 
-to:
+Selecting the Deployment Plan is critical because the plan contains the notebook execution actions and required ordering.
 
-Test
+The deployment selection contains the solution items, including:
 
-
-In the deployment configuration select:
-
-with plan:
-Sales_Deployment_Plan
-
-
-This step is critical.
-
-Without selecting the Deployment Plan, the special notebook execution sequence will not be provided by this plan.
-
-Screenshot
-images/11-select-deployment-plan.png
-
-23. Review the Items Being Deployed
-
-The deployment shows five items:
-
+```text
 Deployment Plan
 Lakehouse
 Notebook
 Notebook
 Warehouse
+```
 
+For a clean Test environment, the items initially appear only in the source environment.
 
-All items initially show:
+Start the deployment.
 
-Only in source
+---
 
+## 23. Expected Deployment Execution
 
-because ram-test started empty.
+The deployment should execute logically as follows:
 
-Screenshot
-images/12-deployment-items.png
-
-
-At this point execute the deployment.
-
-24. Deployment Execution Sequence
-
-With the Deployment Plan selected, the effective orchestration is:
-
+```text
 ram-dev
-   │
-   ▼
-Deploy Sales_Lakehouse
-   │
-   ▼
-Run Hydrate_TopCustomers
-   │
-   ▼
+   |
+   v
+Deploy Sales_Lakehouse into ram-test
+   |
+   v
+Run Hydrate_TopCustomers in ram-test
+   |
+   v
 Create dbo.dev_top_customers
-   │
-   ▼
-Run Publish_TopCustomers
-   │
-   ▼
+   |
+   v
+Run Publish_TopCustomers in ram-test
+   |
+   v
 Create dbo.top_customers
-   │
-   ▼
-Readiness/synchronization check
-   │
-   ▼
-Sales_Lakehouse group complete
-   │
-   ▼
+   |
+   v
+Perform readiness/synchronization wait
+   |
+   v
+Complete Sales_Lakehouse group
+   |
+   v
 Deploy Sales_Warehouse
-   │
-   ▼
+   |
+   v
 Create dbo.vw_top_customers
-   │
-   ▼
-ram-test ready
+   |
+   v
+Deployment complete
+```
 
+The two notebooks are actions within the Lakehouse deployment group. They are not separate deployment groups.
 
-The notebooks are actions within the Lakehouse deployment group, not separate deployment groups.
+---
 
-25. Validate the Deployment in ram-test
+## 24. Validate the Lakehouse in `ram-test`
 
 After deployment, open:
 
+```text
 ram-test
-    ↓
+  -> Sales_Lakehouse
+```
+
+The Lakehouse should now contain:
+
+```text
 Sales_Lakehouse
+`-- Tables
+    `-- dbo
+        |-- dev_top_customers
+        `-- top_customers
+```
 
+Expected counts:
 
-Both tables should exist:
+```text
+dbo.dev_top_customers = 10 rows
+dbo.top_customers     = 6 rows
+```
 
-Sales_Lakehouse
-└── Tables
-    └── dbo
-        ├── dev_top_customers
-        └── top_customers
+The existence of these tables demonstrates that the notebook actions ran in the target environment.
 
+---
 
-The published table should contain six records.
+## 25. Validate Notebook Execution in Fabric Monitor
 
-Screenshot
-images/13-test-lakehouse-results.png
+Open Fabric Monitor and locate the notebook activities.
 
+Expected results:
 
-This is one of the most important pieces of evidence in the lab.
-
-The target originally contained no tables.
-
-The Deployment Plan executed:
-
-Hydrate_TopCustomers
-        ↓
-Publish_TopCustomers
-
-
-which generated those tables in the target environment.
-
-26. Verify Notebook Execution in Fabric Monitor
-
-Open Monitor.
-
-The notebook executions should show:
-
+```text
 Hydrate_TopCustomers     Succeeded
 Publish_TopCustomers     Succeeded
+```
 
+The execution location should be:
 
-with the execution location:
-
+```text
 ram-test
+```
 
-Screenshot
-images/14-monitor-notebook-runs.png
+This is important evidence that the Deployment Plan executed the notebooks in the target workspace rather than merely copying notebook definitions.
 
+---
 
-This proves that the notebooks actually executed in the Test workspace as Deployment Plan actions.
-
-27. Final Warehouse Validation
+## 26. Validate the Warehouse View
 
 Open:
 
+```text
 ram-test
-    ↓
-Sales_Warehouse
-
+  -> Sales_Warehouse
+```
 
 Run:
 
+```sql
 SELECT *
 FROM dbo.vw_top_customers
 ORDER BY total_sales DESC;
-
+```
 
 Expected result:
 
-1001  Contoso Ltd            United States   125000
-1002  Fabrikam Inc           United States    98500
-1003  Adventure Works        Canada           87500
-1004  Northwind Traders      United Kingdom   76000
-1005  Wide World Importers   Australia        69000
-1006  Tailspin Toys          United States    54000
+```text
+1001  Contoso Ltd           United States   125000
+1002  Fabrikam Inc          United States    98500
+1003  Adventure Works       Canada           87500
+1004  Northwind Traders     United Kingdom   76000
+1005  Wide World Importers  Australia        69000
+1006  Tailspin Toys         United States    54000
+```
 
+If this query succeeds, the complete deployment chain has been validated.
 
-Successful execution proves the complete dependency chain:
-
-Hydrate
-   ↓
-dev_top_customers
-   ↓
-Publish
-   ↓
-top_customers
-   ↓
-Warehouse deployment
-   ↓
-vw_top_customers
-   ↓
-SUCCESS
-
-28. What This Exercise Demonstrates
-
-This exercise highlights an important difference between three concepts.
-
-Deployment dependency
-
-Controls which Fabric item must deploy before another item.
-
-Example:
-
-Sales_Lakehouse
-        ↓
-Sales_Warehouse
-
-Runtime/data dependency
-
-Represents data that must actually exist before a downstream object can work.
-
-Example:
-
-dbo.top_customers
-        ↓
-dbo.vw_top_customers
-
-Deployment action
-
-Executes the workload required to satisfy the runtime dependency.
-
-Example:
-
+```text
 Hydrate_TopCustomers
-        ↓
-Publish_TopCustomers
-
-
-The final orchestration combines all three:
-
-DEPLOYMENT
-    │
-    ▼
-Sales_Lakehouse
-    │
-    ▼
-ACTION
-Hydrate_TopCustomers
-    │
-    ▼
+        |
+        v
 dbo.dev_top_customers
-    │
-    ▼
-ACTION
+        |
+        v
 Publish_TopCustomers
-    │
-    ▼
+        |
+        v
 dbo.top_customers
-    │
-    ▼
-DEPLOYMENT
-Sales_Warehouse
-    │
-    ▼
+        |
+        v
+Deploy Sales_Warehouse
+        |
+        v
 dbo.vw_top_customers
+        |
+        v
+SUCCESS
+```
 
-29. Key Lessons Learned
-1. Deployment does not imply data population
+---
 
-Deploying a Lakehouse does not mean the runtime-created Delta tables/data will automatically appear in a clean destination.
+## 27. Key Concepts Demonstrated
 
-2. Lineage/dependency alone may not solve runtime prerequisites
+### 27.1 Containment
 
-Fabric can understand item relationships, but runtime data may still need to be produced before a downstream item becomes valid.
+Containment describes which Fabric item owns an object.
 
-3. Deployment Plans add orchestration
+```text
+Sales_Lakehouse
+|-- dbo.dev_top_customers
+`-- dbo.top_customers
 
-A Deployment Plan provides explicit control over:
+Sales_Warehouse
+`-- dbo.vw_top_customers
+```
 
-Deployment
-    ↓
-Action
-    ↓
-Action
-    ↓
-Deployment
+Containment is not the same as a data dependency.
 
+### 27.2 Data dependency
 
-Deployment Plans support deployment groups plus pre-deployment and post-deployment actions.
+A data dependency describes which object requires data from another object.
 
-4. Notebook actions should bind to the target environment
+```text
+dbo.dev_top_customers
+        |
+        v
+Publish_TopCustomers
+```
 
-Notebook Git binding is important so a deployed notebook references the corresponding Lakehouse in the destination workspace rather than the Development resource. Fabric uses logical identifiers to support this binding behavior.
+and:
 
-5. Action completion does not guarantee downstream readiness
+```text
+dbo.top_customers
+        |
+        v
+dbo.vw_top_customers
+```
 
-A deployment-plan action completes when the action item's run finishes. If a downstream system needs additional synchronization time, the readiness logic should be handled inside the action itself.
+### 27.3 Deployment dependency
 
-6. dependsOn controls execution order
+A deployment dependency controls which deployment group must complete before another group starts.
 
-The ordering in plan.yml is not merely visual. Dependencies explicitly determine the execution relationship:
+```text
+Sales_Lakehouse group
+        |
+        v
+Sales_Warehouse group
+```
 
-dependsOn:
+### 27.4 Deployment action
 
+A deployment action executes runtime work before or after an item deploys.
 
-This applies both to action dependencies and group dependencies.
+In this lesson:
 
-30. Final Architecture
-                     MICROSOFT FABRIC
+```text
+Post-deploy action 1: Hydrate_TopCustomers
+Post-deploy action 2: Publish_TopCustomers
+```
 
-┌──────────────────────────────────────────────────────┐
-│                    ram-dev                           │
-│                                                      │
-│  Sales_Lakehouse                                     │
-│       │                                              │
-│       ├── dbo.dev_top_customers                      │
-│       └── dbo.top_customers                          │
-│                                                      │
-│  Hydrate_TopCustomers                                │
-│  Publish_TopCustomers                                │
-│                                                      │
-│  Sales_Warehouse                                     │
-│       └── dbo.vw_top_customers                       │
-│                                                      │
-│  Sales_Deployment_Plan                               │
-└─────────────────────────┬────────────────────────────┘
-                          │
-                          │ Deployment Pipeline
-                          │ + Deployment Plan
-                          ▼
-┌──────────────────────────────────────────────────────┐
-│                    ram-test                          │
-│                                                      │
-│  Sales_Lakehouse                                     │
-│       │                                              │
-│       ├── dbo.dev_top_customers                      │
-│       └── dbo.top_customers                          │
-│                                                      │
-│  Hydrate_TopCustomers     [Executed]                 │
-│  Publish_TopCustomers     [Executed]                 │
-│                                                      │
-│  Sales_Warehouse                                     │
-│       └── dbo.vw_top_customers                       │
-└──────────────────────────────────────────────────────┘
+### 27.5 Action dependency
 
-31. Screenshot Directory
+The second notebook depends on the first notebook.
 
-For a clean GitHub repository, store the screenshots under:
+```text
+Hydrate_TopCustomers
+        |
+        v
+Publish_TopCustomers
+```
 
-images/
+### 27.6 Readiness is different from job completion
 
+A notebook finishing does not always mean every downstream service has immediately synchronized its metadata.
 
-Recommended naming:
+The desired pattern is:
 
-images/
-├── 01-hydrate-top-customers.png
-├── 02-publish-readiness-check.png
-├── 03-cross-database-query.png
-├── 04-warehouse-view-results.png
-├── 05-workspace-lineage.png
-├── 06-azure-devops-repository.png
-├── 07-sales-deployment-plan.png
-├── 08-plan-yaml.png
-├── 09-empty-test-workspace.png
-├── 10-deployment-pipeline.png
-├── 11-select-deployment-plan.png
-├── 12-deployment-items.png
-├── 13-test-lakehouse-results.png
-└── 14-monitor-notebook-runs.png
+```text
+Write table
+    |
+    v
+Verify readiness
+    |
+    v
+Finish action
+    |
+    v
+Start dependent deployment
+```
 
+---
 
-Then GitHub Markdown automatically renders, for example:
+## 28. What the Deployment Plan Solves
 
-## Deployment Plan
+Without the Deployment Plan:
 
-images/07-sales-deployment-plan.png
-
-References
-Microsoft Learn: Deployment plan examples in Microsoft Fabric. This lesson follows the "deploy an item that depends on data another item produces" pattern.
-Microsoft Learn: Create a deployment plan in Microsoft Fabric. Deployment plans define deployment groups, dependencies, and pre/post deployment actions and can be used with deployment pipelines.
-Microsoft Learn: Notebook source control and deployment. Notebook dependencies can use logical identifiers to support binding to corresponding resources in another workspace.
-Microsoft Learn: Lakehouse Git integration and deployment pipelines. Lakehouse tables themselves are not Git-tracked as table data.
-Microsoft Learn: Cross-Warehouse Query. Fabric supports three-part naming for cross-database queries.
-Summary
-
-In this hands-on lesson, we built a complete Microsoft Fabric CI/CD scenario where a Warehouse depends on a Lakehouse table that does not exist merely because the Lakehouse was deployed.
-
-The solution used a Deployment Plan to guarantee:
-
+```text
 Deploy Lakehouse
-      ↓
-Hydrate data
-      ↓
-Publish data
-      ↓
-Wait for readiness
-      ↓
+    |
+    v
+Lakehouse definition exists
+    |
+    v
+Required runtime table is missing
+    |
+    v
 Deploy Warehouse
-      ↓
-Query Warehouse view successfully
+    |
+    v
+Warehouse view depends on missing table
+    |
+    v
+Deployment can fail
+```
 
+With the Deployment Plan:
 
-The key takeaway is:
+```text
+Deploy Lakehouse
+    |
+    v
+Run Hydrate notebook
+    |
+    v
+Create staging table
+    |
+    v
+Run Publish notebook
+    |
+    v
+Create published table
+    |
+    v
+Wait for readiness
+    |
+    v
+Deploy Warehouse
+    |
+    v
+Create dependent view
+    |
+    v
+SUCCESS
+```
 
-Deployment dependencies control when items deploy. Deployment actions control the runtime work that must happen between those deployments.
+This is the main lesson:
 
-That distinction is what makes Deployment Plans useful for Fabric solutions containing runtime data dependencies.
+> **Deployment dependencies control when Fabric items deploy. Deployment actions perform the runtime work required between those deployments.**
+
+---
+
+## 29. Final Architecture
+
+```text
++------------------------------------------------------+
+|                      ram-dev                         |
+|                                                      |
+|  Sales_Lakehouse                                     |
+|  |-- dbo.dev_top_customers                           |
+|  `-- dbo.top_customers                               |
+|                                                      |
+|  Hydrate_TopCustomers                                |
+|  Publish_TopCustomers                                |
+|                                                      |
+|  Sales_Warehouse                                     |
+|  `-- dbo.vw_top_customers                            |
+|                                                      |
+|  Sales_Deployment_Plan                               |
++--------------------------+---------------------------+
+                           |
+                           | Deployment Pipeline
+                           | + Deployment Plan
+                           v
++------------------------------------------------------+
+|                      ram-test                        |
+|                                                      |
+|  Sales_Lakehouse                                     |
+|  |-- dbo.dev_top_customers                           |
+|  `-- dbo.top_customers                               |
+|                                                      |
+|  Hydrate_TopCustomers      [executed]                |
+|  Publish_TopCustomers      [executed]                |
+|                                                      |
+|  Sales_Warehouse                                     |
+|  `-- dbo.vw_top_customers                            |
++------------------------------------------------------+
+```
+
+---
+
+## 30. End-to-End Checklist
+
+### Development
+
+- [ ] Create `Sales_Lakehouse`.
+- [ ] Create `Hydrate_TopCustomers`.
+- [ ] Attach `Sales_Lakehouse` as the default Lakehouse.
+- [ ] Configure Git binding to use the Lakehouse in the new workspace.
+- [ ] Create and validate `dbo.dev_top_customers`.
+- [ ] Create `Publish_TopCustomers`.
+- [ ] Attach `Sales_Lakehouse` as the default Lakehouse.
+- [ ] Configure Git binding to use the Lakehouse in the new workspace.
+- [ ] Create and validate `dbo.top_customers`.
+- [ ] Add the readiness logic.
+- [ ] Validate the Lakehouse SQL analytics endpoint.
+- [ ] Create `Sales_Warehouse`.
+- [ ] Add the Lakehouse SQL endpoint to Warehouse Explorer.
+- [ ] Validate the cross-database query.
+- [ ] Create `dbo.vw_top_customers`.
+- [ ] Validate the Warehouse view.
+- [ ] Commit all item definitions to Azure DevOps.
+
+### Deployment Plan
+
+- [ ] Create `Sales_Deployment_Plan`.
+- [ ] Add the `Sales_Lakehouse` deployment group.
+- [ ] Add `Hydrate_TopCustomers` as an After action.
+- [ ] Add `Publish_TopCustomers` as an After action.
+- [ ] Make Publish depend on Hydrate.
+- [ ] Add the `Sales_Warehouse` deployment group.
+- [ ] Make the Warehouse group depend on the Lakehouse group.
+- [ ] Save the plan.
+- [ ] Commit the plan to Azure DevOps.
+- [ ] Review `plan.yml`.
+
+### Test Deployment
+
+- [ ] Start with an empty `ram-test` workspace.
+- [ ] Confirm the deployment pipeline maps `ram-dev` to `ram-test`.
+- [ ] Start the Dev-to-Test deployment.
+- [ ] Select `Sales_Deployment_Plan`.
+- [ ] Deploy the solution.
+- [ ] Verify `dbo.dev_top_customers` exists in Test.
+- [ ] Verify `dbo.top_customers` exists in Test.
+- [ ] Verify both notebooks succeeded in Fabric Monitor.
+- [ ] Verify notebook execution occurred in `ram-test`.
+- [ ] Verify `dbo.vw_top_customers` exists in `Sales_Warehouse`.
+- [ ] Query the final view and confirm six rows.
+
+---
+
+## 31. References
+
+Microsoft Learn documentation used as the basis for this exercise:
+
+- Deployment plan examples in Microsoft Fabric: <https://learn.microsoft.com/en-us/fabric/cicd/deployment-plan/deployment-plan-sample-plans>
+- Create a deployment plan in Microsoft Fabric: <https://learn.microsoft.com/en-us/fabric/cicd/deployment-plan/how-to-create-deployment-plan>
+- Notebook source control and deployment: <https://learn.microsoft.com/en-us/fabric/data-engineering/notebook-source-control-deployment>
+- Lakehouse Git integration and deployment pipelines: <https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-git-deployment-pipelines>
+- Query the Warehouse or SQL analytics endpoint: <https://learn.microsoft.com/en-us/fabric/data-warehouse/query-warehouse>
+- Cross-Warehouse Query tutorial: <https://learn.microsoft.com/en-us/fabric/data-warehouse/tutorial-sql-cross-warehouse-query-editor>
+
+---
+
+## Summary
+
+In this lesson, we built and deployed a Fabric solution where a Warehouse view depends on a Lakehouse table that must be produced at runtime.
+
+The final orchestration was:
+
+```text
+Deploy Sales_Lakehouse
+        |
+        v
+Run Hydrate_TopCustomers
+        |
+        v
+Create dbo.dev_top_customers
+        |
+        v
+Run Publish_TopCustomers
+        |
+        v
+Create dbo.top_customers
+        |
+        v
+Wait for readiness
+        |
+        v
+Deploy Sales_Warehouse
+        |
+        v
+Create dbo.vw_top_customers
+        |
+        v
+Validate in ram-test
+```
+
+The most important takeaway is:
+
+> **Use a Fabric Deployment Plan when successful deployment requires runtime actions to execute between dependent item deployments.**
