@@ -1,4 +1,4 @@
-# Microsoft Fabric Lakehouse Partition Pruning: Spark vs SQL Analytics Endpoint
+# Microsoft Fabric Lakehouse Partition Pruning
 
 ## Objective
 
@@ -7,9 +7,6 @@ This lab demonstrates:
 1. How to create a partitioned Delta table in a Fabric Lakehouse.
 2. How to verify partition pruning using Spark.
 3. How to inspect physical files being accessed.
-4. How to analyze SQL Analytics Endpoint execution plans.
-5. Why Spark is the authoritative source for validating partition pruning.
-6. Why SQL Analytics Endpoint execution plans do not clearly expose Delta partition elimination.
 
 ---
 
