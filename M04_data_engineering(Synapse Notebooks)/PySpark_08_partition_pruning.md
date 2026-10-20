@@ -249,7 +249,162 @@ This is physical proof.
 
 ---
 
+# Second Example: Partition by DeptName and HireDate
 
+## Objective
+
+This example shows a more granular partition layout. Instead of partitioning only by department, we partition by both:
+
+```text
+DeptName
+HireDate
+```
+
+This creates a directory structure such as:
+
+```text
+employee_partition_perf_2
+|
+|-- DeptName=IT/HireDate=2024-01-01
+|-- DeptName=IT/HireDate=2024-01-02
+|-- DeptName=IT/HireDate=2024-06-30
+|-- DeptName=HR/HireDate=2024-01-01
+|-- DeptName=HR/HireDate=2024-01-02
+|-- DeptName=Sales/HireDate=2024-02-15
+|-- DeptName=Marketing/HireDate=2024-08-10
+```
+
+This allows Spark to prune by department and date at the same time.
+
+---
+
+# Step 1: Write the Table with Two Partition Keys
+
+```python
+df.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .partitionBy("DeptName", "HireDate") \
+    .saveAsTable("employee_partition_perf_2")
+```
+
+Now the table is partitioned by both department and hire date.
+
+---
+
+# Step 2: Inspect the Partition Layout
+
+```sql
+DESCRIBE DETAIL employee_partition_perf_2
+```
+
+Expected folder structure:
+
+```text
+employee_partition_perf_2
+|
+|-- DeptName=IT/HireDate=2024-01-01
+|-- DeptName=IT/HireDate=2024-01-02
+|-- DeptName=IT/HireDate=2024-06-30
+|-- DeptName=HR/HireDate=2024-01-01
+|-- DeptName=HR/HireDate=2024-01-02
+|-- DeptName=Sales/HireDate=2024-02-15
+|-- DeptName=Marketing/HireDate=2024-08-10
+```
+
+As the number of partition keys increases, the number of folders increases as well, which makes the scan narrower and more selective.
+
+---
+
+# Step 3: Validate Partition Pruning in Spark
+
+Query:
+
+```python
+spark.sql("""
+SELECT *
+FROM employee_partition_perf_2
+WHERE DeptName = 'IT'
+  AND HireDate >= date '2024-06-01'
+""").explain(True)
+```
+
+Expected result:
+
+```text
+PartitionFilters:
+[(DeptName = IT), (HireDate >= 2024-06-01)]
+```
+
+This proves Spark is pruning both partition columns.
+
+---
+
+# Step 4: Verify Physical Files Accessed
+
+```python
+result = spark.sql("""
+SELECT *
+FROM employee_partition_perf_2
+WHERE DeptName = 'IT'
+  AND HireDate >= date '2024-06-01'
+""")
+
+for f in result.inputFiles():
+    print(f)
+```
+
+Expected output example:
+
+```text
+.../DeptName=IT/HireDate=2024-06-01/part-xxxx.parquet
+.../DeptName=IT/HireDate=2024-06-15/part-xxxx.parquet
+.../DeptName=IT/HireDate=2024-06-30/part-xxxx.parquet
+```
+
+Files from other departments or date ranges should not appear.
+
+---
+
+# Evidence #3
+
+Spark Execution Plan
+
+```text
+PartitionFilters:
+[(DeptName = IT), (HireDate >= 2024-06-01)]
+```
+
+This is direct evidence that Spark is applying pruning against both partition columns.
+
+---
+
+# Evidence #4
+
+Physical Files
+
+```text
+.../DeptName=IT/HireDate=2024-06-01/part-xxxx.parquet
+```
+
+Only the matching department and date partitions are read.
+
+---
+
+# Why this matters
+
+When the table is partitioned by multiple columns, Spark can eliminate large sections of the table before scanning the actual Parquet files.
+
+This is extremely useful when queries filter on:
+
+- department
+- date range
+- month or year
+- customer region + date
+
+In short, the more selective the partition columns are, the smaller the actual file scan becomes.
+
+---
 
 # Final Conclusion
 
@@ -280,5 +435,27 @@ files only.
 
 ---
 
+## Multi-Partition View
+
+With a second partition key such as HireDate, Spark can prune at a finer level:
+
+```text
+PartitionFilters:
+[(DeptName = IT), (HireDate >= 2024-06-01)]
+```
+
+and
+
+```text
+inputFiles()
+```
+
+returns only files from the matching department and date range.
+
+This is the strongest proof that Delta partition pruning is working effectively.
+
+---
 
 
+
+"
