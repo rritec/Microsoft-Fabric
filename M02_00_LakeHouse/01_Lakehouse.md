@@ -44,8 +44,8 @@
 
 3. Download the file emp.csv from labdata folder
 4. Right click on data folder and upload the emp.csv file
+   
 ![alt text](image.png)
-4. 
 
 ## Exercise 3: Create table using csv file
 
