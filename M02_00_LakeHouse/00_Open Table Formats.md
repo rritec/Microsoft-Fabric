@@ -9,8 +9,8 @@ Open table formats add **ACID transactions, schema evolution, and time travel** 
 ### 🔹 Types
 
 * Delta Lake → Simple, tightly integrated (Fabric/Databricks) https://delta.io/
-* Apache Iceberg → Scalable, multi-engine
-* Apache Hudi → Streaming & real-time updates
+* Apache Iceberg → Scalable, multi-engine https://iceberg.apache.org/
+* Apache Hudi → Streaming & real-time updates https://hudi.apache.org/
 
 ---
 
