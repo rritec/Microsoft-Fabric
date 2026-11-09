@@ -32,7 +32,7 @@ Open table formats add **ACID transactions, schema evolution, and time travel** 
 
 ✔ Backbone of modern **Lakehouse architecture**
 
-                 Microsoft Fabric
+      ```           Microsoft Fabric
 
                        OneLake
                           │
