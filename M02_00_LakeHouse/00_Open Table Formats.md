@@ -32,7 +32,7 @@ Open table formats add **ACID transactions, schema evolution, and time travel** 
 
 ✔ Backbone of modern **Lakehouse architecture**
 
-<img width="383" height="253" alt="image" src="https://github.com/user-attachments/assets/29deb079-6aa8-4ba8-bbdc-4afc9c16d7af" />
+
 <img width="397" height="276" alt="image" src="https://github.com/user-attachments/assets/8776dec3-c5e9-42d2-bde3-3131f2bd4451" />
 
 
