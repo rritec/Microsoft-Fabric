@@ -32,16 +32,5 @@ Open table formats add **ACID transactions, schema evolution, and time travel** 
 
 ✔ Backbone of modern **Lakehouse architecture**
 
-      ```            Microsoft Fabric
+      <img width="383" height="253" alt="image" src="https://github.com/user-attachments/assets/29deb079-6aa8-4ba8-bbdc-4afc9c16d7af" />
 
-                       OneLake
-                          │
-
-       ┌──────────────────┼──────────────────┐
-       │                  │                  │
-
-   Delta Lake         Iceberg          Apache Hudi
-   Native Format      Virtualized      Not Native
-
-      ✅                 ✅               ❌
-```
