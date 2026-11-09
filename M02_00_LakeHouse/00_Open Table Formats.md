@@ -44,3 +44,4 @@ Open table formats add **ACID transactions, schema evolution, and time travel** 
    Native Format      Virtualized      Not Native
 
       ✅                 ✅               ❌
+```
