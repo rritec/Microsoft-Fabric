@@ -90,6 +90,7 @@ columns = ["ename", "age"]
 
 # Create DataFrame
 df = spark.createDataFrame(data, columns)
+df = df.coalesce(1)
 
 # Table path
 delta_table_path="Tables/dbo/people"
