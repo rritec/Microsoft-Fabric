@@ -50,7 +50,7 @@ schema_wrong = StructType([
     StructField("id", IntegerType(), True),
     StructField("name", StringType(), True),    
     StructField("salary", FloatType(), True), 
-    StructField("age", IntegerType(), True)   # Wrong Column
+    StructField("age", IntegerType(), True)   # Extra Column
 ])
 
 data_wrong = [(3, "Charlie", 8000.50, 30)]
