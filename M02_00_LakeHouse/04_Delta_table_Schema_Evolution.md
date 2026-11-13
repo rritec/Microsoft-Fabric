@@ -26,7 +26,7 @@ df.write.format("delta") \
     .save(delta_table_path)
 
 # Read table
-df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.employees LIMIT 1000")
+df = spark.sql("SELECT * FROM employees LIMIT 1000")
 display(df)
 
 ```
@@ -77,7 +77,7 @@ df_new.write.format("delta") \
     .mode("append") \
     .save(delta_table_path)
 
-df = spark.sql("SELECT * FROM rr_master_lakehouse.dbo.employees LIMIT 1000")
+df = spark.sql("SELECT * FROM employees LIMIT 1000")
 display(df)
 
 ```
@@ -87,13 +87,13 @@ display(df)
 ## Step 4: Check Updated Schema
 ``` sql
 %%sql
-desc rr_master_lakehouse.dbo.employees
+desc employees
 ```
 ![image](https://github.com/user-attachments/assets/38c3b041-8069-4d4b-b8f8-96af0ee3e220)
 
 ``` sql
 %%sql
-select * from  rr_master_lakehouse.dbo.employees
+select * from  employees
 ```
 ![image](https://github.com/user-attachments/assets/3b569c7b-32a4-4660-9324-e7c107792fad)
 
