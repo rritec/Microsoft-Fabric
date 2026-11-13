@@ -10,7 +10,7 @@ Each change has different requirements. Adding columns during a write can often 
 
 ## The example below demonstrates adding a column to an existing Delta table.
 
-observe this default option at session level print(spark.conf.get("spark.databricks.delta.schema.autoMerge.enabled"))
+observe this default option at session level `print(spark.conf.get("spark.databricks.delta.schema.autoMerge.enabled"))`
 
 ### Step 1: Create Initial Delta Table (employees)
 ``` python
