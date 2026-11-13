@@ -1,10 +1,8 @@
 # Delta_table_Schema_Evolution
 
-Schema Evolution in a Delta Lake means the table structure (schema) can change over time without recreating the table.
+Schema evolution lets you change a Delta table's schema over time without rewriting all existing data. Schema evolution is leveraged when your source data adds columns, when you need to rename or drop columns, or when you need to widen a data type as your data model matures.
 
-✅ Only adding new columns 
-
-❌ No datatype change supports
+Schema evolution helps you keep pipelines running as data changes. At the same time, you still need to manage those changes carefully because downstream readers depend on the table schema
 
 ## Step 1: Create Initial Delta Table (employees)
 ``` python
