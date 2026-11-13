@@ -97,3 +97,4 @@ select * from  rr_master_lakehouse.dbo.employees
 ```
 ![image](https://github.com/user-attachments/assets/3b569c7b-32a4-4660-9324-e7c107792fad)
 
+Refer: https://learn.microsoft.com/en-us/fabric/data-engineering/delta-lake-schema-evolution?tabs=sparksql
