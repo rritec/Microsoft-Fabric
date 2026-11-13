@@ -1,8 +1,14 @@
 # Delta_table_Schema_Evolution
 
-Schema evolution lets you change a Delta table's schema over time without rewriting all existing data. Schema evolution is leveraged when your source data adds columns, when you need to rename or drop columns, or when you need to widen a data type as your data model matures.
+Delta Lake schema evolution allows a table's schema to change as data requirements change, without necessarily rewriting all existing data. The three common schema-change scenarios are:
 
-Schema evolution helps you keep pipelines running as data changes. At the same time, you still need to manage those changes carefully because downstream readers depend on the table schema
+1. **Adding columns** when incoming source data includes new fields.
+2. **Renaming or dropping columns** when the table's column names or structure need to change.
+3. **Widening a data type** when a column needs to store a broader range of values, such as changing an integer type to a larger integer type.
+
+Each change has different requirements. Adding columns during a write can often be enabled with schema evolution (for example, `mergeSchema`). Renaming or dropping columns and widening data types may require specific Delta Lake features, table configuration, and runtime support. Check that your Fabric runtime supports the operation before applying it, and consider how downstream readers and pipelines will be affected.
+
+The example below demonstrates adding a column to an existing Delta table.
 
 ## Step 1: Create Initial Delta Table (employees)
 ``` python
