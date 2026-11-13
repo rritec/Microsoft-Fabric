@@ -6,11 +6,13 @@ Delta Lake schema evolution allows a table's schema to change as data requiremen
 2. **Renaming or dropping columns** when the table's column names or structure need to change.
 3. **Widening a data type** when a column needs to store a broader range of values, such as changing an integer type to a larger integer type.
 
-Each change has different requirements. Adding columns during a write can often be enabled with schema evolution (for example, `mergeSchema`). Renaming or dropping columns and widening data types may require specific Delta Lake features, table configuration, and runtime support. Check that your Fabric runtime supports the operation before applying it, and consider how downstream readers and pipelines will be affected.
+Each change has different requirements. Adding columns during a write can often be enabled with schema evolution (for example, `mergeSchema`). Renaming or dropping columns and widening data types may require specific Delta Lake features(table configurations)
 
-The example below demonstrates adding a column to an existing Delta table.
+## The example below demonstrates adding a column to an existing Delta table.
 
-## Step 1: Create Initial Delta Table (employees)
+observe this default option at session level print(spark.conf.get("spark.databricks.delta.schema.autoMerge.enabled"))
+
+### Step 1: Create Initial Delta Table (employees)
 ``` python
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, FloatType
 
@@ -39,7 +41,7 @@ display(df)
 ![image](https://github.com/user-attachments/assets/b1fc5d78-6c00-49ec-ba13-75878ae4c875)
 
 
-## Step 2: Try Schema Enforcement (This will fail)(Observe Error Msg)
+### Step 2: Try Schema Enforcement (This will fail)(Observe Error Msg)
 ``` python
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
@@ -63,7 +65,7 @@ df_invalid.write.format("delta") \
 ```
 ![image](https://github.com/user-attachments/assets/418e8908-8103-4fd9-a2ca-032bb769588d)
 
-## Step 3: Enable Schema Evolution
+### Step 3: Enable Schema Evolution
 ``` python
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, FloatType
 
@@ -90,7 +92,7 @@ display(df)
 ![image](https://github.com/user-attachments/assets/5ffda3fc-7456-4f5a-ab85-a7efa9653735)
 
 
-## Step 4: Check Updated Schema
+### Step 4: Check Updated Schema
 ``` sql
 %%sql
 desc employees
