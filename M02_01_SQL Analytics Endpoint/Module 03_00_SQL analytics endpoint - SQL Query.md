@@ -77,7 +77,6 @@ FULL OUTER JOIN dept d ON e.deptno = d.deptno;
 
 ### **2.5 Cross  JOIN - Show All Possibilities of data**
 ```sql
-%%sql
 select dept.deptno,emp.deptno,ename,sal,dname from emp, dept
 ```
 ---
