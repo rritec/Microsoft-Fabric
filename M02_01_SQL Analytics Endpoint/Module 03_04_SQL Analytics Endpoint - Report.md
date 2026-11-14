@@ -14,7 +14,7 @@
 
 ![image](https://github.com/user-attachments/assets/94195e6d-2ee4-4820-8b5c-84a7c7cd6c90)
 
-## Step 2: Create Semantic Model
+## Step 2: Create Report using Semantic Model
 
 1. Click on **File** Menu > Click on **Create New Report**
 2. select dname and sal columns > clik on pie chart similarly develop new reports (POWERBI Resource can work better in this area)
