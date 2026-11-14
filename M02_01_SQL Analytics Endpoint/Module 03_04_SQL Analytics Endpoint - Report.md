@@ -3,7 +3,7 @@
 ## Step 1: Create Semantic Model
 1. Click on Reporting Tab
 2. Click on New Semantic Model
-3. Name i ias **emp-dept** and select **emp** and **dept** tables > click on **Confirm**
+3. Name it as **emp-dept** and select **emp** and **dept** tables > click on **Confirm**
 
 ![image](https://github.com/user-attachments/assets/a42a5d16-5ed2-4c04-b69c-4bd0d59545c2)
 
