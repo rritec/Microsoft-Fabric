@@ -79,6 +79,7 @@ FULL OUTER JOIN dept d ON e.deptno = d.deptno;
 ```sql
 %%sql
 select dept.deptno,emp.deptno,ename,sal,dname from emp, dept
+```
 ---
 
 ## 3. **Aggregations & Grouping**
