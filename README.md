@@ -2,7 +2,7 @@
 
 ![Course Badge](https://img.shields.io/badge/course-Microsoft%20Fabric-blue)
 
-A practical collection of Microsoft Fabric tutorials, notebooks, data files, and examples. The course material is arranged in the repository's **existing module folders**. The outline below uses the actual folder and file names in this repository; it does not describe a proposed folder structure or imply that uncreated chapters already exist.
+A practical collection of Microsoft Fabric tutorials, notebooks, data files, and examples. The course material is arranged in the repository's **existing module folders**. The outline below uses the actual folder and file names in this repository; 
 
 ## How the course is organized
 
