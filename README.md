@@ -1,341 +1,226 @@
-# Microsoft Fabric: Beginner-to-Advanced Course
+# Microsoft Fabric Course
 
 ![Course Badge](https://img.shields.io/badge/course-Microsoft%20Fabric-blue)
 
-A structured, hands-on learning path for building, operating, and governing analytics solutions with Microsoft Fabric. The course starts with data and platform fundamentals, then progresses through ingestion, Lakehouse and Warehouse engineering, Power BI, real-time analytics, data science, security, and production operations.
-
-> **Who this is for:** Beginners, data analysts, BI developers, data engineers, data scientists, and cloud professionals. You can start with little or no Fabric experience. SQL and Power BI familiarity are helpful, but the early modules introduce the concepts you need.
+A practical collection of Microsoft Fabric tutorials, notebooks, data files, and examples. The course material is arranged in the repository's **existing module folders**. The outline below uses the actual folder and file names in this repository; it does not describe a proposed folder structure or imply that uncreated chapters already exist.
 
 ## How the course is organized
 
-The repository is organized by **modules**. Each module is a folder, and each chapter inside it is a topic-focused Markdown file. Chapters should follow a consistent pattern: concepts, step-by-step walkthrough, hands-on exercise, expected result, review questions, and further reading.
+Each `M...` folder is an existing course module or topic area. Open a folder to find its Markdown walkthroughs, notebooks, and supporting files. Folder and chapter names below are reproduced from the repository.
 
-```text
-Microsoft-Fabric/
-├── README.md
-├── modules/
-│   ├── 01-data-and-analytics-foundations/
-│   │   ├── README.md
-│   │   ├── 01-analytics-and-data-platforms.md
-│   │   ├── 02-relational-and-analytical-data.md
-│   │   └── 03-sql-files-and-data-formats.md
-│   ├── 02-fabric-fundamentals/
-│   │   ├── README.md
-│   │   ├── 01-what-is-microsoft-fabric.md
-│   │   ├── 02-workspaces-and-capacities.md
-│   │   └── 03-fabric-portal-and-workloads.md
-│   ├── 03-onelake-and-data-foundations/
-│   │   ├── README.md
-│   │   ├── 01-onelake-and-lakehouse-storage.md
-│   │   ├── 02-lakehouse-files-and-tables.md
-│   │   └── 03-shortcuts-and-data-sharing.md
-│   ├── 04-data-ingestion-and-transformation/
-│   │   ├── README.md
-│   │   ├── 01-data-sources-and-connectors.md
-│   │   ├── 02-dataflows-gen2-and-power-query.md
-│   │   └── 03-data-pipelines-and-copy-activity.md
-│   ├── 05-lakehouse-and-spark-engineering/
-│   │   ├── README.md
-│   │   ├── 01-notebooks-and-spark-basics.md
-│   │   ├── 02-delta-tables-and-medallion-architecture.md
-│   │   └── 03-data-quality-and-schema-management.md
-│   ├── 06-data-warehousing-and-sql/
-│   │   ├── README.md
-│   │   ├── 01-fabric-warehouse-fundamentals.md
-│   │   ├── 02-dimensional-modeling.md
-│   │   └── 03-t-sql-and-querying-data.md
-│   ├── 07-orchestration-and-reusable-data-solutions/
-│   │   ├── README.md
-│   │   ├── 01-pipeline-orchestration.md
-│   │   ├── 02-parameters-variables-and-control-flow.md
-│   │   └── 03-incremental-and-restartable-loads.md
-│   ├── 08-power-bi-and-semantic-modeling/
-│   │   ├── README.md
-│   │   ├── 01-semantic-model-fundamentals.md
-│   │   ├── 02-star-schemas-and-relationships.md
-│   │   ├── 03-dax-and-measures.md
-│   │   └── 04-reports-and-interactive-analytics.md
-│   ├── 09-real-time-analytics-and-kql/
-│   │   ├── README.md
-│   │   ├── 01-eventstreams-and-event-ingestion.md
-│   │   ├── 02-eventhouse-and-kql-databases.md
-│   │   └── 03-kql-queries-alerts-and-real-time-dashboards.md
-│   ├── 10-data-science-and-machine-learning/
-│   │   ├── README.md
-│   │   ├── 01-data-science-workspaces-and-notebooks.md
-│   │   ├── 02-experimentation-and-model-training.md
-│   │   └── 03-scoring-and-operationalization.md
-│   ├── 11-security-governance-and-compliance/
-│   │   ├── README.md
-│   │   ├── 01-identities-roles-and-permissions.md
-│   │   ├── 02-sensitivity-labels-and-protection.md
-│   │   └── 03-lineage-discovery-and-governance.md
-│   ├── 12-deployment-devops-and-cicd/
-│   │   ├── README.md
-│   │   ├── 01-development-test-and-production.md
-│   │   ├── 02-git-integration-and-branching.md
-│   │   └── 03-deployment-pipelines-and-automation.md
-│   ├── 13-performance-monitoring-and-cost-management/
-│   │   ├── README.md
-│   │   ├── 01-capacity-and-workload-basics.md
-│   │   ├── 02-troubleshooting-and-performance.md
-│   │   └── 03-monitoring-and-cost-awareness.md
-│   └── 14-solution-architecture-and-capstone/
-│       ├── README.md
-│       ├── 01-requirements-and-architecture.md
-│       ├── 02-build-an-end-to-end-analytics-solution.md
-│       └── 03-present-review-and-improve.md
-├── labs/
-│   ├── README.md
-│   └── solutions/                 # Optional instructor solutions
-├── datasets/
-│   ├── README.md
-│   └── sample-data/               # Small, licensed or synthetic datasets
-├── projects/
-│   ├── README.md
-│   └── capstone/                  # Capstone brief, rubric, and deliverables
-└── resources/
-    ├── glossary.md
-    ├── troubleshooting.md
-    └── further-reading.md
-```
+### Course modules and existing topics
 
-**Naming convention:** use zero-padded numbers to preserve learning order, lowercase kebab-case for folder and file names, and descriptive topic names rather than generic names such as `chapter1.md`. Each module's `README.md` should introduce the module, list its chapters, explain prerequisites, and state what learners will build.
+#### [M01_Introduction to Microsoft Fabric](<M01_Introduction to Microsoft Fabric/>)
 
-## Learning path and course outline
+Introduction to Fabric concepts, plus a knowledge check and demo:
 
-### Module 1 — Data and analytics foundations
+- [Module 01_00_Introduction to Microsoft Fabric.md](<M01_Introduction to Microsoft Fabric/Module 01_00_Introduction to Microsoft Fabric.md>)
+- [Demo.md](<M01_Introduction to Microsoft Fabric/Demo.md>)
+- [Module 01_01_Microsoft_Fabric_Intro_MCQs.md](<M01_Introduction to Microsoft Fabric/Module 01_01_Microsoft_Fabric_Intro_MCQs.md>)
 
-**Goal:** Build the vocabulary and basic data skills needed to understand Fabric's workloads.
+#### [M02_00_LakeHouse](<M02_00_LakeHouse/>)
 
-- Analytics concepts: transactional systems, analytical systems, batch, and streaming
-- The data lifecycle: source, ingest, store, transform, model, serve, and govern
-- Structured, semi-structured, and unstructured data
-- Tables, files, schemas, keys, and relationships
-- Introductory SQL: `SELECT`, filtering, sorting, grouping, and joins
-- Common file formats: CSV, JSON, Parquet, and Delta tables
-- Introductory dimensional-modeling concepts: facts, dimensions, and grain
-- **Practice:** inspect sample files, identify their structures, and write simple SQL queries
+Lakehouse, Delta tables, table formats, and schema evolution:
 
-### Module 2 — Microsoft Fabric fundamentals
+- [00_Open Table Formats.md](<M02_00_LakeHouse/00_Open Table Formats.md>)
+- [01_Lakehouse.md](<M02_00_LakeHouse/01_Lakehouse.md>)
+- [02_Delta_table_ACID_operations.md](<M02_00_LakeHouse/02_Delta_table_ACID_operations.md>)
+- [03_Time Travel.md](<M02_00_LakeHouse/03_Time Travel.md>)
+- [04_Delta_table_Schema_Evolution.md](<M02_00_LakeHouse/04_Delta_table_Schema_Evolution.md>)
+- [04nb_Schema evolution for Delta tables.ipynb](<M02_00_LakeHouse/04nb_Schema evolution for Delta tables.ipynb>)
+- `Archive/` contains archived notebooks.
 
-**Goal:** Understand what Fabric is and how its environment is organized.
+#### [M02_01_SQL Analytics Endpoint](<M02_01_SQL Analytics Endpoint/>)
 
-- Microsoft Fabric as an integrated analytics platform and its relationship to Power BI and Microsoft OneLake
-- Fabric workloads and when to use them: Data Factory, Data Engineering, Data Warehouse, Data Science, Real-Time Intelligence, and Power BI
-- The Fabric portal, navigation, item types, and workspace organization
-- Workspaces, roles, domains, and capacity at an introductory level
-- Understand trial and capacity considerations, permissions, and responsible use of shared resources
-- Compare common workload choices without assuming that one tool fits every use case
-- **Practice:** explore a workspace, identify Fabric items, and map a sample analytics scenario to workloads
+Query and consume Lakehouse data using the SQL analytics endpoint:
 
-### Module 3 — OneLake and data foundations
+- [Module 03_00_SQL analytics endpoint - SQL Query.md](<M02_01_SQL Analytics Endpoint/Module 03_00_SQL analytics endpoint - SQL Query.md>)
+- [Module 03_01_SQL Analytics Endpoint - Visual Query Examples.md](<M02_01_SQL Analytics Endpoint/Module 03_01_SQL Analytics Endpoint - Visual Query Examples.md>)
+- [Module 03_02_SQL Analytics Endpoint - Notebook.ipynb](<M02_01_SQL Analytics Endpoint/Module 03_02_SQL Analytics Endpoint - Notebook.ipynb>)
+- [Module 03_04_SQL Analytics Endpoint - Report.md](<M02_01_SQL Analytics Endpoint/Module 03_04_SQL Analytics Endpoint - Report.md>)
+- `archive/` contains an archived notebook.
 
-**Goal:** Learn how Fabric stores, organizes, and makes data accessible.
+#### [M02_02_Python and PySpark](<M02_02_Python and PySpark/>)
 
-- OneLake concepts and the relationship between workspaces, items, and data
-- Lakehouse basics: `Files` and `Tables`, managed data, and Delta format
-- Organizing folders, naming conventions, and choosing a storage layout
-- Shortcuts: accessing data in place and understanding the difference between a shortcut and a copy
-- Data discovery, reuse, and basic lineage concepts
-- **Practice:** create a Lakehouse, upload sample files, create a table, and inspect its contents
+Python and PySpark examples, including custom modules and field encryption:
 
-### Module 4 — Data ingestion and transformation
+- [First_module.py](<M02_02_Python and PySpark/First_module.py>)
+- [Import Custom Modules in Fabric.ipynb](<M02_02_Python and PySpark/Import Custom Modules in Fabric.ipynb>)
+- [PySpark_Field_Encryption_decryption.ipynb](<M02_02_Python and PySpark/PySpark_Field_Encryption_decryption.ipynb>)
+- [readme.md](<M02_02_Python and PySpark/readme.md>)
 
-**Goal:** Bring data into Fabric and perform repeatable low-code transformations.
+#### [M03_Data Pipelines(Azure Data Factory)](<M03_Data Pipelines(Azure Data Factory)/>)
 
-- Source systems, connectors, authentication, and gateway concepts
-- Copying data and choosing between batch ingestion and other patterns
-- Dataflows Gen2 and Power Query fundamentals
-- Cleaning, filtering, combining, and shaping data
-- Destinations and loading data to supported Fabric items
-- Refresh behavior, error handling, and basic data validation
-- **Practice:** ingest files or a sample source, transform the data, and load a curated result
+Pipeline ingestion, orchestration, scheduling, control flow, and transformations:
 
-### Module 5 — Lakehouse and Spark engineering
+- [01. Lakehouse_file_to_Lakehouse_Delta_Table_pipe.md](<M03_Data Pipelines(Azure Data Factory)/01. Lakehouse_file_to_Lakehouse_Delta_Table_pipe.md>)
+- [02. Pipe_from_SqlDatabase_to_Lakehouse_deltaTable.md](<M03_Data Pipelines(Azure Data Factory)/02. Pipe_from_SqlDatabase_to_Lakehouse_deltaTable.md>)
+- [03. Pipe_Load_multiple_sheets_of_excel.md](<M03_Data Pipelines(Azure Data Factory)/03. Pipe_Load_multiple_sheets_of_excel.md>)
+- [04. Pipe Load Excel Sheets Dynamically to Lakehouse.md](<M03_Data Pipelines(Azure Data Factory)/04. Pipe Load Excel Sheets Dynamically to Lakehouse.md>)
+- [05. Pipe Export_EMP_to_Lakehouse_Pipeline.md](<M03_Data Pipelines(Azure Data Factory)/05. Pipe Export_EMP_to_Lakehouse_Pipeline.md>)
+- [06. pipe_Load_file_if_available.md](<M03_Data Pipelines(Azure Data Factory)/06. pipe_Load_file_if_available.md>)
+- [07. Pipe_Branch Files using Switch.md](<M03_Data Pipelines(Azure Data Factory)/07. Pipe_Branch Files using Switch.md>)
+- [08. Pipe to Incrementally load data.md](<M03_Data Pipelines(Azure Data Factory)/08. Pipe to Incrementally load data.md>)
+- [09. Pipe_Scheduling and Triggers.md](<M03_Data Pipelines(Azure Data Factory)/09. Pipe_Scheduling and Triggers.md>)
+- [10. Pipe_Execute_Pipeline_Activity.md](<M03_Data Pipelines(Azure Data Factory)/10. Pipe_Execute_Pipeline_Activity.md>)
+- [11. Pipe Load Data from API to lakehouse table.md](<M03_Data Pipelines(Azure Data Factory)/11. Pipe Load Data from API to lakehouse table.md>)
+- [12. Pipe Mail or Teams Notifications.md](<M03_Data Pipelines(Azure Data Factory)/12. Pipe Mail or Teams Notifications.md>)
+- [13. Pipe_Delete_outlook_Teams_Activity.md](<M03_Data Pipelines(Azure Data Factory)/13. Pipe_Delete_outlook_Teams_Activity.md>)
+- [14. Pipe_Fail_Activity.md](<M03_Data Pipelines(Azure Data Factory)/14. Pipe_Fail_Activity.md>)
+- [15. Pipe_Monitor File Arrival Using Until Loop.md](<M03_Data Pipelines(Azure Data Factory)/15. Pipe_Monitor File Arrival Using Until Loop.md>)
+- [ADF17_Create Dataflow equal to sql query.md](<M03_Data Pipelines(Azure Data Factory)/ADF17_Create Dataflow equal to sql query.md>)
+- [ADF18_Replicate DataFlows logic in copy activity.md](<M03_Data Pipelines(Azure Data Factory)/ADF18_Replicate DataFlows logic in copy activity.md>)
+- [ADF19_Split Transformation.md](<M03_Data Pipelines(Azure Data Factory)/ADF19_Split Transformation.md>)
+- [ADF21_UNION_transformation.md](<M03_Data Pipelines(Azure Data Factory)/ADF21_UNION_transformation.md>)
+- [ADF22_Derived_Column_Transformation.md](<M03_Data Pipelines(Azure Data Factory)/ADF22_Derived_Column_Transformation.md>)
+- [ADF24_1_Transformations in Stored Procedure.md](<M03_Data Pipelines(Azure Data Factory)/ADF24_1_Transformations in Stored Procedure.md>)
+- [ADF24_2_Transformations in Stored Procedure.md](<M03_Data Pipelines(Azure Data Factory)/ADF24_2_Transformations in Stored Procedure.md>)
+- [ADF25_00_Transformation_in_pyspark_notebook.ipynb](<M03_Data Pipelines(Azure Data Factory)/ADF25_00_Transformation_in_pyspark_notebook.ipynb>)
+- [ADF25_01_Transformation_in_pyspark_notebook.md](<M03_Data Pipelines(Azure Data Factory)/ADF25_01_Transformation_in_pyspark_notebook.md>)
+- Supporting files: [master_ingestion_pipeline.json](<M03_Data Pipelines(Azure Data Factory)/master_ingestion_pipeline.json>), [nb_Metadata_Configuration.ipynb](<M03_Data Pipelines(Azure Data Factory)/nb_Metadata_Configuration.ipynb>), and `archive/`.
 
-**Goal:** Develop engineering workflows with notebooks, Spark, and Delta tables.
+#### [M04_data_engineering(Synapse Notebooks)](<M04_data_engineering(Synapse Notebooks)/>)
 
-- Lakehouse architecture and the bronze, silver, and gold medallion pattern
-- Notebook workflow and introductory PySpark; use SQL where appropriate
-- Read and write files and tables from a notebook
-- Delta table fundamentals, schema enforcement, and table maintenance concepts
-- Data cleansing, deduplication, joins, and aggregations
-- Data quality checks, null handling, and schema evolution considerations
-- **Practice:** build a notebook that turns raw data into validated, curated Lakehouse tables
+Notebook and PySpark data engineering examples. The folder name is retained exactly as it exists in the repository:
 
-### Module 6 — Data warehousing and SQL
+- [PySpark_00_NotebookUtils.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_00_NotebookUtils.ipynb>)
+- [PySpark_01.Read Csv File.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_01.Read Csv File.ipynb>)
+- [PySpark_02.Read JSON File.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_02.Read JSON File.ipynb>)
+- [PySpark_03.Read XML File.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_03.Read XML File.ipynb>)
+- [PySpark_04.Read  parquet File.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_04.Read  parquet File.ipynb>)
+- [PySpark_05.Read Bronze layer apply transformation and write into silver layer.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_05.Read Bronze layer apply transformation and write into silver layer.ipynb>)
+- [PySpark_06.Read Bronze layer apply transformation and write into silver layer2.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_06.Read Bronze layer apply transformation and write into silver layer2.ipynb>)
+- [PySpark_07_more_used_functions.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_07_more_used_functions.ipynb>)
+- [PySpark_08_partition_pruning.md](<M04_data_engineering(Synapse Notebooks)/PySpark_08_partition_pruning.md>)
+- [PySpark_09_Identity_columns.ipynb](<M04_data_engineering(Synapse Notebooks)/PySpark_09_Identity_columns.ipynb>)
+- `archive/` contains an archived version of a PySpark functions lesson.
 
-**Goal:** Design and query a relational analytical model in a Fabric Warehouse.
+#### [M05_PowerBI](<M05_PowerBI/>)
 
-- Warehouse concepts and how Warehouse and Lakehouse approaches differ
-- Create tables and load data; understand supported T-SQL capabilities and product-specific considerations
-- Dimensional modeling: grain, facts, dimensions, surrogate keys, and star schemas
-- Write analytical SQL with joins, aggregations, common table expressions, and window functions
-- Data loading and transformation patterns for a warehouse
-- Query plans and introductory performance considerations
-- **Practice:** create a small star schema and answer business questions with SQL
+- [readme.md](<M05_PowerBI/readme.md>)
 
-### Module 7 — Orchestration and reusable data solutions
+#### [M06_00_DataWareHouse](<M06_00_DataWareHouse/>)
 
-**Goal:** Coordinate multi-step data workflows and make them easier to operate.
+Warehouse creation, ingestion, T-SQL, transformations, query building, and access control:
 
-- Data pipelines and orchestration concepts
-- Activities, dependencies, scheduling, and monitoring pipeline runs
-- Parameters, variables, expressions, and reusable pipeline patterns
-- Incremental loading, watermarks, and change-aware processing concepts
-- Retry, failure paths, logging, and restartability
-- Coordinate notebooks, Dataflows Gen2, and data movement where supported
-- **Practice:** orchestrate a repeatable ingestion and transformation workflow with run monitoring
+- [00_Create_Datawarehouse.md](<M06_00_DataWareHouse/00_Create_Datawarehouse.md>)
+- [01_Ingest data into a Warehouse using Data Pipeline.md](<M06_00_DataWareHouse/01_Ingest data into a Warehouse using Data Pipeline.md>)
+- [02_Create tables with T-SQL in a warehouse.md](<M06_00_DataWareHouse/02_Create tables with T-SQL in a warehouse.md>)
+- [03_Clone a table with T-SQL in a Warehouse.md](<M06_00_DataWareHouse/03_Clone a table with T-SQL in a Warehouse.md>)
+- [04_Transform data with a stored procedure in a Warehouse.md](<M06_00_DataWareHouse/04_Transform data with a stored procedure in a Warehouse.md>)
+- [05_Create a query with the visual query builder in a Warehouse.md](<M06_00_DataWareHouse/05_Create a query with the visual query builder in a Warehouse.md>)
+- [06. Warehouse Schema-Level Access Control .md](<M06_00_DataWareHouse/06. Warehouse Schema-Level Access Control .md>)
+- [07. Identity_Column.md](<M06_00_DataWareHouse/07. Identity_Column.md>)
 
-### Module 8 — Power BI and semantic modeling
+#### [M06_01_Environment](<M06_01_Environment/>)
 
-**Goal:** Turn prepared data into understandable, governed business insights.
+Environment setup, libraries, and pipeline validation resources:
 
-- Semantic models and the separation between data preparation and reporting
-- Star schemas, relationships, filter direction, and model design
-- Measures, calculated columns, and introductory DAX
-- Report pages, visuals, slicers, drill-through, and accessible design
-- Direct Lake, DirectQuery, and Import concepts; understand trade-offs and limitations
-- Row-level security concepts and validating the user experience
-- **Practice:** create a semantic model and report that answer defined business questions
+- [Fabric_Environment_Resources_Guide.ipynb](<M06_01_Environment/Fabric_Environment_Resources_Guide.ipynb>)
+- [Fabric_Mimesis_External_Library_Guide.ipynb](<M06_01_Environment/Fabric_Mimesis_External_Library_Guide.ipynb>)
+- [Fabric_Pipeline_Validator_v3.ipynb](<M06_01_Environment/Fabric_Pipeline_Validator_v3.ipynb>)
+- [Microsoft_Fabric_Custom_Library_Guide.ipynb](<M06_01_Environment/Microsoft_Fabric_Custom_Library_Guide.ipynb>)
+- Supporting files: [config.yml](<M06_01_Environment/config.yml>), [helpers.py](<M06_01_Environment/helpers.py>), [lookup.csv](<M06_01_Environment/lookup.csv>), [pipeline_validator.py](<M06_01_Environment/pipeline_validator.py>), [readme.md](<M06_01_Environment/readme.md>), [sales_summary.sql](<M06_01_Environment/sales_summary.sql>), and [schema.json](<M06_01_Environment/schema.json>).
 
-### Module 9 — Real-time analytics and KQL
+#### [M07_Azure Data Explorer](<M07_Azure Data Explorer/>)
 
-**Goal:** Explore event-based data processing and real-time analysis.
+- [readme.md](<M07_Azure Data Explorer/readme.md>)
 
-- Event data, telemetry, streaming, and real-time analytics scenarios
-- Eventstreams and ingestion concepts, including sources and destinations available in the environment
-- Eventhouse and KQL database fundamentals
-- Kusto Query Language (KQL) basics: filtering, projection, aggregation, and time-based analysis
-- Real-time dashboards, alerts, and operational use cases
-- Considerations for retention, event volume, and late-arriving data
-- **Practice:** ingest or use sample events, query them with KQL, and build a simple live-monitoring view
+#### [M08_Real-Time Intelligence](<M08_Real-Time Intelligence/>)
 
-### Module 10 — Data science and machine learning
+Eventhouse, Real-Time hub, KQL database transformations, dashboards, reports, and alerts:
 
-**Goal:** Use Fabric notebooks and data science experiences to explore and operationalize analytical models.
+- [01_Set up Eventhouse.md](<M08_Real-Time Intelligence/01_Set up Eventhouse.md>)
+- [02_Get data in the Real-Time hub.md](<M08_Real-Time Intelligence/02_Get data in the Real-Time hub.md>)
+- [03_Transform data in a KQL database Bronze and Silver.md](<M08_Real-Time Intelligence/03_Transform data in a KQL database Bronze and Silver.md>)
+- [04_Create a materialized view(Gold Layer).md](<M08_Real-Time Intelligence/04_Create a materialized view(Gold Layer).md>)
+- [05_Create a Real-Time Dashboard.md](<M08_Real-Time Intelligence/05_Create a Real-Time Dashboard.md>)
+- [06_Create a Power BI report.md](<M08_Real-Time Intelligence/06_Create a Power BI report.md>)
+- [07_Set an alert on your event stream.md](<M08_Real-Time Intelligence/07_Set an alert on your event stream.md>)
 
-- Exploratory data analysis and feature preparation
-- Notebook-based Python workflows and reproducibility
-- Train, evaluate, and compare a baseline machine-learning model
-- Track experiments and manage model artifacts using available Fabric capabilities
-- Batch scoring and making predictions available to downstream analytics
-- Responsible AI, privacy, bias, and model limitations
-- **Practice:** train and evaluate a simple model, then communicate its results and limitations
+#### [M09_DataScience](<M09_DataScience/>)
 
-### Module 11 — Security, governance, and compliance
+- [Data Overload to Instant Insights.ipynb](<M09_DataScience/Data Overload to Instant Insights.ipynb>)
+- [test.md](<M09_DataScience/test.md>)
 
-**Goal:** Apply least-privilege access and understand how data is discovered and protected.
+#### [M10_AI](<M10_AI/>)
 
-- Tenant, capacity, workspace, item, and data-level access concepts
-- Workspace roles, item permissions, and identity basics
-- Least privilege and separation of duties
-- Sensitivity labels, information protection, and related organizational policies
-- Lineage, endorsement, discovery, and data ownership concepts
-- Auditing and governance responsibilities; confirm features against your organization's configuration
-- **Practice:** design an access matrix for a sample project and validate access using appropriate test accounts
+- [AI Tools in Microsoft Fabric - Data Wrangler.md](<M10_AI/AI Tools in Microsoft Fabric - Data Wrangler.md>)
 
-### Module 12 — Deployment, DevOps, and CI/CD
+#### [M11_DevOps](<M11_DevOps/>)
 
-**Goal:** Move Fabric work through controlled development and release workflows.
+Deployment planning and deployment pipeline material:
 
-- Development, test, and production environment strategy
-- Git integration concepts, source control, branching, and collaboration
-- Deployment pipelines and environment-specific configuration
-- Parameterization, release checklists, and controlled promotion
-- Fabric REST APIs and automation concepts; handle credentials securely and avoid committing secrets
-- Testing data transformations and validating releases
-- **Practice:** plan and execute a promotion workflow for a small solution, documenting prerequisites and rollback considerations
+- [01-deployment-pipelines.md](<M11_DevOps/01-deployment-pipelines.md>)
+- [02-item-reference-variable-type.md](<M11_DevOps/02-item-reference-variable-type.md>)
+- [deployment-plan.md](<M11_DevOps/deployment-plan.md>)
+- Supporting images are stored in this folder and in `media/`.
 
-### Module 13 — Performance, monitoring, and cost awareness
+#### [M201_Interview](<M201_Interview/>)
 
-**Goal:** Operate workloads responsibly and diagnose common issues.
+Interview practice and technical examples:
 
-- Capacity concepts, workload behavior, and shared-capacity considerations
-- Monitor pipeline, notebook, query, and refresh activity using the relevant experiences
-- Diagnose common ingestion, permission, schema, and query failures
-- Performance fundamentals for Spark, SQL, models, and reports
-- Workload sizing, concurrency, and optimization trade-offs
-- Cost awareness, quotas, and responsible capacity usage
-- **Practice:** investigate a deliberately introduced issue, record evidence, and recommend a measured improvement
+- [Getting the Latest Transaction.ipynb](<M201_Interview/Getting the Latest Transaction.ipynb>)
+- [Mapping_among_pipelinename_activity_sparkpool.md](<M201_Interview/Mapping_among_pipelinename_activity_sparkpool.md>)
+- [Parent_child_pipelines_mapping_in_ADF.md](<M201_Interview/Parent_child_pipelines_mapping_in_ADF.md>)
+- [PySpark.md](<M201_Interview/PySpark.md>)
+- [Reading_json_and getting _latest_seat_num_per_booking.ipynb](<M201_Interview/Reading_json_and getting _latest_seat_num_per_booking.ipynb>)
+- [ai_test.md](<M201_Interview/ai_test.md>)
 
-### Module 14 — Solution architecture and capstone
+#### [M99_Architectures](<M99_Architectures/>)
 
-**Goal:** Combine course skills into a documented, end-to-end analytics solution.
+- [Kappa_Architecture_Demo_NYC_Taxi.ipynb](<M99_Architectures/Kappa_Architecture_Demo_NYC_Taxi.ipynb>)
+- [readme.md](<M99_Architectures/readme.md>)
 
-Build a solution for a realistic business scenario, such as retail sales, operations, public data, or IoT monitoring. The project should include:
+#### [Module 100](<Module 100/>)
 
-1. Business questions, user needs, assumptions, and success criteria
-2. A source-to-consumption architecture diagram and workload choices
-3. A documented ingestion and transformation process
-4. A Lakehouse medallion design, Warehouse model, or a justified combination
-5. Data quality checks and repeatable orchestration
-6. A semantic model, report, or real-time view appropriate to the scenario
-7. Security and governance recommendations
-8. A deployment and operational plan, including monitoring and cost considerations
-9. A final demonstration, README, and reflection on limitations and next steps
+Miscellaneous exercises, questions, and course planning:
 
-**Assessment:** evaluate correctness, clarity, reproducibility, security, data quality, performance awareness, and the quality of the business insights—not just whether the demo runs.
+- [IQ/01.Questions.md](<Module 100/IQ/01.Questions.md>)
+- [Misc/01. Load Files into One Lake Table.md](<Module 100/Misc/01. Load Files into One Lake Table.md>)
+- [Misc/02. Combine two Bronze tables and load into silver lake.md](<Module 100/Misc/02. Combine two Bronze tables and load into silver lake.md>)
+- [Misc/Data Analytics Solutions.md](<Module 100/Misc/Data Analytics Solutions.md>)
+- [poster.md](<Module 100/poster.md>)
+- [tasklist.md](<Module 100/tasklist.md>)
 
-## Recommended chapter template
+### Other repository resources
 
-Use a consistent chapter format so students know how to learn from every topic:
+These are also existing repository paths, but they are supporting material rather than sequential course modules:
 
-1. **Learning objectives** — observable outcomes for the chapter
-2. **Why it matters** — the problem this topic solves
-3. **Prerequisites** — earlier chapters, account access, permissions, and required tools
-4. **Key concepts** — definitions, diagrams, and decision guidance
-5. **Guided walkthrough** — numbered, verifiable steps with expected results
-6. **Hands-on challenge** — a task for students to complete independently
-7. **Validation and troubleshooting** — how to confirm success and address common errors
-8. **Knowledge check** — review questions or a short quiz
-9. **Cleanup** — stop or remove resources where appropriate
-10. **Further reading** — current Microsoft Learn documentation and related course chapters
+- **[`Labdata/`](<Labdata/>)** — sample CSV, JSON, XML, TXT, Excel, and Parquet files used by exercises, with `dev/`, `test/`, `prod/`, and `media/` subfolders.
+- **[`notebooks/`](<notebooks/>)** — [01.init_setup.ipynb](<notebooks/01.init_setup.ipynb>), [02. Actual_code.ipynb](<notebooks/02. Actual_code.ipynb>), [03. add_source_data.ipynb](<notebooks/03. add_source_data.ipynb>), and [test.md](<notebooks/test.md>).
+- **[`recap.md`](recap.md)** and **[`weeklyplan.md`](weeklyplan.md)** — recap and weekly planning material.
+- **[`skills/`](<skills/>)** — a separate Microsoft Fabric AI skills collection, including its own documentation and plugin files. It is not a numbered course module.
+- **[`CONTRIBUTING.md`](CONTRIBUTING.md)** and **[`LICENSE`](LICENSE)** — repository contribution guidance and license.
 
-## Prerequisites and setup
+> **Navigation note:** The repository currently has a mix of module numbering and topic folders (for example, `M02_...` and `M06_...` each contain multiple folders). This README follows those names exactly so every link corresponds to an existing path. It does not rename, move, or claim to create course files.
 
-- A Microsoft Fabric-enabled environment with the necessary tenant settings, permissions, and capacity or trial access. Availability can vary by organization and region; check with your administrator before class.
-- A modern web browser and a Microsoft account authorized to access the learning environment.
-- No prior Fabric experience is required.
-- Basic spreadsheet experience is useful. SQL and Power BI are helpful but can be learned alongside the course.
-- Python is introduced where needed for notebook and data-science exercises; advanced programming is not required for the introductory path.
-- Use only data you are permitted to upload and process. Never commit credentials, tokens, private data, or other secrets to this repository.
+## Suggested learning progression using the current files
 
-## Suggested student pathways
+The existing material can be followed approximately in this sequence:
 
-- **New to analytics:** Modules 1–5, then 7–8, and finish with the capstone.
-- **BI analyst:** Modules 1–4, then 6 and 8, followed by governance and the capstone.
-- **Data engineer:** Modules 1–7, then 11–13 and the capstone.
-- **Data scientist:** Modules 1–5, then 8 and 10–13, with the capstone.
-- **Experienced professional:** Use module objectives and knowledge checks to identify gaps, then complete the relevant labs and capstone.
+1. Start with [M01_Introduction to Microsoft Fabric](<M01_Introduction to Microsoft Fabric/>).
+2. Learn Lakehouse and Delta concepts in [M02_00_LakeHouse](<M02_00_LakeHouse/>), then explore the SQL analytics endpoint and Python/PySpark folders under the `M02_...` topic areas.
+3. Practice ingestion and orchestration with [M03_Data Pipelines(Azure Data Factory)](<M03_Data Pipelines(Azure Data Factory)/>).
+4. Continue with [M04_data_engineering(Synapse Notebooks)](<M04_data_engineering(Synapse Notebooks)/>) for notebook-based data engineering.
+5. Explore [M06_00_DataWareHouse](<M06_00_DataWareHouse/>) for Warehouse and T-SQL examples, alongside [M05_PowerBI](<M05_PowerBI/>).
+6. Study event-based analytics in [M07_Azure Data Explorer](<M07_Azure Data Explorer/>) and [M08_Real-Time Intelligence](<M08_Real-Time Intelligence/>).
+7. Explore [M09_DataScience](<M09_DataScience/>) and [M10_AI](<M10_AI/>).
+8. Review deployment examples in [M11_DevOps](<M11_DevOps/>), architecture examples in [M99_Architectures](<M99_Architectures/>), and practice material in [M201_Interview](<M201_Interview/>) and [Module 100](<Module 100/>).
 
-## Learning outcomes
+The repository currently has different levels of coverage in different areas. Use each module's included README or lesson files for its actual instructions; topics without a corresponding file are not represented as completed lessons here.
 
-By the end of the course, students should be able to:
+## Prerequisites
 
-- Explain Fabric's core workloads and choose an appropriate approach for a scenario.
-- Organize and access data using OneLake, Lakehouses, Warehouses, and supported shortcuts.
-- Ingest, transform, validate, and orchestrate data using suitable Fabric experiences.
-- Use SQL, notebooks, Power Query, and KQL at an introductory practical level.
-- Design an analytical model and build a Power BI report for business users.
-- Describe foundational real-time analytics and machine-learning workflows.
-- Apply basic security, governance, deployment, monitoring, and performance practices.
-- Design and present a small end-to-end solution with documented trade-offs.
-
-## Contributing course content
-
-- Put each new topic in the relevant module folder as a numbered Markdown chapter.
-- Update the module `README.md` and this course outline when adding or reordering chapters.
-- Keep exercises reproducible, label instructor-only solutions clearly, and provide synthetic or appropriately licensed datasets.
-- Link to authoritative Microsoft Learn documentation and note when a feature or interface may change.
-- Prefer small, focused chapters that build progressively from concepts to guided practice and independent work.
+- A Microsoft Fabric-enabled account and permission to use the relevant Fabric workloads. Access, capacity, and tenant settings depend on your organization.
+- A modern web browser. Some notebooks and hands-on labs require an accessible Fabric workspace.
+- No prior Fabric experience is needed to begin with the introduction. Familiarity with SQL, Python, data analytics, or Power BI will help with the corresponding advanced topics.
+- Use permitted sample data only. Do not commit credentials, tokens, private data, or other secrets to the repository.
 
 ## Help and resources
 
 - [Microsoft Fabric documentation](https://learn.microsoft.com/fabric/)
 - [Microsoft Fabric community](https://community.fabric.microsoft.com/)
-- [Repository issues and troubleshooting](https://github.com/rritec/Microsoft-Fabric/issues)
-- [Repository](https://github.com/rritec/Microsoft-Fabric)
+- [Repository issues](https://github.com/rritec/Microsoft-Fabric/issues)
 
-Microsoft Fabric changes regularly. Treat this course as a learning guide, and verify feature availability, licensing, limits, and interface steps against current Microsoft documentation and your organization's environment.
+Microsoft Fabric changes regularly. Check current Microsoft documentation for feature availability, licensing, limits, and interface steps.
