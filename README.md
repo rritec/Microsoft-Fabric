@@ -54,6 +54,12 @@ Python and PySpark examples, including custom modules and field encryption:
 Pipeline ingestion, orchestration, scheduling, control flow, and transformations:
 
 - [01. Lakehouse_file_to_Lakehouse_Delta_Table_pipe.md](<M03_Data Pipelines(Azure Data Factory)/01. Lakehouse_file_to_Lakehouse_Delta_Table_pipe.md>)
+    - additional columns
+    - Lakehouse artifact connection
+    - wildcard file path
+    - list of files
+    - Overwrite
+    - Upsert
 - [02. Pipe_from_SqlDatabase_to_Lakehouse_deltaTable.md](<M03_Data Pipelines(Azure Data Factory)/02. Pipe_from_SqlDatabase_to_Lakehouse_deltaTable.md>)
 - [03. Pipe_Load_multiple_sheets_of_excel.md](<M03_Data Pipelines(Azure Data Factory)/03. Pipe_Load_multiple_sheets_of_excel.md>)
 - [04. Pipe Load Excel Sheets Dynamically to Lakehouse.md](<M03_Data Pipelines(Azure Data Factory)/04. Pipe Load Excel Sheets Dynamically to Lakehouse.md>)
