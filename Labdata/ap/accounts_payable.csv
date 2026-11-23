@@ -1,0 +1,6 @@
+InvoiceID,VendorID,VendorName,InvoiceDate,DueDate,InvoiceAmount,PaidAmount,Status
+AP1001,V001,ABC Supplies,2026-11-01,2026-12-01,2500.00,2500.00,Paid
+AP1002,V002,Global Tech,2026-11-05,2026-12-05,1800.00,0.00,Open
+AP1003,V003,Office Depot,2026-11-08,2026-12-08,950.00,950.00,Paid
+AP1004,V001,ABC Supplies,2026-11-12,2026-12-12,3200.00,1000.00,Partially Paid
+AP1005,V004,Fast Logistics,2026-11-15,2026-12-15,4200.00,0.00,Open
