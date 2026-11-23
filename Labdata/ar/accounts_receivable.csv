@@ -1,0 +1,6 @@
+InvoiceID,CustomerID,CustomerName,InvoiceDate,DueDate,InvoiceAmount,ReceivedAmount,Status
+AR2001,C001,Acme Corp,2026-11-02,2026-12-02,5000.00,5000.00,Paid
+AR2002,C002,Blue Retail,2026-11-06,2026-12-06,3200.00,0.00,Open
+AR2003,C003,Metro Stores,2026-11-09,2026-12-09,1500.00,1500.00,Paid
+AR2004,C004,Vision Ltd,2026-11-13,2026-12-13,2800.00,1000.00,Partially Paid
+AR2005,C001,Acme Corp,2026-11-18,2026-12-18,6200.00,0.00,Open
