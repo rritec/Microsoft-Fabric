@@ -1,16 +1,16 @@
 {
   "srcs_tgts": [
     {
-      "FolderName": "ap",
-      "FileName": "emp.csv",
+      "FolderName": "01_struct/ap",
+      "FileName": "accounts_payable.csv",
       "SchemaName": "ap",
-      "TableName": "tgt_emp"
+      "TableName": "accounts_payable"
     },
     {
-      "FolderName": "ar",
-      "FileName": "dept.csv",
+      "FolderName": "01_struct/ar",
+      "FileName": "accounts_receivable.csv",
       "SchemaName": "ar",
-      "TableName": "tgt_dept"
+      "TableName": "accounts_receivable"
     }
   ]
 }
